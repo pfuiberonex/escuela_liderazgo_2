@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Comunica una decisión impopular | IBERONEX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#06065b;--amber:#ffbf00;--amber-dark:#B78900;--amber-soft:#FFF8E1;--text:#17172b;--muted:#444;--line:#eee;--white:#fff;--success:#137a4b;--danger:#a62b2b;--shadow:0 12px 36px rgba(6,6,91,.08)}
+*{box-sizing:border-box} body{margin:0;background:#f7f7fa;color:var(--text);font-family:Inter,Arial,sans-serif;line-height:1.55}.shell{max-width:900px;margin:auto;padding:32px 20px 64px}.brand{display:flex;align-items:center;gap:10px;color:var(--navy);font-family:Poppins;font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase}.brand-dot{width:12px;height:12px;background:var(--amber);border-radius:50%}h1,h3,h4{font-family:Poppins;margin:0;color:var(--navy)}h1{font-size:clamp(30px,5vw,48px);line-height:1.08;margin-top:20px}h2{font-family:"Playfair Display";font-size:28px;color:var(--navy);margin:0 0 14px}.lead{font-size:18px;color:var(--muted);max-width:760px}.pill{display:inline-flex;gap:8px;align-items:center;margin-top:16px;padding:8px 12px;background:var(--amber-soft);border-radius:999px;color:#5b4700;font-weight:600;font-size:13px}.card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:26px;margin-top:22px;box-shadow:var(--shadow)}.case-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.fact{padding:16px;background:#fafafd;border-radius:12px;border:1px solid var(--line)}.fact strong{display:block;color:var(--navy);margin-bottom:4px}.decision{border-left:5px solid var(--amber);background:var(--amber-soft);padding:18px;border-radius:10px;margin:18px 0}.checklist{display:grid;gap:10px;margin-top:14px}.check{display:flex;gap:10px;align-items:flex-start}.check b{color:var(--navy)}.stepbar{display:flex;gap:8px;margin:28px 0 4px}.step{height:5px;flex:1;background:#ddd;border-radius:10px}.step.active,.step.done{background:var(--amber)}button{font:600 15px Poppins;border:0;border-radius:12px;padding:13px 18px;cursor:pointer;transition:.18s}button:disabled{opacity:.45;cursor:not-allowed}.primary{background:var(--amber);color:var(--navy)}.primary:hover:not(:disabled){transform:translateY(-1px)}.secondary{background:var(--navy);color:white}.ghost{background:white;color:var(--navy);border:1px solid #d9d9e7}.danger{color:var(--danger);border-color:#f0caca}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.recorder{text-align:center;padding:10px 0}.timer{font:700 42px Poppins;color:var(--navy);font-variant-numeric:tabular-nums}.recording .timer{color:var(--danger)}.mic{width:84px;height:84px;border-radius:50%;margin:12px auto;display:grid;place-items:center;background:var(--navy);color:white;font-size:34px}.recording .mic{background:var(--danger);animation:pulse 1.4s infinite}@keyframes pulse{50%{box-shadow:0 0 0 12px rgba(166,43,43,.10)}}audio{width:100%;margin-top:18px}.notice{font-size:14px;color:var(--muted);margin-top:12px}.status{padding:16px;border-radius:12px;background:#f5f5fa;margin-top:16px}.status.error{background:#fff0f0;color:#7b1e1e}.status.success{background:#eef9f3;color:#0d5f39}.hidden{display:none!important}.feedback-grid{display:grid;gap:14px}.feedback-card{border:1px solid var(--line);border-radius:14px;padding:18px}.feedback-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.level{font-size:12px;font-weight:700;border-radius:999px;padding:6px 9px;background:var(--amber-soft);color:#6a5200}.quote{border-left:3px solid var(--amber);padding-left:12px;color:var(--muted);font-style:italic}.model{background:var(--amber-soft);padding:18px;border-radius:12px}.footer-note{font-size:12px;color:#666;margin-top:20px}.loader{width:28px;height:28px;border:3px solid #ddd;border-top-color:var(--navy);border-radius:50%;animation:spin .8s linear infinite;margin:12px auto}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:650px){.shell{padding:22px 14px 50px}.card{padding:20px}.case-grid{grid-template-columns:1fr}.actions button{width:100%}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <div class="brand"><span class="brand-dot"></span>IBERONEX · Escuela de Liderazgo</div>
+  <h1 id="title"></h1>
+  <p class="lead" id="subtitle"></p>
+  <div class="pill">🎙️ 1 intento enviado · máximo 3 minutos</div>
+  <div class="stepbar"><span class="step active"></span><span class="step"></span><span class="step"></span></div>
+
+  <section id="intro" class="card">
+    <h2>Tu reto</h2>
+    <div id="caseContent"></div>
+    <div class="actions"><button class="primary" id="toPrepare">He entendido el caso</button></div>
+  </section>
+
+  <section id="prepare" class="card hidden">
+    <h2>Antes de grabar</h2>
+    <p>No necesitas que la decisión guste. Tu objetivo es que <strong>se comprenda</strong> y comunicarla preservando la confianza del equipo.</p>
+    <div class="checklist" id="checklist"></div>
+    <p class="notice">Puedes preparar tu intervención todo el tiempo que necesites. Solo la grabación tiene límite.</p>
+    <div class="actions"><button class="ghost" data-back="intro">Volver al caso</button><button class="primary" id="toRecord">Estoy preparado/a</button></div>
+  </section>
+
+  <section id="record" class="card hidden">
+    <h2>Graba tu intervención</h2>
+    <p>Habla como si tuvieras delante al equipo académico. Puedes escuchar y repetir tu grabación antes de enviarla; eso no consume tu intento.</p>
+    <div class="recorder" id="recorderBox">
+      <div class="timer" id="timer">03:00</div>
+      <div class="mic">●</div>
+      <div class="actions" style="justify-content:center">
+        <button class="secondary" id="startBtn">Iniciar grabación</button>
+        <button class="ghost hidden" id="stopBtn">Detener</button>
+      </div>
+      <div id="preview" class="hidden">
+        <audio id="audio" controls></audio>
+        <div class="actions" style="justify-content:center">
+          <button class="ghost danger" id="discardBtn">Borrar y volver a grabar</button>
+          <button class="primary" id="submitBtn">Enviar para analizar</button>
+        </div>
+        <p class="notice">El envío es el único momento en que se utiliza IA. Si ocurre un error, podrás intentarlo de nuevo.</p>
+      </div>
+      <div id="recordStatus" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section id="processing" class="card hidden" aria-live="polite">
+    <h2>Analizando tu comunicación</h2><div class="loader"></div>
+    <p style="text-align:center">Estamos transcribiendo tu intervención y comparándola con los criterios de la actividad.</p>
+    <p class="notice" style="text-align:center">No cierres esta ventana. El audio y la transcripción no se almacenan.</p>
+  </section>
+
+  <section id="feedback" class="card hidden">
+    <h2>Tu feedback</h2>
+    <p>Este diagnóstico analiza el contenido de tu intervención. No es una calificación.</p>
+    <div id="feedbackCards" class="feedback-grid"></div>
+    <div id="summary"></div>
+  </section>
+
+  <section id="completed" class="card hidden">
+    <h2>Actividad realizada</h2>
+    <p>Ya has completado esta práctica. Puedes volver a consultar tu feedback guardado en este navegador sin realizar una nueva llamada a IA.</p>
+    <div class="actions"><button class="primary" id="showSaved">Ver mi feedback</button></div>
+  </section>
+</main>
+<script>
+/* ==============================
+   CONFIGURACIÓN REUTILIZABLE
+   Para crear otra actividad, cambia principalmente este objeto.
+   ============================== */
+const ACTIVITY = {
+  id: "decision-impopular-v1",
+  title: "Comunica una decisión impopular",
+  subtitle: "Tienes hasta 3 minutos para explicar una decisión académica que afectará al equipo.",
+  maxSeconds: 180,
+  apiUrl: "https://iberonex-audio-evaluator.iberonex-tutor.workers.dev",
+  caseHtml: `
+    <p>Eres responsable académico de una institución de educación superior. Hasta ahora, cada programa ha tenido bastante autonomía para organizar su calendario de evaluación y las fechas de entrega de calificaciones.</p>
+    <p>Las diferencias entre programas están dificultando la coordinación académica, la atención al estudiante y el cierre administrativo de cada periodo.</p>
+    <div class="decision"><strong>La decisión</strong><br>A partir del próximo semestre se implantará <strong>un calendario común de evaluación y cierre de calificaciones para todos los programas</strong>.</div>
+    <div class="case-grid">
+      <div class="fact"><strong>Ya está aprobada</strong>No está abierta a votación.</div>
+      <div class="fact"><strong>Qué se mantiene</strong>El profesorado conserva autonomía sobre metodologías, actividades y criterios de evaluación dentro de cada asignatura.</div>
+      <div class="fact"><strong>La resistencia probable</strong>Parte del equipo puede interpretarlo como más burocracia y pérdida de autonomía.</div>
+      <div class="fact"><strong>El propósito</strong>Mejorar la coordinación entre programas y ofrecer una experiencia más consistente al estudiante.</div>
+    </div>
+    <p><strong>En unos minutos tienes una reunión con el equipo académico. Eres la persona encargada de comunicar la decisión. ¿Cómo se lo explicarías?</strong></p>`,
+  checklist: [
+    ["Claridad", "¿Queda claro qué cambia y qué no cambia?"],
+    ["Sentido", "¿Explico por qué se toma la decisión y qué problema pretende resolver?"],
+    ["Asertividad", "¿Comunico con firmeza sin sonar autoritario ni disculparme por la decisión?"],
+    ["Audiencia", "¿Reconozco el impacto que el cambio tendrá sobre el equipo?"],
+    ["Apertura", "¿Dejo espacio al diálogo sin presentar como negociable lo que ya está decidido?"]
+  ]
+};
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const sections=["intro","prepare","record","processing","feedback","completed"];
+let recorder, chunks=[], blob=null, stream=null, tick=null, remaining=ACTIVITY.maxSeconds;
+const storageKey=`iberonex:${ACTIVITY.id}`;
+
+function show(id){sections.forEach(x=>$("#"+x).classList.toggle("hidden",x!==id));const map={intro:0,prepare:1,record:2,processing:2,feedback:2,completed:2};$$('.step').forEach((s,i)=>{s.classList.toggle('active',i===map[id]);s.classList.toggle('done',i<map[id])});scrollTo({top:0,behavior:'smooth'})}
+function fmt(n){return `${String(Math.floor(n/60)).padStart(2,'0')}:${String(n%60).padStart(2,'0')}`}
+function status(msg,type=""){const el=$("#recordStatus");el.className=msg?`status ${type}`:"";el.textContent=msg}
+function init(){
+  $("#title").textContent=ACTIVITY.title; $("#subtitle").textContent=ACTIVITY.subtitle; $("#caseContent").innerHTML=ACTIVITY.caseHtml;
+  $("#checklist").innerHTML=ACTIVITY.checklist.map(([a,b])=>`<div class="check"><span>✓</span><div><b>${a}:</b> ${b}</div></div>`).join('');
+  const saved=readSaved(); if(saved?.completed && saved?.feedback){show("completed")} else show("intro");
+}
+function readSaved(){try{return JSON.parse(localStorage.getItem(storageKey)||"null")}catch{return null}}
+function saveCompleted(feedback){localStorage.setItem(storageKey,JSON.stringify({completed:true,feedback,completedAt:new Date().toISOString()}))}
+$("#toPrepare").onclick=()=>show("prepare"); $("#toRecord").onclick=()=>show("record"); $$('[data-back]').forEach(b=>b.onclick=()=>show(b.dataset.back));
+
+$("#startBtn").onclick=async()=>{
+  try{
+    if(!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) throw new Error("Tu navegador no permite grabar audio desde esta actividad.");
+    stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    const preferred=["audio/webm;codecs=opus","audio/webm","audio/mp4"].find(t=>MediaRecorder.isTypeSupported(t));
+    recorder=new MediaRecorder(stream, preferred?{mimeType:preferred}:undefined); chunks=[];
+    recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
+    recorder.onstop=()=>{blob=new Blob(chunks,{type:recorder.mimeType||"audio/webm"}); $("#audio").src=URL.createObjectURL(blob); $("#preview").classList.remove("hidden"); stream?.getTracks().forEach(t=>t.stop()); clearInterval(tick)};
+    recorder.start(500); remaining=ACTIVITY.maxSeconds; $("#timer").textContent=fmt(remaining); $("#recorderBox").classList.add("recording"); $("#startBtn").classList.add("hidden"); $("#stopBtn").classList.remove("hidden"); $("#preview").classList.add("hidden"); status("");
+    tick=setInterval(()=>{remaining--;$("#timer").textContent=fmt(Math.max(0,remaining));if(remaining<=0)stopRecording()},1000);
+  }catch(e){status(e.message||"No se ha podido acceder al micrófono.","error")}
+};
+function stopRecording(){if(recorder?.state==="recording")recorder.stop();$("#recorderBox").classList.remove("recording");$("#stopBtn").classList.add("hidden");$("#startBtn").classList.remove("hidden")}
+$("#stopBtn").onclick=stopRecording;
+$("#discardBtn").onclick=()=>{if($("#audio").src)URL.revokeObjectURL($("#audio").src);blob=null;chunks=[];$("#preview").classList.add("hidden");remaining=ACTIVITY.maxSeconds;$("#timer").textContent=fmt(remaining);status("Grabación eliminada. Puedes volver a grabar.")};
+
+$("#submitBtn").onclick=async()=>{
+  if(!blob)return; const btn=$("#submitBtn");btn.disabled=true;show("processing");
+  try{
+    const fd=new FormData(); fd.append("audio",blob,"intervencion.webm"); fd.append("activityId",ACTIVITY.id);
+    const controller=new AbortController(); const timeout=setTimeout(()=>controller.abort(),90000);
+    const res=await fetch(ACTIVITY.apiUrl,{method:"POST",body:fd,signal:controller.signal}); clearTimeout(timeout);
+    let data; try{data=await res.json()}catch{throw new Error("El servidor devolvió una respuesta no válida.")}
+    if(!res.ok || !data?.ok || !data?.feedback)throw new Error(data?.error||"No hemos podido completar el análisis.");
+    renderFeedback(data.feedback); saveCompleted(data.feedback); blob=null; show("feedback");
+  }catch(e){show("record");status(e.name==="AbortError"?"El análisis tardó demasiado. Tu intento NO se ha consumido; puedes volver a enviarlo.":`${e.message} Tu intento NO se ha consumido; puedes volver a enviarlo.`,"error");}
+  finally{btn.disabled=false}
+};
+
+function esc(v=""){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function renderFeedback(f) {
+
+  $("#feedbackCards").innerHTML =
+    (f.competencies || []).map(c => {
+
+      const strengthBlock = c.strength
+        ? `
+          <p>
+            <strong>Fortaleza</strong><br>
+            ${esc(c.strength)}
+          </p>
+        `
+        : `
+          <p>
+            <strong>Evidencia en tu intervención</strong><br>
+            No hay evidencia suficiente de esta competencia en tu intervención.
+          </p>
+        `;
+
+      const quoteBlock = c.quote
+        ? `
+          <p class="quote">
+            “${esc(c.quote)}”
+          </p>
+        `
+        : "";
+
+      const improvementLabel =
+        c.level === "Consolidado"
+          ? "Para llevarlo un paso más allá"
+          : "Oportunidad de mejora";
+
+      return `
+        <article class="feedback-card">
+
+          <div class="feedback-head">
+            <h3>${esc(c.name)}</h3>
+            <span class="level">
+              ${esc(c.level)}
+            </span>
+          </div>
+
+          ${strengthBlock}
+
+          <p>
+            <strong>${improvementLabel}</strong><br>
+            ${esc(c.improvement)}
+          </p>
+
+          ${quoteBlock}
+
+          <p>
+            <strong>Prueba así</strong><br>
+            ${esc(c.rewrite)}
+          </p>
+
+        </article>
+      `;
+    }).join("");
+
+
+  $("#summary").innerHTML = `
+    <div
+      class="card"
+      style="box-shadow:none;margin-top:18px"
+    >
+
+      <h3>Qué llevarte de esta práctica</h3>
+
+      <p>
+        <strong>Dos fortalezas:</strong>
+        ${esc(
+          (f.topStrengths || []).join(" · ")
+        )}
+      </p>
+
+      <p>
+        <strong>Tu principal oportunidad:</strong>
+        ${esc(f.priority || "")}
+      </p>
+
+      <h3 style="margin-top:18px">
+        Una versión más efectiva
+      </h3>
+
+      <div class="model">
+        ${esc(f.modelAnswer || "")}
+      </div>
+
+    </div>
+
+    <p class="footer-note">
+      El diagnóstico se basa en la transcripción de tu intervención
+      y en los criterios de esta actividad; no evalúa tu voz, acento,
+      personalidad ni lenguaje corporal.
+    </p>
+  `;
+}
+$("#showSaved").onclick=()=>{const s=readSaved();if(s?.feedback){renderFeedback(s.feedback);show("feedback")}};
+init();
+</script>
+</body>
+</html>

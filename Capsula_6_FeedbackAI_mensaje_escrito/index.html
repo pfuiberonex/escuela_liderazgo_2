@@ -1,0 +1,1309 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IBERONEX · Cápsula 6 · Gestión de diferencias y conversaciones difíciles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#06065b;--amber:#ffbf00;--amber-dark:#806000;--amber-soft:#FFF8E1;
+  --text:#444444;--line:#EEEEEE;--bg:#F3F4F7;--white:#FFFFFF;--muted:#747985;
+  --green:#176044;--green-soft:#EFF8F3;--danger-soft:#FFF1EC;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text)}
+body{font-family:Inter,Arial,sans-serif}
+button,textarea{font:inherit}
+h1,h3,h4,h5,h6,.brand,.cta,.eyebrow,.stage,.counter,.status,.decision-count,.speaker-name,.speaker-role,.mini-label,.step-dot{font-family:Poppins,Arial,sans-serif}
+h2{font-family:"Playfair Display",Georgia,serif}
+.topbar{min-height:74px;background:var(--navy);color:#fff;border-bottom:3px solid var(--amber);display:flex;align-items:center;justify-content:space-between;padding:14px 28px;gap:20px;position:sticky;top:0;z-index:30}
+.brand{font-weight:700;font-size:15px;line-height:1.25}.brand small{display:block;font-family:Inter,Arial,sans-serif;font-weight:400;font-size:13px;color:rgba(255,255,255,.72);margin-top:4px}.status{color:var(--amber);font-size:12px;font-weight:700;letter-spacing:.02em}
+.shell{max-width:1160px;margin:0 auto;padding:30px 24px 64px}.screen{display:none}.screen.active{display:block}.card{background:#fff;border:1px solid #E3E5EA;border-radius:22px;padding:36px;box-shadow:0 18px 50px rgba(6,6,91,.055)}.narrow{max-width:1000px;margin:0 auto}.wide{max-width:1100px;margin:0 auto}
+.eyebrow{display:inline-block;color:var(--amber-dark);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+h1{font-size:42px;line-height:1.08;color:var(--navy);margin:0 0 18px;font-weight:700;max-width:980px}h2{font-size:29px;line-height:1.2;color:var(--navy);margin:0 0 12px}.lead{font-size:16px;line-height:1.65;margin:0 0 14px;max-width:930px}.story p{font-size:16px;line-height:1.62;margin:0 0 14px;max-width:930px}.actions{margin-top:24px}.cta{border:0;border-radius:10px;background:var(--amber);color:var(--navy);padding:14px 18px;font:700 13px Poppins,Arial,sans-serif;cursor:pointer}.cta:hover{filter:brightness(.985)}.cta:disabled{opacity:.42;cursor:not-allowed}.cta.secondary{background:#fff;border:1px solid #D8DBE2}.challenge,.notice,.next-box{margin-top:20px;padding:16px 18px;border-left:5px solid var(--amber);background:var(--amber-soft);border-radius:11px;color:var(--navy);font-size:15px;line-height:1.55}
+/* Caso */
+.people{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0 28px}.person{border:1px solid #E2E4E8;border-radius:16px;padding:18px;background:#FAFAFC;display:grid;grid-template-columns:54px 1fr;gap:14px;align-items:start}.avatar{width:54px;height:54px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:700 13px Poppins,Arial,sans-serif}.person h3{margin:1px 0 3px;color:var(--navy);font-size:18px}.role{color:var(--amber-dark);font:700 12px Poppins,Arial,sans-serif;margin-bottom:8px}.person p{margin:0;font-size:14px;line-height:1.5;color:#5F646E}.quote-block{margin:16px 0;border:1px solid #E6E7EB;border-left:5px solid var(--amber);border-radius:12px;padding:14px 16px;background:#FBFBFD;color:var(--navy);font-size:16px;line-height:1.55;font-weight:600}.decision{margin-top:30px;padding-top:26px;border-top:1px solid var(--line)}.decision h2{font-family:Poppins,Arial,sans-serif;font-size:29px;line-height:1.2}.prompt{font-size:16px;line-height:1.6;margin:0 0 16px;max-width:930px}.textarea-wrap{position:relative}textarea{width:100%;min-height:180px;resize:vertical;border:1px solid #CED2DB;border-radius:14px;padding:16px 16px 42px;font-family:Inter,Arial,sans-serif;font-size:16px;line-height:1.55;color:#222;background:#fff;outline:none}textarea:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(6,6,91,.08)}.counter{position:absolute;right:14px;bottom:12px;background:#fff;padding-left:7px;color:#7A7E87;font-size:12px;font-weight:700}
+/* Método */
+.method-wrap{max-width:1100px;margin:0 auto 18px;background:#fff;border:1px solid #E1E3E8;border-radius:16px;padding:13px 16px;box-shadow:0 8px 25px rgba(6,6,91,.035)}.method{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.stage{min-height:58px;border-radius:11px;padding:10px 11px;display:flex;align-items:center;gap:9px;border:1px solid #E4E6EA;color:#8A8E97;background:#FAFAFC;font-size:12px;font-weight:700}.stage .num{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#EEEFF3;color:#777B84;font-size:11px;flex:none}.stage.active{color:var(--navy);background:var(--amber-soft);border-color:#E6C956}.stage.active .num{background:var(--amber);color:var(--navy)}.stage.done{color:var(--navy);background:#F5F5FA;border-color:#D8DAE5}.stage.done .num{background:var(--navy);color:#fff}.decision-top{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:20px}.decision-count{font-size:11px;font-weight:700;color:#777B84;letter-spacing:.06em}.question{margin-top:24px;padding-top:22px;border-top:1px solid var(--line)}.question h2{font-family:Poppins,Arial,sans-serif;font-size:27px;line-height:1.2;margin:0 0 16px}.options{display:grid;gap:11px}.option{width:100%;text-align:left;border:1px solid #DDE0E6;background:#fff;border-radius:14px;padding:16px 17px;cursor:pointer;display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start;transition:.15s ease}.option:hover{border-color:#C5C8D1;transform:translateY(-1px)}.option.selected{border-color:var(--amber);background:var(--amber-soft);box-shadow:0 0 0 2px rgba(255,191,0,.12)}.option-letter{width:31px;height:31px;border-radius:50%;display:grid;place-items:center;background:#F0F1F4;color:var(--navy);font:700 12px Poppins,Arial,sans-serif}.option.selected .option-letter{background:var(--amber)}.option-text{font-size:15px;line-height:1.55;color:#40454F}.option-text strong,.option-title{color:var(--navy)}.option-title{display:block;font:700 14px Poppins,Arial,sans-serif;margin-bottom:4px}.option-quote{display:block;margin-top:8px;padding:11px 12px;border-left:4px solid var(--amber);background:#fff;border-radius:8px;color:#30343D;font-size:14px;line-height:1.52}
+/* Tensión */
+.meeting{margin:24px 0 20px;background:linear-gradient(180deg,#F9FAFC 0%,#F3F4F8 100%);border:1px solid #DFE2E8;border-radius:18px;padding:22px}.meeting-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid #E3E5EA}.meeting-title{font:700 13px Poppins,Arial,sans-serif;color:var(--navy)}.meeting-state{font:700 11px Poppins,Arial,sans-serif;color:#9A5B3A;background:var(--danger-soft);border:1px solid #F0C7B8;border-radius:999px;padding:6px 9px}.speech{display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:start;margin-bottom:14px}.speech:last-of-type{margin-bottom:0}.speech.elena .avatar{background:#fff;color:var(--navy);border:2px solid var(--navy)}.bubble{background:#fff;border:1px solid #E0E2E7;border-radius:14px;padding:14px 16px;box-shadow:0 5px 14px rgba(6,6,91,.03)}.speaker-name{font-size:13px;font-weight:700;color:var(--navy)}.speaker-role{font-size:10px;font-weight:600;color:var(--amber-dark);margin-top:2px}.speech-quote{margin-top:8px;color:#232631;font-size:16px;line-height:1.55;font-weight:600}.overlap{margin-top:16px;padding:13px 15px;border-left:5px solid var(--amber);background:var(--amber-soft);border-radius:10px;color:var(--navy);font-size:15px;line-height:1.55}
+/* R2 y espera */
+.completion-line{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 24px}.completion-line span{padding:7px 10px;border-radius:999px;background:#F4F4F9;border:1px solid #DCDDE8;color:var(--navy);font:700 11px Poppins,Arial,sans-serif}.answer-help{margin:18px 0;background:#F8F9FB;border:1px solid #E3E5EA;border-radius:13px;padding:15px 16px;color:#555B64;font-size:15px;line-height:1.55}.wait-card{text-align:center;padding:52px 36px}.wait-card h1{margin-left:auto;margin-right:auto}.wait-rail{max-width:680px;margin:26px auto 0;display:grid;grid-template-columns:1fr 46px 1fr 46px 1fr;gap:8px;align-items:center}.wait-node{border:1px solid #DFE1E6;background:#FAFAFC;border-radius:13px;padding:15px 12px;color:var(--navy);font:700 12px/1.45 Poppins,Arial,sans-serif}.wait-arrow{color:var(--amber-dark);font:700 22px Poppins,Arial,sans-serif}.pulse{width:48px;height:48px;border-radius:50%;margin:0 auto 18px;border:5px solid #E8E9EE;border-top-color:var(--amber);animation:spin .85s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+/* Feedback */
+.feedback-card{max-width:1050px;margin:0 auto}.compare{display:grid;grid-template-columns:1fr 50px 1fr;gap:12px;align-items:stretch;margin-top:25px}.compare-block{border:1px solid #E0E2E7;border-radius:15px;padding:18px;background:#FAFAFC}.compare-block.now{background:var(--amber-soft);border-color:#E2C752}.mini-label{display:block;font-size:10px;font-weight:700;letter-spacing:.07em;color:var(--amber-dark);margin-bottom:8px}.compare-block p{margin:0;font-size:15px;line-height:1.58;color:#4D525B}.compare-arrow{display:grid;place-items:center;color:var(--amber-dark);font:700 24px Poppins,Arial,sans-serif}.feedback-step{display:flex;align-items:center;gap:8px;margin-bottom:16px}.step-dot{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;font-size:11px;font-weight:700}.step-label{font:700 11px Poppins,Arial,sans-serif;color:var(--amber-dark);letter-spacing:.06em}.feedback-body{margin-top:22px;border:1px solid #DFE1E6;border-radius:16px;overflow:hidden}.feedback-row{padding:18px 20px;border-top:1px solid #E7E8EB}.feedback-row:first-child{border-top:0}.feedback-row .label{font:700 10px Poppins,Arial,sans-serif;color:var(--amber-dark);letter-spacing:.06em;margin-bottom:7px}.feedback-row p{margin:0;font-size:15px;line-height:1.58}.feedback-row strong{color:var(--navy)}.priority{margin-top:22px;padding:18px;border-left:5px solid var(--amber);background:var(--amber-soft);border-radius:12px}.priority p{margin:0;font-size:15px;line-height:1.58}
+.ai-priority-block{margin-top:10px;border-top:1px solid rgba(6,6,91,.12);padding-top:12px}
+.ai-priority-block:first-child{margin-top:0;border-top:0;padding-top:0}
+.ai-priority-label{font:700 10px Poppins,Arial,sans-serif;color:var(--amber-dark);letter-spacing:.06em;margin-bottom:6px}
+.ai-priority-block p{margin:0;font-size:15px;line-height:1.58}
+.fallback-note{margin-top:18px;padding:14px 16px;border:1px solid #DDE0E5;background:#FAFAFC;border-radius:12px;color:#5F646D;font-size:14px;line-height:1.52}
+.fallback-intro{margin:8px 0 22px;font-size:15px;line-height:1.58;color:#5A5F69}
+.stage-feedback{margin-top:20px;border:1px solid #DFE1E6;border-radius:16px;overflow:hidden}
+.stage-feedback-row{display:grid;grid-template-columns:150px 1fr;gap:18px;padding:18px 20px;border-top:1px solid #E7E8EB;align-items:start}
+.stage-feedback-row:first-child{border-top:0}
+.stage-feedback-name{font:700 13px Poppins,Arial,sans-serif;color:var(--navy)}
+.stage-feedback-status{display:inline-block;margin-top:7px;border-radius:999px;padding:5px 8px;font:700 10px Poppins,Arial,sans-serif}
+.stage-feedback-status.solid{background:#EFF8F3;color:#176044;border:1px solid #CFE5D8}
+.stage-feedback-status.partial{background:#FFF8E1;color:#7A5C00;border:1px solid #E7D28A}
+.stage-feedback-status.adjust{background:#FFF1EC;color:#8A4930;border:1px solid #EBC6B7}
+.stage-feedback-text p{margin:0;font-size:15px;line-height:1.58}
+.stage-feedback-text p+p{margin-top:8px}
+.fallback-section-title{margin-top:28px;color:var(--navy);font:700 22px/1.2 Poppins,Arial,sans-serif}
+.fallback-strengths{display:grid;gap:12px;margin-top:14px}
+.fallback-strength{border:1px solid #DFE1E6;border-radius:14px;padding:17px 18px;background:#FAFAFC}
+.fallback-strength h3{margin:0 0 7px;color:var(--navy);font-size:16px}
+.fallback-strength p{margin:0;font-size:15px;line-height:1.58}
+.fallback-adjustments{display:grid;gap:14px;margin-top:14px}
+.fallback-adjustment{border-left:5px solid var(--amber);background:var(--amber-soft);border-radius:12px;padding:17px 18px}
+.fallback-adjustment h3{margin:0 0 10px;color:var(--navy);font-size:17px}
+.fallback-adjustment p{margin:0;font-size:15px;line-height:1.58}
+.fallback-adjustment p+p{margin-top:9px}
+.fallback-adjustment .picked{color:#4E535C}
+.fallback-adjustment .impact strong,.fallback-adjustment .recommended strong{color:var(--navy)}
+.tomorrow{margin-top:26px;background:var(--navy);color:#fff;border-radius:16px;padding:20px}
+.tomorrow h3{margin:0 0 12px;color:#fff;font-size:19px}
+.tomorrow-steps{display:grid;gap:10px}
+.tomorrow-step{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;font-size:15px;line-height:1.55;color:rgba(255,255,255,.9)}
+.tomorrow-step .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--amber);color:var(--navy);font:700 10px Poppins,Arial,sans-serif}
+@media(max-width:800px){.stage-feedback-row{grid-template-columns:1fr;gap:9px}}
+
+/* Cierre */
+.vertical-method{margin-top:24px}.method-step{display:grid;grid-template-columns:56px 1fr;gap:14px;padding:18px 0;border-top:1px solid #E4E5E8}.method-step:first-child{border-top:0}.method-num{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:var(--amber);font:700 12px Poppins,Arial,sans-serif}.method-step h3{margin:0 0 5px;color:var(--navy);font-size:18px}.method-step p{margin:0;font-size:15px;line-height:1.55}.final-message{margin-top:20px;padding:18px;border-radius:14px;background:var(--navy);color:#fff;font-size:16px;line-height:1.58}.final-message strong{color:var(--amber)}
+@media(max-width:800px){.topbar{padding:13px 16px}.status{display:none}.shell{padding:18px 12px 42px}.card{padding:24px 18px;border-radius:17px}h1{font-size:34px}.people{grid-template-columns:1fr}.method{grid-template-columns:1fr 1fr}.stage{min-height:52px}.question h2{font-size:24px}.compare{grid-template-columns:1fr}.compare-arrow{transform:rotate(90deg);min-height:30px}.wait-rail{grid-template-columns:1fr}.wait-arrow{transform:rotate(90deg);min-height:28px}.meeting{padding:16px}}
+@media(max-width:480px){.method{grid-template-columns:1fr}.speech{grid-template-columns:42px 1fr}.avatar{width:42px;height:42px}}
+
+.wait-time{margin:16px auto 0;text-align:center;font-size:14px;line-height:1.5;color:#666B74}
+.wait-time strong{color:var(--navy)}
+.ai-feedback-intro{max-width:760px;margin:16px 0 0;font-size:16px;line-height:1.62;color:#555B65}
+.ai-method-map{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:24px}
+.ai-method-map span{display:grid;place-items:center;min-height:48px;border:1px solid #DFE1E6;border-radius:12px;background:#FAFAFC;color:var(--navy);font:700 11px Poppins,Arial,sans-serif;letter-spacing:.03em}
+.ai-evolution-badge{display:inline-block;margin-top:5px;border-radius:999px;padding:5px 9px;font:700 10px Poppins,Arial,sans-serif;letter-spacing:.025em}
+.ai-evolution-badge.improved{background:#EFF8F3;color:#176044;border:1px solid #CFE5D8}
+.ai-evolution-badge.unchanged{background:#F2F3F6;color:#555B65;border:1px solid #D9DCE4}
+.ai-evolution-badge.regressed{background:#FFF1EC;color:#8A4930;border:1px solid #EBC6B7}
+.ai-evolution-badge.mixed{background:#FFF8E1;color:#7A5C00;border:1px solid #E7D28A}
+.ai-stage-body .feedback-row p{font-size:15px;line-height:1.62}
+@media(max-width:800px){.ai-method-map{grid-template-columns:1fr 1fr}}
+
+
+/* C6 v3.2: LMS-safe layout. The header never overlays the scrolling learning area. */
+html { height:100%; }
+body { height:100vh; height:100dvh; min-height:0; width:100%; max-width:none;
+       display:flex; flex-direction:column; overflow:hidden; }
+header.c6-fixed-header {
+  position:relative !important; inset:auto !important; transform:none !important;
+  box-sizing:border-box; flex:0 0 auto; width:100% !important; max-width:none !important;
+  min-height:74px; margin:0 !important; padding:14px 28px;
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+  background:#06065b; color:#fff; border:0; border-bottom:3px solid #ffbf00;
+  z-index:30;
+}
+main.shell { box-sizing:border-box; width:100%; max-width:none; min-height:0;
+  flex:1 1 auto; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain;
+  padding:30px max(24px, calc((100% - 1160px) / 2)) 64px;
+  scrollbar-gutter:stable;
+}
+/* C6 v3.3: recorrido vertical, encabezados legibles y dos enfasis selectivos. */
+.ai-stage-body { display:flex; flex-direction:column; gap:0; margin-top:24px;
+  border:0; overflow:visible; border-radius:0; }
+.ai-stage-body .feedback-row { display:block; border:0; border-bottom:1px solid #e5e7ed;
+  border-radius:0; background:transparent; padding:21px 4px 22px; min-width:0; }
+.ai-stage-body .feedback-row:first-child { padding-top:5px; }
+.ai-stage-body .feedback-row:nth-child(3) { border-bottom:0; }
+.ai-stage-body .feedback-row:nth-child(4) { margin-top:15px; padding:22px 22px 23px;
+  border:1px solid #eadfbf; border-left:5px solid #ffbf00; border-radius:13px; background:#fff9eb; }
+.ai-stage-body .feedback-row:nth-child(5) { margin-top:14px; padding:23px 22px 24px;
+  border:1px solid #06065b; border-left:5px solid #ffbf00; border-radius:13px;
+  background:#06065b; color:white; }
+.ai-stage-body .feedback-row .label { display:flex; align-items:center; gap:10px;
+  font:700 18px/1.4 Poppins,Arial,sans-serif; text-transform:none;
+  letter-spacing:0; color:#06065b; margin:0 0 11px; }
+.ai-stage-body .feedback-row .label .c6-feedback-number { display:inline-flex;
+  flex:0 0 auto; align-items:center; justify-content:center;
+  height:29px; min-width:29px; border:1px solid #dfe2e9;
+  border-radius:50%; font:700 12px Poppins,Arial,sans-serif; color:#06065b; background:#f5f6fa; }
+.ai-stage-body .feedback-row:nth-child(5) .label { color:#fff; }
+.ai-stage-body .feedback-row:nth-child(5) .label .c6-feedback-number { color:#06065b; background:#ffbf00; border-color:#ffbf00; }
+.ai-stage-body .feedback-row p { margin:0; color:#404651; font-size:16px;
+  line-height:1.76; overflow-wrap:break-word; }
+.ai-stage-body .feedback-row p strong, .c6-priority-body strong { color:#06065b; font-weight:700; }
+.ai-stage-body .feedback-row:nth-child(5) p, .ai-stage-body .feedback-row:nth-child(5) p strong { color:#fff; }
+#aiStageTitle { margin-bottom:5px; }
+/* Pantalla de prioridad: misma gramatica visual que las etapas. */
+#priorityScreen .priority { margin-top:23px; background:transparent; border:0; padding:0; border-radius:0; }
+#priorityScreen .ai-priority-block { margin:0; padding:22px 4px;
+  border:0; border-bottom:1px solid #e5e7ed; }
+#priorityScreen .ai-priority-block:last-child { margin-top:14px; padding:24px 22px;
+  border:1px solid #06065b; border-left:5px solid #ffbf00; border-radius:13px;
+  background:#06065b; }
+#priorityScreen .ai-priority-label { font:700 18px/1.4 Poppins,Arial,sans-serif;
+  letter-spacing:0; color:#06065b; text-transform:none; margin-bottom:11px; }
+#priorityScreen .ai-priority-block:last-child .ai-priority-label { color:#fff; }
+#priorityScreen .ai-priority-block p { font-size:16px; line-height:1.76; color:#404651; }
+#priorityScreen .ai-priority-block:last-child p, #priorityScreen .ai-priority-block:last-child strong { color:#fff; }
+@media(max-width:800px) {
+  header.c6-fixed-header { padding:13px 16px; }
+  main.shell { padding:18px 12px 42px; scrollbar-gutter:auto; }
+  .ai-stage-body .feedback-row .label, #priorityScreen .ai-priority-label { font-size:16px; }
+  .ai-stage-body .feedback-row p, #priorityScreen .ai-priority-block p { font-size:15px; }
+}
+@media(max-width:480px) { header.c6-fixed-header .brand { font-size:13px; }
+  header.c6-fixed-header .brand small { font-size:11px; } }
+/* QA v3.4: etiquetas de evaluación legibles y con contraste suficiente. */
+#aiStageScreen .step-label {font:700 14px/1.4 Poppins,Arial,sans-serif; letter-spacing:0; color:#06065b;}
+#aiStageScreen .ai-evolution-badge {font-size:12px; line-height:1.4; padding:6px 10px;}
+#aiStageScreen .step-dot {width:42px; height:42px; font-size:13px;}
+#evolutionScreen .eyebrow, #priorityScreen .eyebrow {font-size:13px; color:#765900; letter-spacing:.025em;}
+#aiStageScreen .ai-stage-body .label {overflow-wrap:anywhere;}
+@media(max-width:480px) {#aiStageScreen .step-label {font-size:13px;}}
+/* v3.5: acceso cerrado tras la primera evaluacion desde este navegador. */
+#completedScreen .notice, #storageBlockedScreen .notice { margin:18px 0; }
+#completedScreen .actions { margin-top:24px; }
+
+/* Propuestas visuales SOLO para portada y pantalla de contexto. */
+.c6-welcome{max-width:1000px;margin:0 auto;background:#fff;border:1px solid #e3e5ea;border-radius:22px;padding:clamp(24px,5vw,40px);box-shadow:0 18px 50px rgba(6,6,91,.055)}
+.c6-welcome h1{max-width:920px;margin-bottom:26px}
+.c6-hero-svg{display:block;width:100%;height:auto;max-height:390px;border-radius:18px;overflow:hidden}
+.c6-welcome .actions{margin-top:22px}
+.c6-context{max-width:1000px;margin:0 auto}
+.c6-context p{font-size:16px;line-height:1.73;color:#454957;margin:0 0 15px}
+.c6-context .challenge{font-weight:700;color:var(--navy);margin:22px 0 0}
+.c6-context h2{font-family:Poppins,Arial,sans-serif;font-size:26px;line-height:1.25;margin:7px 0 20px}
+.c6-context .actions{margin-top:24px}
+.c6-context .c6-lead-paragraph{font-size:17px}
+.c6-story-rail{padding-left:30px;margin:22px 0 5px 12px;border-left:2px solid #d8dae5}
+.c6-story-step{position:relative;padding:0 0 23px}
+.c6-story-step:before{content:"";position:absolute;left:-41px;top:7px;width:18px;height:18px;background:var(--amber);border:4px solid white;border-radius:50%;box-shadow:0 0 0 2px var(--navy)}
+.c6-story-step h3{font-size:16px;line-height:1.4;color:var(--navy);margin:0 0 9px}
+.c6-story-step p{margin-bottom:0}
+.c6-editorial-copy{max-width:780px;margin:20px 0 0}
+.c6-editorial-copy p + p{padding-top:15px;border-top:1px solid #e6e7ee}
+.c6-brief-row{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:20px;align-items:start}
+.c6-brief-main p{padding-bottom:16px;border-bottom:1px solid #e6e7ed}
+.c6-brief-aside{border-left:4px solid var(--amber);padding:10px 0 10px 20px;background:#fff}
+.c6-brief-aside h3{margin:0 0 13px;color:var(--navy);font-size:19px}
+.c6-brief-aside p{font-size:16px}
+@media(max-width:700px){.c6-brief-row{grid-template-columns:1fr;gap:10px}.c6-story-rail{padding-left:25px}.c6-story-step:before{left:-36px}.c6-welcome{padding:24px 18px}}
+</style>
+</head>
+<body>
+<header class="c6-fixed-header">
+  <div class="brand">IBERONEX · DIRECCIÓN ACADÉMICA<small>Cápsula 6 · Gestión de diferencias y conversaciones difíciles</small></div>
+  <div id="topStatus" class="status">TU RETO</div>
+</header>
+<main class="shell">
+
+<section id="welcomeScreen" class="screen active"><div class="c6-welcome"><h1>Un conflicto lleva nueve meses creciendo dentro de tu equipo.</h1><svg class="c6-hero-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 355" role="img" aria-label="Línea de tiempo de nueve meses de tensión que culmina en una decisión de liderazgo" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="c6bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eff0fa"/><stop offset="1" stop-color="#fff8e1"/></linearGradient><filter id="c6shadow"><feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#06065b" flood-opacity=".13"/></filter></defs><rect width="900" height="355" rx="20" fill="url(#c6bg)"/>
+<text x="34" y="43" font-family="Arial" font-weight="700" fill="#06065b" font-size="12" letter-spacing="2">CUANDO UN DESACUERDO EN TU EQUIPO ESCALA HASTA CONVERTIRSE EN UN PROBLEMA</text>
+<path d="M116 159H789" fill="none" stroke="#c6c7de" stroke-width="7" stroke-linecap="round"/><path d="M116 159H670" fill="none" stroke="#06065b" stroke-width="7" stroke-linecap="round"/>
+<circle cx="128" cy="159" r="25" fill="#06065b" stroke="white" stroke-width="5"/><circle cx="351" cy="159" r="25" fill="#06065b" stroke="white" stroke-width="5"/><circle cx="580" cy="159" r="25" fill="#06065b" stroke="white" stroke-width="5"/><circle cx="785" cy="159" r="30" fill="#ffbf00" stroke="white" stroke-width="5"/>
+<text x="128" y="166" text-anchor="middle" fill="white" font-family="Arial" font-size="17" font-weight="700">01</text><text x="351" y="166" text-anchor="middle" fill="white" font-family="Arial" font-size="17" font-weight="700">02</text><text x="580" y="166" text-anchor="middle" fill="white" font-family="Arial" font-size="17" font-weight="700">03</text><path d="M774 159h23m-8 -8 8 8 -8 8" fill="none" stroke="#06065b" stroke-width="3"/>
+<text x="128" y="109" text-anchor="middle" fill="#06065b" font-family="Arial" font-size="16" font-weight="700">Discrepancia</text><text x="128" y="129" text-anchor="middle" fill="#565a6b" font-family="Arial" font-size="12">profesional</text>
+<text x="351" y="214" text-anchor="middle" fill="#06065b" font-family="Arial" font-size="16" font-weight="700">Tensión</text><text x="351" y="233" text-anchor="middle" fill="#565a6b" font-family="Arial" font-size="12">entre compañeros</text>
+<text x="580" y="109" text-anchor="middle" fill="#06065b" font-family="Arial" font-size="16" font-weight="700">Decisiones</text><text x="580" y="129" text-anchor="middle" fill="#565a6b" font-family="Arial" font-size="12">bloqueadas</text>
+<text x="785" y="214" text-anchor="middle" fill="#06065b" font-family="Arial" font-size="16" font-weight="700">Tu intervención</text><text x="785" y="233" text-anchor="middle" fill="#565a6b" font-family="Arial" font-size="12">como líder</text>
+<rect x="260" y="267" width="380" height="48" rx="13" fill="#06065b"/><text x="450" y="287" text-anchor="middle" font-family="Arial" font-size="12" font-weight="700" fill="#ffbf00">9 MESES DE CONFLICTO</text><text x="450" y="303" text-anchor="middle" font-family="Arial" font-size="13" fill="white">¿Cómo rompes esta dinámica?</text></svg><div class="actions"><button class="cta" onclick="show('introScreen')">COMENZAR →</button></div></div></section>
+
+<section id="introScreen" class="screen"><div class="card c6-context"><span class="eyebrow">LA SITUACIÓN</span><h2>Una historia que ya afecta a toda la Escuela</h2><div class="c6-story-rail"><div class="c6-story-step"><h3>01 · Tu responsabilidad</h3><p>Eres <strong>Director/a Académico/a de la Escuela de Formación para Profesionales y Empresas</strong> de una universidad.</p></div><div class="c6-story-step"><h3>02 · El conflicto</h3><p>Dos personas clave de tu equipo llevan meses enfrentadas.</p></div><div class="c6-story-step"><h3>03 · Las consecuencias</h3><p>Lo que comenzó como una discrepancia profesional ya está afectando a otras personas, bloqueando decisiones y dificultando que la Escuela avance.</p></div></div><div class="challenge">Ahora te toca decidir cómo actuar.</div><div class="actions"><button class="cta" onclick="showCase()">ENTRAR EN LA SITUACIÓN →</button></div></div></section>
+
+<section id="caseScreen" class="screen">
+  <div class="card wide">
+    <span class="eyebrow">EL CASO</span>
+    <h1>Tienes que intervenir en un conflicto que ya afecta a toda la Escuela.</h1>
+    <div class="people">
+      <article class="person"><div class="avatar">ER</div><div><h3>Elena Ruiz</h3><div class="role">CALIDAD Y DISEÑO ACADÉMICO</div><p>Protege el rigor, la coherencia de los programas y los estándares académicos.</p></div></article>
+      <article class="person"><div class="avatar">AM</div><div><h3>Andrés Molina</h3><div class="role">PROGRAMAS CORPORATIVOS Y RELACIÓN CON EMPRESAS</div><p>Busca responder con agilidad a las empresas y construir propuestas competitivas y viables.</p></div></article>
+    </div>
+    <div class="story">
+      <p>El conflicto comenzó hace <strong>nueve meses</strong>.</p>
+      <p>Elena y Andrés discrepaban sobre cuánto puede adaptarse un programa a las necesidades de una empresa sin comprometer los estándares académicos de la universidad.</p>
+      <p>Por ejemplo, una empresa pidió reducir un programa de <strong>diez a seis semanas</strong>, sustituir varias sesiones por casos internos de la compañía y eliminar la evaluación final.</p>
+      <p>Andrés defendía que el programa podía rediseñarse manteniendo los objetivos de aprendizaje y que rechazar demasiadas adaptaciones hacía difícil competir.</p>
+      <p>Elena consideraba que determinados cambios reducían el rigor necesario para que la universidad pudiera respaldar académicamente el programa.</p>
+      <p>Al principio eran discusiones profesionales.</p>
+      <p>Ahora prácticamente cualquier propuesta en la que deben trabajar juntos termina en enfrentamiento.</p>
+      <div class="quote-block">“Andrés vende antes de saber si académicamente podemos cumplir lo que promete.” <span style="font-weight:400">— Elena, en una reunión de equipo.</span></div>
+      <div class="quote-block">“Elena utiliza la calidad como argumento para impedir cualquier cambio.” <span style="font-weight:400">— Andrés, días después delante de varios compañeros.</span></div>
+      <p>Han empezado a copiarte en correos que antes resolvían entre ellos y ambos buscan previamente el apoyo de compañeros antes de reuniones importantes.</p>
+      <p>Dos coordinadores de la Escuela intentan ya evitar reuniones en las que estén Elena y Andrés juntos porque saben que suelen acabar discutiendo.</p>
+      <p>Ahora una propuesta para una <strong>empresa estratégica lleva diez días bloqueada</strong> porque ninguno acepta la solución del otro.</p>
+      <p>No ha habido amenazas, sabotajes ni denuncias formales.</p>
+      <p>Los dos continúan defendiendo que intentan hacer lo mejor para la Escuela: Elena quiere evitar que el crecimiento reduzca el rigor académico; Andrés quiere evitar que la universidad pierda oportunidades por no adaptarse con suficiente agilidad.</p>
+    </div>
+    <div class="decision">
+      <span class="eyebrow">TU DECISIÓN</span>
+      <h2>¿Cómo resolverías este conflicto y cómo gestionarías la situación a partir de ahora?</h2>
+      <p class="prompt">Explica qué harías como Director/a Académico/a, cómo intervendrías con Elena y Andrés y cómo intentarías conseguir que el conflicto deje de perjudicar al equipo y a la Escuela.</p>
+      <div class="textarea-wrap"><textarea id="answer1" maxlength="700" placeholder="Escribe aquí cómo actuarías..." aria-label="Primera respuesta"></textarea><div class="counter"><span id="count1">0</span> / 700</div></div>
+      <div class="actions"><button id="saveAnswer1Btn" class="cta" disabled onclick="saveAnswer1()">GUARDAR MI RESPUESTA Y CONTINUAR →</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="methodIntroScreen" class="screen">
+  <div class="card narrow">
+    <span class="eyebrow">AHORA VAS A ANALIZAR EL CONFLICTO</span>
+    <h1>Antes de intervenir, desgrana el conflicto.</h1>
+    <p class="lead">En situaciones como esta es fácil saltar directamente a una solución: reunir a las personas, buscar un acuerdo o decidir quién tiene razón.</p>
+    <p class="lead">Pero un buen líder no empieza preguntándose únicamente “¿qué hago?”.</p>
+    <p class="lead">Primero necesita entender <strong>qué conflicto tiene delante</strong>, hasta dónde ha escalado, cómo debe gestionar su propia reacción y qué tipo de intervención necesita realmente.</p>
+    <p class="lead">Vas a trabajar el mismo conflicto de Elena y Andrés siguiendo cuatro pasos:</p>
+    <div id="introMethodBar" class="method-wrap" style="margin:20px 0 0"></div>
+    <p class="lead" style="margin-top:20px">En cada paso tomarás una decisión concreta sobre cómo actuaría un líder ante esta situación.</p>
+    <p class="lead">Al terminar tendrás todas las piezas necesarias para volver a enfrentarte al conflicto completo.</p>
+    <div class="actions"><button class="cta" onclick="startDecisions()">EMPEZAR POR DIAGNOSTICAR →</button></div>
+  </div>
+</section>
+
+<section id="decisionScreen" class="screen">
+  <div id="decisionMethodBar" class="method-wrap"></div>
+  <div class="card wide">
+    <div class="decision-top"><span id="decisionEyebrow" class="eyebrow" style="margin:0"></span><span id="decisionCount" class="decision-count"></span></div>
+    <div id="decisionTitleWrap"></div>
+    <div id="decisionContent"></div>
+    <div class="question"><h2 id="decisionQuestion"></h2><div id="decisionOptions" class="options"></div><div class="actions"><button id="decisionContinueBtn" class="cta" disabled onclick="commitDecision()">CONTINUAR →</button></div></div>
+  </div>
+</section>
+
+<section id="stageTransitionScreen" class="screen">
+  <div id="transitionMethodBar" class="method-wrap"></div>
+  <div class="card narrow">
+    <span id="transitionEyebrow" class="eyebrow"></span>
+    <h1 id="transitionTitle"></h1>
+    <div id="transitionText"></div>
+    <div class="actions"><button id="transitionBtn" class="cta" onclick="continueAfterTransition()"></button></div>
+  </div>
+</section>
+
+<section id="prepareR2Screen" class="screen">
+  <div id="completeMethodBar" class="method-wrap"></div>
+  <div class="card narrow">
+    <span class="eyebrow">HAS LLEGADO AL MOMENTO DE DECIDIR</span>
+    <h1>¿Gestionarías ahora este conflicto de otra manera?</h1>
+    <p class="lead">Elena y Andrés siguen siendo las mismas personas.</p>
+    <p class="lead">La situación sigue siendo exactamente la que encontraste al comenzar: nueve meses de enfrentamientos, tensión dentro del equipo y una propuesta estratégica bloqueada.</p>
+    <p class="lead">Pero ahora has analizado el conflicto de una forma diferente.</p>
+    <div class="completion-line"><span>DIAGNOSTICAR ✓</span><span>CALIBRAR ✓</span><span>REGULARTE ✓</span><span>INTERVENIR ✓</span></div>
+    <p class="lead">Has diagnosticado qué estaba ocurriendo realmente.</p>
+    <p class="lead">Has calibrado cuánto había escalado y qué intervención necesitaba.</p>
+    <p class="lead">Has pensado cómo regular tu propia actuación.</p>
+    <p class="lead">Y has construido una intervención completa, incluso para el momento en que la tensión reaparece dentro de la reunión.</p>
+    <p class="lead">En la siguiente pantalla encontrarás <strong>exactamente la misma pregunta que respondiste al comenzar</strong>.</p>
+    <p class="lead">Construye ahora tu mejor respuesta incorporando todo lo que acabas de trabajar.</p>
+    <div class="notice">Cuando la envíes, analizaremos <strong>tus dos respuestas con el enfoque recomendado de la cápsula</strong>. Recibirás feedback sobre cómo estás aplicando el método, qué estás gestionando bien y qué deberías seguir ajustando para enfrentarte con más criterio a conflictos similares.</div>
+    <div class="actions"><button class="cta" onclick="showR2()">COMPRUEBA SI AHORA GESTIONARÍAS MEJOR EL CONFLICTO →</button></div>
+  </div>
+</section>
+
+<section id="answer2Screen" class="screen">
+  <div class="card narrow">
+    <span class="eyebrow">TU DECISIÓN · SEGUNDA RESPUESTA</span>
+    <h1 style="font-size:34px">¿Cómo resolverías este conflicto y cómo gestionarías la situación a partir de ahora?</h1>
+    <p class="lead">Explica qué harías como Director/a Académico/a, cómo intervendrías con Elena y Andrés y cómo intentarías conseguir que el conflicto deje de perjudicar al equipo y a la Escuela.</p>
+    <div class="answer-help">Incluye <strong>qué harías, en qué orden y cómo actuarías durante la intervención</strong>.</div>
+    <div class="textarea-wrap"><textarea id="answer2" maxlength="700" placeholder="Escribe aquí cómo actuarías ahora..." aria-label="Segunda respuesta"></textarea><div class="counter"><span id="count2">0</span> / 700</div></div>
+    <div class="actions"><button id="feedbackBtn" class="cta" disabled onclick="requestFeedback()">RECIBIR MI FEEDBACK →</button></div>
+  </div>
+</section>
+
+<section id="waitScreen" class="screen">
+  <div class="card narrow wait-card">
+    <div class="pulse"></div>
+    <span class="eyebrow">PREPARANDO TU FEEDBACK</span>
+    <h1>Estamos analizando tus dos respuestas.</h1>
+
+    <div class="wait-rail">
+      <div class="wait-node">TUS RESPUESTAS</div>
+      <div class="wait-arrow">→</div>
+      <div class="wait-node">TU EVOLUCIÓN ENTRE R1 Y R2</div>
+      <div class="wait-arrow">→</div>
+      <div class="wait-node">EL MÉTODO DE C6</div>
+    </div>
+
+    <p class="lead" style="margin:24px auto 0">
+      Estamos revisando cómo has abordado el conflicto para preparar un feedback que puedas aplicar ante situaciones similares.
+    </p>
+    <p class="wait-time">Este análisis puede tardar hasta <strong>12 segundos</strong>.</p>
+  </div>
+</section>
+
+<section id="evolutionScreen" class="screen">
+  <div class="card feedback-card">
+    <span class="eyebrow">TU EVOLUCIÓN</span>
+    <h1 id="evolutionHeadline"></h1>
+    <p class="ai-feedback-intro">Hemos comparado tu primera y tu segunda respuesta con el enfoque recomendado de la cápsula. Ahora verás qué ha cambiado en cada etapa del método y qué deberías llevarte a una situación real.</p>
+
+    <div class="ai-method-map">
+      <span>DIAGNOSTICA</span><span>CALIBRA</span><span>REGÚLATE</span><span>INTERVIENE</span>
+    </div>
+
+    <div class="actions"><button class="cta" onclick="showAIStage(0)">VER MI FEEDBACK POR ETAPAS →</button></div>
+  </div>
+</section>
+
+<section id="aiStageScreen" class="screen">
+  <div class="card feedback-card">
+    <div class="feedback-step">
+      <div class="step-dot" id="aiStageNum">01</div>
+      <div>
+        <div class="step-label" id="aiStageProgress"></div>
+        <div id="aiStageEvolution" class="ai-evolution-badge"></div>
+      </div>
+    </div>
+
+    <h1 id="aiStageTitle"></h1>
+
+    <div class="feedback-body ai-stage-body">
+      <div class="feedback-row">
+        <div class="label" role="heading" aria-level="2"><span class="c6-feedback-number" aria-hidden="true">1</span>¿Cómo empezaste?</div>
+        <p id="aiStageBefore"></p>
+      </div>
+      <div class="feedback-row">
+        <div class="label" role="heading" aria-level="2"><span class="c6-feedback-number" aria-hidden="true">2</span>¿Qué cambió después?</div>
+        <p id="aiStageAfter"></p>
+      </div>
+      <div class="feedback-row">
+        <div class="label" role="heading" aria-level="2"><span class="c6-feedback-number" aria-hidden="true">3</span>¿Qué recomienda el método C6?</div>
+        <p id="aiStageIdeal"></p>
+      </div>
+      <div class="feedback-row">
+        <div class="label" role="heading" aria-level="2"><span class="c6-feedback-number" aria-hidden="true">4</span>¿Por qué importa en este caso?</div>
+        <p id="aiStageImpact"></p>
+      </div>
+      <div class="feedback-row">
+        <div class="label" role="heading" aria-level="2"><span class="c6-feedback-number" aria-hidden="true">5</span>¿Qué deberías hacer la próxima vez?</div>
+        <p id="aiStageNext"></p>
+      </div>
+    </div>
+
+    <div class="actions"><button id="aiStageNextBtn" class="cta" onclick="nextAIStage()"></button></div>
+  </div>
+</section>
+
+<section id="priorityScreen" class="screen">
+  <div class="card feedback-card">
+    <span class="eyebrow">TU PRIORIDAD PARA LA PRÓXIMA VEZ</span>
+    <h1 id="priorityTitle"></h1>
+
+    <div class="priority">
+      <div class="ai-priority-block">
+        <div class="ai-priority-label">¿Por qué es importante en este caso?</div>
+        <p id="priorityWhy"></p>
+      </div>
+      <div class="ai-priority-block">
+        <div class="ai-priority-label">¿Qué deberías hacer la próxima vez?</div>
+        <p id="priorityNextTime"></p>
+      </div>
+    </div>
+
+    <div class="actions"><button class="cta" onclick="showClosing()">VER QUÉ DEBERÍAS RECORDAR →</button></div>
+  </div>
+</section>
+
+<section id="fallbackScreen" class="screen">
+  <div class="card feedback-card">
+    <span class="eyebrow">QUÉ REVELAN LAS DECISIONES QUE HAS TOMADO</span>
+    <h1 id="fallbackHeadline"></h1>
+
+    <p class="fallback-intro">Este feedback se basa en las decisiones que tomaste mientras desgranabas el conflicto entre Elena y Andrés. Te muestra cómo aplicaste el método y qué impacto tendrían esas decisiones en una situación como esta.</p>
+
+    <div id="fallbackStages" class="stage-feedback"></div>
+
+    <div id="fallbackStrengthsTitle" class="fallback-section-title">Decisiones que fortalecen tu intervención</div>
+    <div id="fallbackStrengths" class="fallback-strengths"></div>
+
+    <div id="fallbackAdjustTitle" class="fallback-section-title">Los momentos que más cambiaría</div>
+    <div id="fallbackAdjustments" class="fallback-adjustments"></div>
+
+    <div class="tomorrow">
+      <h3>Si mañana tuvieras que sentarte con Elena y Andrés</h3>
+      <div class="tomorrow-steps">
+        <div class="tomorrow-step"><span class="n">1</span><span>Entra sabiendo que el problema ya no es solo cuánto adaptar un programa: también necesitas reparar cómo están gestionando sus diferencias.</span></div>
+        <div class="tomorrow-step"><span class="n">2</span><span>Prepara conversaciones individuales antes de reunirlos para entender qué intenta proteger cada uno y qué estaría dispuesto a cambiar.</span></div>
+        <div class="tomorrow-step"><span class="n">3</span><span>Si reaparecen los ataques, frénalos sin decidir quién tiene razón y devuelve la conversación a los intereses: rigor académico y capacidad de adaptación.</span></div>
+        <div class="tomorrow-step"><span class="n">4</span><span>Cierra con reglas concretas sobre criterios académicos, margen de adaptación, quién decide, cómo escalar desacuerdos y cómo comprobaréis que el acuerdo funciona.</span></div>
+      </div>
+    </div>
+
+    <div class="actions"><button class="cta" onclick="showClosing()">VER QUÉ DEBERÍAS RECORDAR →</button></div>
+  </div>
+</section>
+
+<section id="completedScreen" class="screen">
+  <div class="card narrow">
+    <span class="eyebrow">ACTIVIDAD YA REALIZADA</span>
+    <h1>Ya has completado esta cápsula.</h1>
+    <p class="lead">Este navegador ya ha enviado una evaluación. Para proteger el uso de la IA, no es posible realizar el ejercicio de nuevo desde aquí.</p>
+    <div id="completedScreenDetails" class="notice"></div>
+    <div class="actions"><button id="c6ReviewFeedbackBtn" class="cta" onclick="c6ReviewPreviousFeedback()">REVISAR MI FEEDBACK →</button></div>
+  </div>
+</section>
+
+<section id="storageBlockedScreen" class="screen">
+  <div class="card narrow">
+    <span class="eyebrow">ALMACENAMIENTO NO DISPONIBLE</span>
+    <h1>No podemos iniciar la evaluación en este navegador.</h1>
+    <p class="lead">Para permitir una sola evaluación por navegador, esta actividad necesita guardar el estado de envío. Tu navegador o la configuración del LMS están impidiendo ese almacenamiento.</p>
+    <div class="notice">Ábrela desde el campus en una ventana normal, comprueba que el almacenamiento del sitio esté permitido y, si persiste el problema, contacta con el soporte del campus.</div>
+  </div>
+</section>
+
+<section id="closingScreen" class="screen"><div class="card narrow"><span class="eyebrow">ANTE UN CONFLICTO SIMILAR EN TU EQUIPO</span><h1>No empieces preguntándote únicamente “¿cómo resuelvo esto?”.</h1><div class="vertical-method"><div class="method-step"><div class="method-num">01</div><div><h3>DIAGNOSTICA</h3><p><strong>¿Qué conflicto tengo realmente delante?</strong> No confundas una discrepancia técnica con un conflicto relacional que ya ha contaminado el trabajo.</p></div></div><div class="method-step"><div class="method-num">02</div><div><h3>CALIBRA</h3><p><strong>¿Hasta dónde ha escalado?</strong> La intensidad de tu intervención debe corresponderse con el nivel real del conflicto.</p></div></div><div class="method-step"><div class="method-num">03</div><div><h3>REGÚLATE</h3><p><strong>¿Cómo necesito actuar yo?</strong> Gestiona tu reacción y utiliza firmeza, colaboración o pausa según lo que necesite el momento.</p></div></div><div class="method-step"><div class="method-num">04</div><div><h3>INTERVIENE</h3><p><strong>¿Qué proceso necesita este conflicto?</strong> Prepara, estructura, gestiona la tensión, trabaja intereses, concreta acuerdos y haz seguimiento.</p></div></div></div><div class="final-message"><strong>Gestionar bien un conflicto no consiste en evitar la tensión.</strong><br><br>Consiste en entender qué está ocurriendo, intervenir con la intensidad adecuada y conseguir que las diferencias puedan gestionarse sin deteriorar la capacidad del equipo para trabajar junto.</div></div></section>
+
+</main>
+<script>
+window.C6_GEMINI_GATEWAY_URL = "https://iberonex-c6-gateway.iberonex-tutor.workers.dev/api/c6-feedback";
+</script>
+<script>
+const C6_CONFIG = {
+  gatewayUrl: window.C6_GEMINI_GATEWAY_URL || "/api/c6-feedback",
+  deadlineMs: 11500,
+  resourceVersion: "C6_V1",
+  buildVersion: "C6_HTML_V3_5_ONE_SUBMISSION_PER_BROWSER_1"
+};
+
+const STAGES = ["DIAGNOSTICA","CALIBRA","REGÚLATE","INTERVIENE"];
+const DECISIONS = [
+  {stage:0,eyebrow:"DIAGNOSTICA",paragraphs:[
+    "Elena y Andrés empezaron discrepando sobre cuánto puede adaptarse un programa a las necesidades de una empresa sin comprometer los estándares académicos de la universidad.",
+    "Por ejemplo, una empresa pidió reducir un programa de <strong>diez a seis semanas</strong>, sustituir varias sesiones por casos internos y eliminar la evaluación final.",
+    "Andrés defendía que el programa podía rediseñarse manteniendo los objetivos de aprendizaje.",
+    "Elena consideraba que esos cambios comprometían el rigor con el que la universidad podía respaldarlo.",
+    "Nueve meses después, el problema ya no aparece únicamente ante decisiones como esta.",
+    "Prácticamente cualquier propuesta en la que deben trabajar juntos termina en enfrentamiento, se han descalificado delante de otras personas y buscan apoyos antes de reuniones importantes.",
+    "Antes de decidir cómo intervenir, necesitas asegurarte de que estás intentando resolver el problema correcto."
+  ],question:"¿Qué conflicto tienes realmente delante?",options:{
+    A:"<strong>Principalmente un conflicto de tarea.</strong> Elena y Andrés tienen criterios profesionales distintos sobre cómo diseñar los programas.",
+    B:"<strong>Principalmente un conflicto de proceso.</strong> El verdadero problema es que no está suficientemente claro quién tiene autoridad para decidir.",
+    C:"<strong>Existe conflicto de tarea y de proceso, pero la dimensión de relación ya domina el conflicto</strong> y está contaminando las demás discrepancias."
+  },recommended:"C"},
+  {stage:1,eyebrow:"CALIBRA",paragraphs:[
+    "Elena y Andrés siguen formando parte del mismo equipo directivo de la Escuela de Formación para Profesionales y Empresas y necesitan colaborar para sacar adelante los programas corporativos.",
+    "Pero ya buscan apoyos dentro del equipo y han cuestionado públicamente la forma de trabajar del otro.",
+    "No existen amenazas, sabotajes ni denuncias.",
+    "Ahora necesitas saber hasta dónde ha avanzado el conflicto, porque la intervención que habría servido meses atrás puede ser insuficiente hoy."
+  ],question:"¿Qué describen mejor los hechos que tienes delante?",options:{
+    A:"<strong>El conflicto sigue en una fase temprana.</strong> Las posiciones están endurecidas, pero todavía es básicamente un debate profesional intenso.",
+    B:"<strong>El conflicto ya ha entrado en una lógica de ganar-perder.</strong> Existen alianzas y ataques a la imagen del otro, aunque todavía no hay amenazas ni acciones destructivas.",
+    C:"<strong>El conflicto está en una fase destructiva.</strong> Elena y Andrés están dispuestos a perjudicar a la Escuela con tal de perjudicar al otro."
+  },recommended:"B"},
+  {stage:1,eyebrow:"CALIBRA",paragraphs:[
+    "Elena y Andrés llevan meses intentando gestionar sus diferencias sin conseguirlo.",
+    "Ahora otros miembros del equipo evitan reunirlos juntos y una propuesta estratégica lleva diez días bloqueada.",
+    "El conflicto ya está afectando al funcionamiento de la Escuela, a otras personas y a decisiones importantes.",
+    "Pero tampoco estás delante de amenazas, sabotaje o conductas destructivas que obliguen a separar inmediatamente a las partes."
+  ],question:"Como Director/a Académico/a, ¿qué nivel de intervención necesita ahora esta situación?",options:{
+    A:"<strong>Una intervención estructurada.</strong> Ya no basta con pedirles que lo resuelvan entre ellos: el conflicto necesita un proceso de mediación y reglas claras.",
+    B:"<strong>Darles algo más de tiempo.</strong> Intervenir ahora podría infantilizarlos y hacer que dependan innecesariamente de Dirección.",
+    C:"<strong>Separarlos inmediatamente.</strong> Elevar el problema como una cuestión disciplinaria antes de intentar otro tipo de intervención."
+  },recommended:"A"},
+  {stage:2,eyebrow:"REGÚLATE",paragraphs:[
+    "Ya has decidido que no puedes seguir esperando.",
+    "Pero intervenir no significa utilizar la misma forma de actuar para todo lo que está ocurriendo.",
+    "El desacuerdo de fondo es complejo: Elena tiene argumentos relevantes sobre rigor académico y Andrés sobre capacidad de respuesta al mercado.",
+    "Al mismo tiempo, las descalificaciones personales y la creación de bandos ya están dañando al equipo."
+  ],question:"¿Qué forma de actuar necesitas adoptar como líder?",options:{
+    A:"<strong>Buscar rápidamente un punto medio.</strong> Si ambos ceden en la misma proporción, podrás cerrar el conflicto sin seguir profundizando.",
+    B:"<strong>Mantenerte completamente al margen de cualquier criterio.</strong> Mostrar una posición firme podría poner en riesgo tu neutralidad.",
+    C:"<strong>Colaborar para resolver el problema complejo de fondo, pero ejercer autoridad sobre un límite no negociable:</strong> las descalificaciones y los ataques personales deben terminar."
+  },recommended:"C"},
+  {stage:2,eyebrow:"REGÚLATE",paragraphs:[
+    "Vas a entrar en una conversación en la que probablemente escucharás acusaciones, interrupciones y argumentos con los que puedes estar en desacuerdo.",
+    "Tu responsabilidad no es dejar de tener criterio.",
+    "Tu responsabilidad es impedir que una reacción automática —contraatacar, ponerte a la defensiva, juzgar a una de las partes o desconectarte— determine cómo diriges el proceso.",
+    "Antes de entrar, necesitas decidir qué harás cuando notes que la tensión también empieza a afectarte a ti."
+  ],question:"¿Cómo te preparas?",options:{
+    A:"<strong>Decides previamente qué argumento te parece más sólido</strong> para poder cortar rápidamente las afirmaciones que consideres injustas.",
+    B:"<strong>Confías en tu experiencia.</strong> Prepararte demasiado podría hacer que la conversación resulte artificial y poco espontánea.",
+    C:"<strong>Defines el resultado que quieres conseguir, separas hechos de interpretaciones y, si notas que estás reaccionando, haces una pausa</strong> antes de responder para volver a comportamientos concretos y preguntas útiles."
+  },recommended:"C"},
+  {stage:3,eyebrow:"INTERVIENE",paragraphs:[
+    "Ya sabes qué tipo de conflicto tienes y que necesita una mediación estructurada.",
+    "Como Director/a Académico/a, Elena y Andrés reconocen tu autoridad y no existe información que indique que hayas tomado partido por ninguno.",
+    "El conflicto está suficientemente avanzado para que debas vigilar especialmente tu imparcialidad y la confianza de ambas partes en el proceso."
+  ],question:"¿Quién debería conducir la mediación?",options:{
+    A:"<strong>Tú puedes conducirla si eres capaz de mantener imparcialidad y ambas partes aceptan el proceso.</strong> Si tu neutralidad es cuestionada o el proceso interno no funciona, incorporas apoyo neutral.",
+    B:"<strong>Debes retirarte desde el principio y encargar la mediación a un profesional externo.</strong> El hecho de que exista escalada impide que un responsable interno pueda intervenir.",
+    C:"<strong>No deberías mediar.</strong> Elena y Andrés deben resolverlo directamente entre ellos para no generar dependencia del líder."
+  },recommended:"A"},
+  {stage:3,eyebrow:"INTERVIENE",paragraphs:[
+    "Has decidido asumir el proceso.",
+    "Eso no significa sentar inmediatamente a Elena y Andrés en una sala y esperar que nueve meses de conflicto se ordenen solos.",
+    "Ya conoces sus posiciones públicas.",
+    "Elena insiste en proteger el rigor académico.",
+    "Andrés insiste en que la Escuela debe ser capaz de responder a las empresas.",
+    "Pero para conducir una mediación necesitas comprender algo más profundo que sus argumentos habituales."
+  ],question:"¿Qué haces antes de la sesión conjunta?",options:{
+    A:"<strong>Les envías tu propuesta de solución</strong> para que lleguen preparados para negociar sobre algo concreto.",
+    B:"<strong>Los reúnes directamente.</strong> Hablar por separado antes podría hacer que alguno piense que estás construyendo alianzas.",
+    C:"<strong>Mantienes conversaciones individuales con cada uno</strong> para comprender hechos, intereses, preocupaciones, qué intentan proteger y qué estarían dispuestos a cambiar."
+  },recommended:"C"},
+  {stage:3,eyebrow:"INTERVIENE",paragraphs:[
+    "Llega el momento de sentar a Elena y Andrés juntos.",
+    "Los dos conocen el impacto que está teniendo el conflicto.",
+    "Los dos siguen convencidos de que están intentando proteger el futuro de la Escuela: Elena, evitando que el crecimiento reduzca el rigor académico; Andrés, evitando que la universidad pierda oportunidades por no adaptarse con suficiente agilidad.",
+    "Si empiezas decidiendo quién tiene razón, convertirás la mediación en otro escenario donde uno gana y el otro pierde.",
+    "Si no marcas ningún marco, es probable que reaparezca exactamente la conversación que llevan nueve meses teniendo."
+  ],question:"¿Cómo abres la sesión?",options:{
+    A:"<strong>“Lleváis demasiado tiempo perjudicando al equipo. Hoy necesito que uno de los dos ceda para poder desbloquear esta situación.”</strong>",
+    B:"<strong>“No estamos aquí para decidir quién ha tenido razón durante estos nueve meses. Necesitamos construir una forma de trabajar que proteja el rigor académico y permita responder a las empresas sin convertir cada desacuerdo en un ataque personal.”</strong>",
+    C:"<strong>“Quiero que habléis con absoluta libertad. No voy a marcar reglas para que ninguno sienta que estoy condicionando la conversación.”</strong>"
+  },recommended:"B"},
+  {stage:3,eyebrow:"EN PLENA MEDIACIÓN",scene:true,paragraphs:[
+    "Has preparado la mediación y Elena y Andrés ya están sentados contigo.",
+    "Pero nueve meses de conflicto no desaparecen porque ahora haya una reunión estructurada.",
+    "Cuando empezáis a hablar de cómo se han gestionado las propuestas corporativas, reaparece uno de los patrones que ya conocías."
+  ],afterScene:[
+    "La conversación está dejando de centrarse en el problema y vuelve a convertirse en un ataque entre ambos.",
+    "Como Director/a Académico/a, tienes que intervenir <strong>ahora</strong>, no cuando termine la discusión."
+  ],question:"¿Qué haces en ese momento?",options:{
+    A:"<span class='option-title'>Dejas que continúen unos minutos.</span>Después de tantos meses de tensión, necesitan expresar lo que llevan acumulado antes de poder conversar de forma más racional.",
+    B:"<span class='option-title'>Cortas la discusión y asumes la decisión.</span>Les indicas que, si no consiguen ponerse de acuerdo, decidirás tú cómo se resolverá la propuesta bloqueada para evitar que el conflicto siga afectando a la Escuela.",
+    C:"<span class='option-title'>Interrumpes con calma y vuelves a estructurar la conversación.</span>Frenas los ataques personales sin decidir quién tiene razón y devuelves el foco a lo que cada uno intenta proteger.<span class='option-quote'>“Voy a parar aquí. Los dos estáis expresando preocupaciones importantes, pero hemos vuelto a atacarnos personalmente.<br><br>Andrés, quiero entender qué necesitas proteger cuando hablas de capacidad de adaptación.<br><br>Elena, después haremos lo mismo con tu preocupación por el rigor.<br><br>Vamos uno cada vez.”</span>"
+  },recommended:"C"},
+  {stage:3,eyebrow:"INTERVIENE",paragraphs:[
+    "Has detenido la escalada.",
+    "Pero detenerla no resuelve el conflicto.",
+    "Elena sigue defendiendo el rigor académico.",
+    "Andrés sigue defendiendo la capacidad de responder al mercado.",
+    "Si cada uno continúa defendiendo únicamente su posición, la mediación puede terminar en otra negociación sobre quién cede más.",
+    "Ahora necesitas descubrir qué está intentando proteger realmente cada uno."
+  ],question:"¿Cómo continúas?",options:{
+    A:"<strong>Les pides que presenten cada uno su solución definitiva.</strong> Después compararás ambas propuestas y buscarás coincidencias.",
+    B:"<strong>Exploras qué preocupación existe debajo de cada posición:</strong> qué teme Elena que ocurra si se flexibilizan determinados criterios y qué teme Andrés que ocurra si la Escuela no puede responder con suficiente agilidad.",
+    C:"<strong>Les pides que enumeren, por turnos, qué errores consideran que ha cometido el otro</strong> para aclarar responsabilidades antes de negociar."
+  },recommended:"B"},
+  {stage:3,eyebrow:"INTERVIENE",paragraphs:[
+    "Ya entiendes mejor qué intenta proteger cada uno.",
+    "Resolver únicamente la propuesta que lleva diez días bloqueada podría darte una victoria inmediata.",
+    "Pero Elena y Andrés seguirían necesitando trabajar juntos en muchas propuestas futuras.",
+    "Y parte del conflicto se ha alimentado precisamente de no tener suficientemente claro dónde termina la adaptación comercial y dónde empiezan los límites académicos."
+  ],question:"¿Qué acuerdo necesitas construir?",options:{
+    A:"<strong>Un compromiso equilibrado:</strong> en esta propuesta Elena y Andrés ceden aproximadamente la mitad de lo que pedían.",
+    B:"<strong>Una decisión para desbloquear la propuesta actual.</strong> El resto podrá abordarse más adelante si aparecen nuevos conflictos.",
+    C:"<strong>Un sistema de trabajo:</strong> criterios académicos no negociables, espacios donde sí puede existir adaptación, derechos de decisión, tiempos de respuesta y mecanismo de escalado cuando no consigan ponerse de acuerdo."
+  },recommended:"C"},
+  {stage:3,eyebrow:"INTERVIENE",paragraphs:[
+    "Elena y Andrés han conseguido construir acuerdos sobre cómo trabajar.",
+    "Pero una buena reunión no demuestra todavía que el conflicto esté resuelto.",
+    "Después de nueve meses de deterioro, lo importante será comprobar qué ocurre cuando aparezca la siguiente propuesta difícil, vuelva la presión comercial o exista una nueva discrepancia académica.",
+    "La última decisión consiste en convertir el acuerdo en algo observable."
+  ],question:"¿Cómo cierras la intervención?",options:{
+    A:"<strong>Confías en el compromiso de ambos.</strong> Formalizar demasiado los acuerdos puede transmitir que no confías en ellos.",
+    B:"<strong>Dejas por escrito acuerdos, responsabilidades y próximos pasos, y programas revisiones a 30, 60 y 90 días</strong> para comprobar tanto la coordinación como los resultados.",
+    C:"<strong>Das por terminada la mediación</strong> y les indicas que vuelvan a ti únicamente si aparece un nuevo conflicto grave."
+  },recommended:"B"}
+];
+
+const TRANSITIONS = {
+  1:{eyebrow:"DIAGNOSTICA · COMPLETADO",title:"Ya sabes qué conflicto estás intentando resolver.",paragraphs:["Identificar el tipo de conflicto evita aplicar una solución correcta al problema equivocado.","Ahora necesitas saber <strong>hasta dónde ha escalado</strong>.","La intervención que funciona cuando existe una discrepancia profesional puede ser insuficiente cuando ya aparecen alianzas, ataques personales y pérdida de confianza."],button:"CALIBRAR EL CONFLICTO →"},
+  3:{eyebrow:"CALIBRA · COMPLETADO",title:"Ya sabes qué tienes delante y cuánto ha escalado.",paragraphs:["Ahora aparece otra variable capaz de mejorar o empeorar la situación: <strong>cómo entras tú en el conflicto</strong>.","Antes de gestionar la reacción de Elena y Andrés, necesitas decidir cómo vas a gestionar la tuya."],button:"REGULAR TU ACTUACIÓN →"},
+  5:{eyebrow:"REGÚLATE · COMPLETADO",title:"Ya has decidido cómo necesitas posicionarte como líder.",paragraphs:["Ahora toca convertir ese criterio en una intervención real.","Vas a decidir quién debe conducir el proceso, cómo prepararlo, cómo abrir la mediación, qué hacer cuando vuelva la tensión y cómo construir un acuerdo que pueda sostenerse."],button:"CONSTRUIR LA INTERVENCIÓN →"}
+};
+
+const screens = [...document.querySelectorAll('.screen')];
+const topStatus = document.getElementById('topStatus');
+const answer1 = document.getElementById('answer1');
+const answer2 = document.getElementById('answer2');
+const count1 = document.getElementById('count1');
+const count2 = document.getElementById('count2');
+const saveAnswer1Btn = document.getElementById('saveAnswer1Btn');
+const feedbackBtn = document.getElementById('feedbackBtn');
+let currentDecision = 0;
+let selectedOption = null;
+let pendingTransitionNext = null;
+let improvementIndex = 0;
+let activeFeedback = null;
+
+function newRunIfNeeded(){
+  const nav = performance.getEntriesByType('navigation')[0];
+  const storedBuild = sessionStorage.getItem('c6_build_version');
+  const buildChanged = storedBuild !== C6_CONFIG.buildVersion;
+  const freshNavigation = !nav || nav.type !== 'reload';
+
+  // A newly published build must never inherit a previous build's submission ID
+  // or fallback/AI cache. Normal reloads of the same build still preserve progress.
+  if(buildChanged || freshNavigation){
+    for(const k of Object.keys(sessionStorage)){
+      if(k.startsWith('c6_')) sessionStorage.removeItem(k);
+    }
+    sessionStorage.setItem('c6_build_version', C6_CONFIG.buildVersion);
+  }
+
+  if(!sessionStorage.getItem('c6_submission_id')){
+    const id = (crypto.randomUUID ? crypto.randomUUID() : 'c6-'+Date.now()+'-'+Math.random().toString(16).slice(2));
+    sessionStorage.setItem('c6_submission_id',id);
+  }
+}
+newRunIfNeeded();
+
+// La clave NO depende de la version del HTML: actualizarlo no desbloquea intentos.
+const C6_BROWSER_LOCK_KEY='iberonex.c6.C6_V1.one_evaluation.v1';
+const C6_FEEDBACK_SCREENS=['evolutionScreen','aiStageScreen','priorityScreen','fallbackScreen','closingScreen','completedScreen'];
+
+function c6StorageIsAvailable(){
+  try{
+    const k=C6_BROWSER_LOCK_KEY+'.storage_test';
+    localStorage.setItem(k,'1');
+    const ok=localStorage.getItem(k)==='1';
+    localStorage.removeItem(k);
+    return ok;
+  }catch(_){return false;}
+}
+
+function c6SavedAttempt(){
+  try{
+    const raw=localStorage.getItem(C6_BROWSER_LOCK_KEY);
+    if(raw===null)return null;
+    try{
+      const parsed=JSON.parse(raw);
+      if(parsed && typeof parsed==='object' &&
+         ['pending','ai','fallback'].includes(parsed.status))return parsed;
+    }catch(_){}
+    // Si existe una clave danada, no se abre otra evaluacion accidentalmente.
+    return {status:'pending',decisions:[]};
+  }catch(_){return {status:'pending',decisions:[]};}
+}
+
+function c6WriteAttempt(record){
+  try{
+    localStorage.setItem(C6_BROWSER_LOCK_KEY,JSON.stringify(record));
+    return !!localStorage.getItem(C6_BROWSER_LOCK_KEY);
+  }catch(_){return false;}
+}
+
+function c6UpdateAttempt(patch){
+  const previous=c6SavedAttempt();
+  if(!previous)return false;
+  return c6WriteAttempt({...previous,...patch});
+}
+
+function c6ShowCompleted(){
+  const record=c6SavedAttempt();
+  const details=document.getElementById('completedScreenDetails');
+  const review=document.getElementById('c6ReviewFeedbackBtn');
+  if(record && record.status==='ai' && validateAIFeedback(record.feedback)){
+    details.textContent='Tu feedback personalizado está guardado. Puedes volver a consultarlo sin consumir otra llamada a Gemini.';
+    review.hidden=false;
+    review.textContent='REVISAR MI FEEDBACK →';
+  }else if(record && Array.isArray(record.decisions) && record.decisions.length===12){
+    details.textContent=record.status==='pending'
+      ? 'La evaluación se envió anteriormente, pero su resultado no pudo recuperarse. Puedes consultar orientaciones basadas en tus 12 decisiones sin volver a consultar la IA.'
+      : 'Puedes consultar otra vez el feedback basado en tus decisiones, sin consumir llamadas a Gemini.';
+    review.hidden=false;
+    review.textContent='REVISAR MIS ORIENTACIONES →';
+  }else{
+    details.textContent='Tu envío ya está registrado en este navegador. No se iniciará otra petición de IA.';
+    review.hidden=true;
+  }
+  topStatus.textContent='ACTIVIDAD COMPLETADA';
+  show('completedScreen');
+}
+
+function c6ReviewPreviousFeedback(){
+  const record=c6SavedAttempt();
+  if(!record){c6ShowCompleted();return;}
+  if(record.status==='ai' && validateAIFeedback(record.feedback)){
+    showAIFeedback(record.feedback);
+    return;
+  }
+  if(Array.isArray(record.decisions) && record.decisions.length===12){
+    record.decisions.forEach((v,i)=>{if(['A','B','C'].includes(v))sessionStorage.setItem(`c6_decision_${i+1}`,v);});
+    showDeterministicFeedback(false);
+    return;
+  }
+  c6ShowCompleted();
+}
+
+function c6GuardReentry(){
+  if(c6SavedAttempt()){
+    c6ShowCompleted();
+    return true;
+  }
+  return false;
+}
+
+function show(id){
+  screens.forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  sessionStorage.setItem('c6_active_screen',id);
+  document.querySelector('main.shell').scrollTo({top:0,behavior:'instant'});
+}
+
+function renderMethodBar(containerId, activeStage, completeAll=false){
+  const el = document.getElementById(containerId);
+  el.innerHTML = `<div class="method">${STAGES.map((name,i)=>{
+    const done = completeAll || i < activeStage;
+    const active = !completeAll && i === activeStage;
+    const cls = done ? 'stage done' : active ? 'stage active' : 'stage';
+    const num = done ? '✓' : String(i+1);
+    return `<div class="${cls}"><span class="num">${num}</span><span>${name}</span></div>`;
+  }).join('')}</div>`;
+}
+renderMethodBar('introMethodBar',0,false);
+renderMethodBar('completeMethodBar',4,true);
+
+function showCase(){if(c6GuardReentry())return;topStatus.textContent='TU DECISIÓN INICIAL';show('caseScreen')}
+answer1.addEventListener('input',()=>{count1.textContent=answer1.value.length;saveAnswer1Btn.disabled=answer1.value.trim().length===0;sessionStorage.setItem('c6_r1_draft',answer1.value)});
+answer2.addEventListener('input',()=>{count2.textContent=answer2.value.length;feedbackBtn.disabled=answer2.value.trim().length===0;sessionStorage.setItem('c6_r2_draft',answer2.value)});
+
+function saveAnswer1(){
+  if(c6GuardReentry())return;
+  const v=answer1.value.trim(); if(!v)return;
+  sessionStorage.setItem('c6_answer_1',v);
+  topStatus.textContent='EL MÉTODO';
+  show('methodIntroScreen');
+}
+
+function startDecisions(){if(c6GuardReentry())return;currentDecision=0;renderDecision();show('decisionScreen')}
+
+function renderDecision(){
+  const d=DECISIONS[currentDecision];
+  sessionStorage.setItem('c6_current_decision',String(currentDecision));
+  selectedOption=null;
+  renderMethodBar('decisionMethodBar',d.stage,false);
+  document.getElementById('decisionEyebrow').textContent=d.eyebrow;
+  document.getElementById('decisionCount').textContent=`DECISIÓN ${currentDecision+1} DE 12`;
+  document.getElementById('decisionTitleWrap').innerHTML=d.scene?'<h1>La tensión vuelve a aparecer delante de ti.</h1>':'';
+  let content=`<div class="story">${d.paragraphs.map(p=>`<p>${p}</p>`).join('')}</div>`;
+  if(d.scene){
+    content += `<div class="meeting"><div class="meeting-head"><div class="meeting-title">REUNIÓN DE MEDIACIÓN · ESCUELA DE FORMACIÓN PARA PROFESIONALES Y EMPRESAS</div><div class="meeting-state">LA TENSIÓN SUBE</div></div><div class="speech"><div class="avatar">AM</div><div class="bubble"><div class="speaker-name">Andrés Molina</div><div class="speaker-role">PROGRAMAS CORPORATIVOS Y RELACIÓN CON EMPRESAS</div><div class="speech-quote">“Este es exactamente el problema. Elena utiliza la calidad para impedir cualquier cambio.”</div></div></div><div class="speech elena"><div class="avatar">ER</div><div class="bubble"><div class="speaker-name">Elena Ruiz</div><div class="speaker-role">CALIDAD Y DISEÑO ACADÉMICO</div><div class="speech-quote">“Y tú sigues prometiendo cosas a empresas antes de saber si podemos cumplirlas.”</div></div></div><div class="overlap">Elena intenta responder de nuevo mientras Andrés empieza a hablar por encima de ella.</div></div><div class="story">${d.afterScene.map(p=>`<p>${p}</p>`).join('')}</div>`;
+  }
+  document.getElementById('decisionContent').innerHTML=content;
+  document.getElementById('decisionQuestion').textContent=d.question;
+  document.getElementById('decisionOptions').innerHTML=Object.entries(d.options).map(([k,v])=>`<button class="option" data-value="${k}" aria-pressed="false" onclick="selectDecisionOption(this)"><span class="option-letter">${k}</span><span class="option-text">${v}</span></button>`).join('');
+  document.getElementById('decisionContinueBtn').disabled=true;
+  topStatus.textContent=`${STAGES[d.stage]} · ${currentDecision+1} / 12`;
+}
+
+function selectDecisionOption(btn){
+  document.querySelectorAll('#decisionOptions .option').forEach(x=>{x.classList.remove('selected');x.setAttribute('aria-pressed','false')});
+  btn.classList.add('selected');btn.setAttribute('aria-pressed','true');selectedOption=btn.dataset.value;document.getElementById('decisionContinueBtn').disabled=false;
+}
+
+function commitDecision(){
+  if(c6GuardReentry())return;
+  if(!selectedOption)return;
+  sessionStorage.setItem(`c6_decision_${currentDecision+1}`,selectedOption);
+  const completed=currentDecision+1;
+  if(completed===12){topStatus.textContent='ANÁLISIS COMPLETADO';show('prepareR2Screen');return}
+  if(TRANSITIONS[completed]){showStageTransition(completed);return}
+  currentDecision++;renderDecision();show('decisionScreen');
+}
+
+function showStageTransition(completed){
+  const t=TRANSITIONS[completed];
+  sessionStorage.setItem('c6_last_transition',String(completed));
+  const nextIndex=completed;
+  const nextStage=DECISIONS[nextIndex].stage;
+  pendingTransitionNext=nextIndex;
+  renderMethodBar('transitionMethodBar',nextStage,false);
+  document.getElementById('transitionEyebrow').textContent=t.eyebrow;
+  document.getElementById('transitionTitle').textContent=t.title;
+  document.getElementById('transitionText').innerHTML=t.paragraphs.map(p=>`<p class="lead">${p}</p>`).join('');
+  document.getElementById('transitionBtn').textContent=t.button;
+  topStatus.textContent=`${STAGES[nextStage]} · SIGUIENTE ETAPA`;
+  show('stageTransitionScreen');
+}
+function continueAfterTransition(){currentDecision=pendingTransitionNext;renderDecision();show('decisionScreen')}
+
+function showR2(){if(c6GuardReentry())return;topStatus.textContent='SEGUNDA RESPUESTA';show('answer2Screen')}
+
+const strengthRules = [
+  {score:()=>getDecision(1)==='C',title:'Viste que el problema ya no era solo académico.',text:'Reconociste que, después de nueve meses de descalificaciones y alianzas, la relación entre Elena y Andrés ya estaba contaminando también la tarea y el proceso. <strong>Impacto:</strong> eso evita intentar resolver únicamente la propuesta que lleva diez días bloqueada y dejar intacta la dinámica que volvería a aparecer en la siguiente propuesta.'},
+  {score:()=>['B','A'].filter((x,i)=>getDecision(i+2)===x).length/2,title:'Calibraste la gravedad sin quedarte corto ni sobrerreaccionar.',text:'Leíste las alianzas y ataques públicos como señales de que ya hacía falta una mediación estructurada, pero no trataste el caso como si existieran amenazas o sabotaje. <strong>Impacto:</strong> das a Elena y Andrés la estructura que necesitan sin convertir un conflicto todavía recuperable en una crisis disciplinaria.'},
+  {score:()=>['C','C'].filter((x,i)=>getDecision(i+4)===x).length/2,title:'Preparaste cómo ibas a entrar tú en el conflicto.',text:'Combinaste colaboración para trabajar el problema de fondo con firmeza ante las descalificaciones y pensaste cómo evitar reaccionar impulsivamente. <strong>Impacto:</strong> reduces el riesgo de que Dirección se convierta en un tercer actor dentro del enfrentamiento.'},
+  {score:()=>['A','C','B'].filter((x,i)=>getDecision(i+6)===x).length/3,title:'Estructuraste la mediación antes de sentarlos juntos.',text:'Mantener la posibilidad de mediar tú, preparar conversaciones individuales y abrir con reglas claras evita repetir exactamente la conversación que Elena y Andrés llevan meses teniendo. <strong>Impacto:</strong> llegas a la reunión entendiendo intereses y con un marco que protege la conversación.'},
+  {score:()=>getDecision(9)==='C',title:'Supiste actuar cuando la tensión reapareció delante de ti.',text:'Frenaste el ataque sin decidir quién tenía razón y devolviste la conversación a lo que cada uno intentaba proteger. <strong>Impacto:</strong> evitas que la mediación se convierta en otro episodio de la misma escalada que ya está afectando al equipo.'},
+  {score:()=>['B','C','B'].filter((x,i)=>getDecision(i+10)===x).length/3,title:'Buscaste que el acuerdo sobreviviera a esta propuesta concreta.',text:'Trabajaste intereses, reglas de funcionamiento y seguimiento, en lugar de limitarte a desbloquear el asunto actual. <strong>Impacto:</strong> Elena y Andrés ganan criterios para resolver futuras diferencias sin depender continuamente de Dirección.'}
+];
+
+const improvements = {
+  1:{A:'Trataste el conflicto principalmente como una discrepancia de tarea. Después de nueve meses de descalificaciones, alianzas y enfrentamientos recurrentes, necesitas reconocer también que la relación ya está contaminando el trabajo.',B:'Reduciste el problema a quién decide. Clarificar autoridad ayuda, pero no resuelve por sí sola el deterioro relacional que ya aparece en prácticamente cualquier asunto compartido.'},
+  2:{A:'Calibraste la escalada demasiado baja. Las alianzas y los ataques públicos indican que el conflicto ya ha pasado de una discrepancia profesional intensa a una lógica de ganar-perder.',C:'Calibraste la escalada demasiado alta. No hay amenazas, sabotaje ni conductas destructivas; tratarlo como una fase extrema llevaría a intervenir con más intensidad de la necesaria.'},
+  3:{B:'Esperar más deja que un conflicto que ya afecta al equipo y bloquea decisiones siga escalando. En este punto ya necesita una intervención estructurada.',C:'Separarlos inmediatamente sería una respuesta demasiado intensa para los hechos disponibles. Antes hay margen para una mediación estructurada con reglas claras.'},
+  4:{A:'Buscar un punto medio demasiado pronto puede cerrar la discusión sin resolver el problema. Aquí necesitas colaborar sobre el fondo y ser firme únicamente con las conductas que no son aceptables.',B:'Mantenerte completamente al margen no equivale a ser imparcial. Como líder debes marcar límites claros a las descalificaciones y, al mismo tiempo, facilitar la búsqueda de una solución conjunta.'},
+  5:{A:'Entrar con una conclusión previa sobre quién tiene mejores argumentos aumenta el riesgo de convertirte en juez. Prepara el resultado, los hechos y tus preguntas antes de decidir quién tiene razón.',B:'Confiar solo en la espontaneidad te deja más expuesto a reaccionar cuando aparezca tensión. Preparar cómo pausar, separar hechos de interpretaciones y volver a preguntas útiles protege la calidad de la intervención.'},
+  6:{B:'No necesitas externalizar automáticamente la mediación. Puedes conducirla mientras puedas sostener imparcialidad y ambas partes acepten el proceso; el apoyo neutral es una condición de salida si eso deja de cumplirse.',C:'Devolverles el conflicto sin estructura ignora que llevan meses intentando gestionarlo y que ya afecta al resto del equipo. En este nivel de escalada necesitan una mediación real.'},
+  7:{A:'Enviar tu solución antes de escuchar los intereses convierte la mediación en una negociación sobre tu propuesta. Primero necesitas entender qué intenta proteger cada parte y qué estaría dispuesta a cambiar.',B:'Sentarlos directamente juntos aumenta el riesgo de reproducir la conversación que ya llevan meses teniendo. Preparar por separado permite entrar a la sesión conjunta con intereses y riesgos mejor entendidos.'},
+  8:{A:'Abrir pidiendo que uno ceda refuerza una lógica de ganador y perdedor. La apertura debe dejar claro que el objetivo es recuperar una forma de trabajar y fijar reglas para la conversación.',C:'Una conversación sin reglas no es neutral cuando ya existen nueve meses de ataques. Necesitas un marco explícito que permita discutir el fondo sin normalizar las descalificaciones.'},
+  9:{A:'Cuando la tensión apareció, diste demasiado espacio a que continuara. En ese momento conviene intervenir antes: detener el ataque sin tomar partido y reconducir la conversación hacia lo que cada persona intenta proteger.',B:'Saltaste de la tensión a imponer una decisión sobre la propuesta. Eso puede cerrar el asunto actual, pero no resuelve la dinámica que está reproduciendo el conflicto.'},
+  10:{A:'Pedir soluciones definitivas demasiado pronto mantiene a Elena y Andrés defendiendo posiciones. Antes necesitas entender qué teme perder cada uno y qué interés intenta proteger.',C:'Reconstruir una lista de errores del otro devuelve la conversación a culpables y defensas. La exploración necesita pasar de acusaciones a intereses que puedan trabajarse.'},
+  11:{A:'Un compromiso al 50% puede parecer equilibrado, pero no crea reglas para la siguiente propuesta. El acuerdo debe aclarar criterios, margen de adaptación, autoridad y mecanismo de escalado.',B:'Desbloquear solo la propuesta actual deja intactas las condiciones que han producido nueve meses de conflicto. Necesitas rediseñar también cómo toman decisiones juntos.'},
+  12:{A:'Confiar en el compromiso sin formalizarlo dificulta comprobar si realmente cambia la forma de trabajar. Conviene dejar acuerdos y responsabilidades por escrito y revisar su funcionamiento.',C:'Esperar a que aparezca otro conflicto grave es demasiado tarde. Después de nueve meses de deterioro necesitas seguimiento explícito para comprobar si la coordinación se sostiene.'}
+};
+
+function getDecision(n){return sessionStorage.getItem(`c6_decision_${n}`)||''}
+
+const caseImpact = {
+  1:'Si interpretas como técnico un conflicto que ya es también relacional, puedes desbloquear una propuesta y encontrarte el mismo problema en la siguiente.',
+  2:'Calibrar demasiado bajo puede hacer que dejes avanzar una escalada que ya está arrastrando al resto del equipo; calibrar demasiado alto puede convertir un conflicto recuperable en una crisis mayor.',
+  3:'El nivel de intervención determina si Elena y Andrés reciben la estructura justa: ni abandono, ni una respuesta disciplinaria prematura.',
+  4:'La forma en que uses tu autoridad puede abrir espacio para colaborar o convertirte en quien decide cada desacuerdo futuro.',
+  5:'Si entras reaccionando a las provocaciones, puedes reforzar defensividad y ataques en lugar de reducirlos.',
+  6:'Elegir quién media afecta a la confianza de Elena y Andrés en el proceso y a su capacidad para asumir después el acuerdo.',
+  7:'Sin preparación individual, la reunión conjunta corre el riesgo de empezar exactamente donde terminaron las discusiones anteriores.',
+  8:'Una apertura sin marco puede normalizar otra vez las descalificaciones; una apertura demasiado autoritaria puede convertir la mediación en un juicio.',
+  9:'Lo que hagas cuando la tensión estalla define si la reunión vuelve al patrón de ataque-defensa o consigue transformar acusaciones en información útil.',
+  10:'Si negocias posiciones antes de entender intereses, Elena defenderá “rigor” y Andrés “adaptación” sin encontrar una forma de proteger ambos.',
+  11:'Resolver solo la propuesta actual mantiene intactas las reglas ambiguas que han alimentado nueve meses de conflicto.',
+  12:'Sin seguimiento, no sabrás si el acuerdo cambió realmente cómo trabajan juntos o solo produjo una buena reunión.'
+};
+
+function plainOption(n, key){
+  const raw = DECISIONS[n-1]?.options?.[key] || '';
+  const div = document.createElement('div');
+  div.innerHTML = raw;
+  return (div.textContent || div.innerText || '').replace(/\s+/g,' ').trim();
+}
+
+function stageFeedbackData(){
+  const d1=getDecision(1), d2=getDecision(2), d3=getDecision(3), d4=getDecision(4), d5=getDecision(5);
+  const interventionNums=[6,7,8,9,10,11,12];
+  const interventionCorrect=interventionNums.filter(n=>getDecision(n)===DECISIONS[n-1].recommended).length;
+
+  const diagOk=d1==='C';
+  const calCorrect=[d2==='B',d3==='A'].filter(Boolean).length;
+  const regCorrect=[d4==='C',d5==='C'].filter(Boolean).length;
+
+  const diagText = diagOk
+    ? 'Reconociste que la discrepancia sobre rigor y adaptación ya se ha convertido también en un problema de relación. <strong>Esto cambia el foco:</strong> no basta con decidir qué hacer con la propuesta bloqueada; hay que intervenir sobre cómo Elena y Andrés están trabajando juntos.'
+    : `${improvements[1][d1]||'Tu diagnóstico necesita concretarse mejor.'} <strong>Impacto en el caso:</strong> ${caseImpact[1]}`;
+
+  let calText;
+  if(calCorrect===2){
+    calText='Identificaste que las alianzas y los ataques públicos sitúan el conflicto en un nivel que ya necesita mediación, pero todavía no exige una respuesta extrema. <strong>Impacto:</strong> das estructura sin sobrerreaccionar.';
+  }else{
+    const wrong=[2,3].filter(n=>getDecision(n)!==DECISIONS[n-1].recommended);
+    calText=wrong.map(n=>improvements[n][getDecision(n)]).filter(Boolean).join(' ') + ` <strong>Impacto en el caso:</strong> ${caseImpact[wrong[0]||2]}`;
+  }
+
+  let regText;
+  if(regCorrect===2){
+    regText='Decidiste colaborar sobre el problema de fondo y ser firme ante las descalificaciones, preparando además cómo evitar una reacción impulsiva. <strong>Impacto:</strong> Dirección ayuda a desescalar en lugar de añadir otra capa de tensión.';
+  }else{
+    const wrong=[4,5].filter(n=>getDecision(n)!==DECISIONS[n-1].recommended);
+    regText=wrong.map(n=>improvements[n][getDecision(n)]).filter(Boolean).join(' ') + ` <strong>Impacto en el caso:</strong> ${caseImpact[wrong[0]||4]}`;
+  }
+
+  let intText;
+  if(interventionCorrect===7){
+    intText='Construiste una intervención completa: preparación individual, apertura con reglas, gestión de la tensión, exploración de intereses, acuerdos de funcionamiento y seguimiento. <strong>Impacto:</strong> no dependes de una sola buena conversación para reparar nueve meses de conflicto.';
+  }else{
+    const wrong=interventionNums.filter(n=>getDecision(n)!==DECISIONS[n-1].recommended);
+    const first=wrong[0];
+    intText=`Alineaste ${interventionCorrect} de las 7 decisiones de intervención con el enfoque recomendado. ${first ? improvements[first][getDecision(first)] : ''} <strong>Impacto en el caso:</strong> ${caseImpact[first||9]}`;
+  }
+
+  function status(correct,total){
+    const r=correct/total;
+    if(r===1) return {label:'ALINEADO',cls:'solid'};
+    if(r>=0.5) return {label:'PARCIALMENTE ALINEADO',cls:'partial'};
+    return {label:'NECESITA AJUSTE',cls:'adjust'};
+  }
+
+  return [
+    {name:'DIAGNOSTICA',...status(diagOk?1:0,1),text:diagText},
+    {name:'CALIBRA',...status(calCorrect,2),text:calText},
+    {name:'REGÚLATE',...status(regCorrect,2),text:regText},
+    {name:'INTERVIENE',...status(interventionCorrect,7),text:intText}
+  ];
+}
+
+function priorityDetails(){
+  const priorityOrder=[9,1,3,6,10,11,4,5,7,8,12,2];
+  const out=[];
+  for(const n of priorityOrder){
+    const ans=getDecision(n);
+    if(ans && ans!==DECISIONS[n-1].recommended){
+      out.push({
+        n,
+        title:`Decisión ${n}: ${STAGES[DECISIONS[n-1].stage]}`,
+        picked:plainOption(n,ans),
+        impact:caseImpact[n],
+        recommended:plainOption(n,DECISIONS[n-1].recommended)
+      });
+      if(out.length===2) break;
+    }
+  }
+  return out;
+}
+function deterministicFeedback(){
+  const ranked = strengthRules
+    .map((r,i)=>({i,score:+r.score(),title:r.title,text:r.text}))
+    .sort((a,b)=>b.score-a.score||a.i-b.i);
+
+  const strengths=ranked.filter(x=>x.score===1).slice(0,2);
+  const stages=stageFeedbackData();
+  const priorities=priorityDetails();
+
+  let headline='Has construido una intervención con criterio y estructura.';
+  const diag=stages[0], cal=stages[1], reg=stages[2], intv=stages[3];
+
+  if(diag.cls==='adjust') headline='Tu principal oportunidad está en diagnosticar mejor antes de intervenir.';
+  else if(cal.cls==='adjust') headline='Entiendes el conflicto, pero necesitas calibrar mejor cuánto ha escalado.';
+  else if(reg.cls==='adjust') headline='Lees bien el caso; ahora necesitas regular mejor cómo entras tú en el conflicto.';
+  else if(intv.cls!=='solid') headline='Tu lectura del conflicto es sólida; la intervención todavía puede ganar precisión.';
+
+  return {headline,strengths,stages,priorities};
+}
+
+function validateAIFeedback(x){
+  const dims=['diagnosis','calibration','self_regulation','intervention_design','live_tension','sustainable_resolution'];
+  const stageNames=['diagnostica','calibra','regulate','interviene'];
+  const evolutions=['improved','unchanged','regressed','mixed'];
+
+  if(!x || x.version!=='C6_FEEDBACK_V2' || !x.scores || !x.stages || !x.main_priority) return false;
+
+  for(const d of dims){
+    const s=x.scores[d];
+    if(!s || !Number.isInteger(s.before) || !Number.isInteger(s.after) || s.before<0 || s.before>3 || s.after<0 || s.after>3) return false;
+  }
+
+  if(typeof x.headline!=='string' || !x.headline.trim()) return false;
+
+  for(const stage of stageNames){
+    const item=x.stages[stage];
+    if(!item || !evolutions.includes(item.evolution)) return false;
+    for(const key of ['before','after','against_ideal','case_impact','next_time']){
+      if(typeof item[key]!=='string' || !item[key].trim()) return false;
+    }
+  }
+
+  const p=x.main_priority;
+  if(!p || !stageNames.includes(p.stage)) return false;
+  return [p.title,p.why_this_matters,p.next_time].every(v=>typeof v==='string'&&v.trim());
+}
+
+let c6FeedbackPending=false;
+async function requestFeedback(){
+  const r2=answer2.value.trim();if(!r2||c6FeedbackPending)return;
+  if(c6GuardReentry())return;
+  if(!c6StorageIsAvailable()){
+    topStatus.textContent='ALMACENAMIENTO NO DISPONIBLE';
+    show('storageBlockedScreen');
+    return;
+  }
+  // Registrar el primer envio ANTES de fetch: recargar/cerrar no dispara mas llamadas.
+  const originalSid=sessionStorage.getItem('c6_submission_id');
+  const lock={
+    status:'pending',
+    submission_id:originalSid,
+    submitted_at:new Date().toISOString(),
+    decisions:Array.from({length:12},(_,i)=>getDecision(i+1))
+  };
+  if(!c6WriteAttempt(lock)){
+    topStatus.textContent='ALMACENAMIENTO NO DISPONIBLE';
+    show('storageBlockedScreen');
+    return;
+  }
+  sessionStorage.setItem('c6_answer_2',r2);
+
+  topStatus.textContent='PREPARANDO FEEDBACK';
+  show('waitScreen');
+
+  const submissionId=sessionStorage.getItem('c6_submission_id');
+  const cacheKey=`c6_feedback_${submissionId}`;
+  const cached=sessionStorage.getItem(cacheKey);
+
+  if(cached){
+    try{
+      const data=JSON.parse(cached);
+      if(validateAIFeedback(data)){
+        setTimeout(()=>showAIFeedback(data),250);
+        return;
+      }
+    }catch(e){}
+  }
+
+  if(sessionStorage.getItem(`c6_feedback_mode_${submissionId}`)==='fallback'){
+    setTimeout(()=>showDeterministicFeedback(false),250);
+    return;
+  }
+
+  if(!C6_CONFIG.gatewayUrl){
+    setTimeout(()=>showDeterministicFeedback(true),650);
+    return;
+  }
+
+  c6FeedbackPending=true;
+  feedbackBtn.disabled=true;
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),C6_CONFIG.deadlineMs);
+
+  try{
+    const res=await fetch(C6_CONFIG.gatewayUrl,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      signal:controller.signal,
+      body:JSON.stringify({
+        resource_version:C6_CONFIG.resourceVersion,
+        submission_id:submissionId,
+        answer_1:sessionStorage.getItem('c6_answer_1')||'',
+        answer_2:r2
+      })
+    });
+
+    if(!res.ok){
+      showDeterministicFeedback(true);
+      return;
+    }
+
+    const data=await res.json();
+
+    if(data && data.mode==='fallback'){
+      showDeterministicFeedback(true);
+      return;
+    }
+
+    const feedback=data && data.mode==='ai' ? data.feedback : null;
+
+    if(!validateAIFeedback(feedback)){
+      showDeterministicFeedback(true);
+      return;
+    }
+
+    // La falta de espacio para caché no debe invalidar un feedback válido de Gemini.
+    try{sessionStorage.setItem(cacheKey,JSON.stringify(feedback));}catch(e){}
+    showAIFeedback(feedback);
+
+  }catch(e){
+    showDeterministicFeedback(true);
+  }finally{
+    clearTimeout(timer);
+    c6FeedbackPending=false;
+  }
+}
+
+const AI_STAGE_ORDER=[
+  {key:'diagnostica',label:'DIAGNOSTICA'},
+  {key:'calibra',label:'CALIBRA'},
+  {key:'regulate',label:'REGÚLATE'},
+  {key:'interviene',label:'INTERVIENE'}
+];
+
+const AI_EVOLUTION_LABELS={
+  improved:'HAS MEJORADO',
+  unchanged:'SIN CAMBIO RELEVANTE',
+  regressed:'AQUÍ HAS RETROCEDIDO',
+  mixed:'EVOLUCIÓN MIXTA'
+};
+
+let aiStageIndex=0;
+
+function showAIFeedback(data){
+  if(validateAIFeedback(data))c6UpdateAttempt({status:'ai',feedback:data});
+  activeFeedback=data;
+  aiStageIndex=0;
+  document.getElementById('evolutionHeadline').textContent=data.headline;
+  topStatus.textContent='TU EVOLUCIÓN';
+  show('evolutionScreen');
+}
+
+function showAIStage(i){
+  aiStageIndex=i;
+  renderAIStage();
+  topStatus.textContent='TU FEEDBACK';
+  show('aiStageScreen');
+}
+
+// Escoge un fragmento breve de las palabras originales de Gemini y lo pone en negrita.
+// Nunca interpreta HTML recibido ni altera el contenido de la respuesta.
+function c6Emphasize(el, value){
+  const text=String(value || '');
+  el.textContent='';
+  if(!text){return;}
+  const expressions=[
+    /(?:no (?:realiza|identifica|analiza|aporta|menciona|incluye|establece|calibra|propone|define|explica|reconoce)|sin (?:valorar|analizar|identificar|calibrar|preparar|definir|concretar)|falta de [^.,;:]{3,42})/i,
+    /(?:conflicto relacional|contaminaci[oó]n relacional|intervenci[oó]n estructurada|ataques personales|descalificaciones p[uú]blicas|conversaciones individuales|criterios acad[eé]micos|rigor acad[eé]mico|seguimiento|imparcialidad|escalada del conflicto|intereses compartidos)/i
+  ];
+  let match=null;
+  for(const pattern of expressions){ match=pattern.exec(text); if(match)break; }
+  let begin=0, finish=0;
+  if(match){
+    begin=match.index;
+    finish=begin+match[0].length;
+  }else{
+    const first=text.match(/^\s*\S+(?:\s+\S+){0,6}/);
+    if(first){begin=0;finish=first[0].length;}
+  }
+  if(finish<=begin){el.textContent=text;return;}
+  el.appendChild(document.createTextNode(text.slice(0,begin)));
+  const strong=document.createElement('strong');
+  strong.textContent=text.slice(begin,finish);
+  el.appendChild(strong);
+  el.appendChild(document.createTextNode(text.slice(finish)));
+}
+
+function renderAIStage(){
+  sessionStorage.setItem('c6_ai_stage_index',String(aiStageIndex));
+  const meta=AI_STAGE_ORDER[aiStageIndex];
+  const item=activeFeedback.stages[meta.key];
+
+  document.getElementById('aiStageNum').textContent=String(aiStageIndex+1).padStart(2,'0');
+  document.getElementById('aiStageProgress').textContent=`${meta.label} · ${aiStageIndex+1}/4`;
+  document.getElementById('aiStageTitle').textContent=meta.label;
+
+  const badge=document.getElementById('aiStageEvolution');
+  badge.className=`ai-evolution-badge ${item.evolution}`;
+  badge.textContent=AI_EVOLUTION_LABELS[item.evolution] || item.evolution.toUpperCase();
+
+  c6Emphasize(document.getElementById('aiStageBefore'),item.before);
+  c6Emphasize(document.getElementById('aiStageAfter'),item.after);
+  c6Emphasize(document.getElementById('aiStageIdeal'),item.against_ideal);
+  c6Emphasize(document.getElementById('aiStageImpact'),item.case_impact);
+  c6Emphasize(document.getElementById('aiStageNext'),item.next_time);
+
+  document.getElementById('aiStageNextBtn').textContent=
+    aiStageIndex<3 ? `VER ${AI_STAGE_ORDER[aiStageIndex+1].label} →` : 'VER MI PRIORIDAD →';
+}
+
+function nextAIStage(){
+  if(aiStageIndex<3){
+    aiStageIndex++;
+    renderAIStage();
+    document.querySelector('main.shell').scrollTo({top:0,behavior:'instant'});
+    return;
+  }
+  showPriority();
+}
+
+function showPriority(){
+  document.getElementById('priorityTitle').textContent=activeFeedback.main_priority.title;
+  c6Emphasize(document.getElementById('priorityWhy'),activeFeedback.main_priority.why_this_matters);
+  c6Emphasize(document.getElementById('priorityNextTime'),activeFeedback.main_priority.next_time);
+  topStatus.textContent='TU FEEDBACK';
+  show('priorityScreen');
+}
+
+function showDeterministicFeedback(persist=true){
+  if(persist)c6UpdateAttempt({status:'fallback'});
+  if(persist){
+    const sid=sessionStorage.getItem('c6_submission_id');
+    if(sid)sessionStorage.setItem(`c6_feedback_mode_${sid}`,'fallback');
+  }
+
+  const f=deterministicFeedback();
+
+  document.getElementById('fallbackHeadline').textContent=f.headline;
+
+  document.getElementById('fallbackStages').innerHTML=f.stages.map(s=>`
+    <div class="stage-feedback-row">
+      <div>
+        <div class="stage-feedback-name">${s.name}</div>
+        <span class="stage-feedback-status ${s.cls}">${s.label}</span>
+      </div>
+      <div class="stage-feedback-text"><p>${s.text}</p></div>
+    </div>
+  `).join('');
+
+  const strengthsTitle=document.getElementById('fallbackStrengthsTitle');
+  strengthsTitle.hidden=f.strengths.length===0;
+  strengthsTitle.textContent=f.strengths.length===1 ? 'Una decisión que fortalece tu intervención' : 'Dos decisiones que fortalecen tu intervención';
+  document.getElementById('fallbackStrengths').innerHTML=f.strengths.map(s=>`
+    <div class="fallback-strength">
+      <h3>${s.title}</h3>
+      <p>${s.text}</p>
+    </div>
+  `).join('');
+
+  const adjustTitle=document.getElementById('fallbackAdjustTitle');
+  const adjust=document.getElementById('fallbackAdjustments');
+
+  if(f.priorities.length){
+    adjustTitle.textContent=f.priorities.length===1?'El momento que más cambiaría':'Los momentos que más cambiaría';
+    adjust.innerHTML=f.priorities.map(p=>`
+      <div class="fallback-adjustment">
+        <h3>${p.title}</h3>
+        <p class="picked"><strong>Tú elegiste:</strong> ${p.picked}</p>
+        <p class="impact"><strong>Impacto en Elena, Andrés y la Escuela:</strong> ${p.impact}</p>
+        <p class="recommended"><strong>En esta situación conviene:</strong> ${p.recommended}</p>
+      </div>
+    `).join('');
+  }else{
+    adjustTitle.textContent='El riesgo que seguiría vigilando';
+    adjust.innerHTML=`
+      <div class="fallback-adjustment">
+        <h3>Mantener la disciplina cuando vuelva a aparecer la tensión.</h3>
+        <p>Has tomado las 12 decisiones alineadas con el enfoque recomendado. El siguiente reto es sostener ese criterio cuando el conflicto ocurra de verdad: frenar ataques sin convertirte en juez y seguir llevando la conversación hacia intereses, acuerdos concretos y seguimiento.</p>
+      </div>`;
+  }
+
+  topStatus.textContent='TU FEEDBACK';
+  show('fallbackScreen');
+}
+function showClosing(){topStatus.textContent='CIERRE · CÁPSULA 6';show('closingScreen')}
+
+// QA v3.4: una recarga no debe desorientar al alumno ni mezclar intentos.
+// No reenvía automáticamente una petición a Gemini durante la recuperación.
+function restoreOnReload(){
+  const nav=performance.getEntriesByType('navigation')[0];
+  if(!nav || nav.type!=='reload')return;
+  const previous=sessionStorage.getItem('c6_active_screen')||'introScreen';
+  const draft1=sessionStorage.getItem('c6_r1_draft')||sessionStorage.getItem('c6_answer_1')||'';
+  const draft2=sessionStorage.getItem('c6_r2_draft')||sessionStorage.getItem('c6_answer_2')||'';
+  answer1.value=draft1;
+  answer1.dispatchEvent(new Event('input'));
+  answer2.value=draft2;
+  answer2.dispatchEvent(new Event('input'));
+
+  if(previous==='decisionScreen'){
+    const ix=Number(sessionStorage.getItem('c6_current_decision'));
+    if(Number.isInteger(ix) && ix>=0 && ix<DECISIONS.length){
+      currentDecision=ix;renderDecision();show(previous);return;
+    }
+  }
+  if(previous==='stageTransitionScreen'){
+    const completed=Number(sessionStorage.getItem('c6_last_transition'));
+    if(TRANSITIONS[completed]){showStageTransition(completed);return;}
+  }
+  const needsFeedback=['evolutionScreen','aiStageScreen','priorityScreen','waitScreen'];
+  if(needsFeedback.includes(previous)){
+    const sid=sessionStorage.getItem('c6_submission_id');
+    try{
+      const f=JSON.parse(sessionStorage.getItem(`c6_feedback_${sid}`)||'null');
+      if(validateAIFeedback(f)){
+        showAIFeedback(f);
+        if(previous==='aiStageScreen'){
+          const i=Number(sessionStorage.getItem('c6_ai_stage_index'));
+          showAIStage(Number.isInteger(i)&&i>=0&&i<4?i:0);
+        }else if(previous==='priorityScreen')showPriority();
+        return;
+      }
+    }catch(e){}
+    if(sessionStorage.getItem(`c6_feedback_mode_${sid}`)==='fallback'){
+      showDeterministicFeedback(false);return;
+    }
+    // Si se recargó mientras Gemini respondía, permite reenviar manualmente R2.
+    showR2();return;
+  }
+  if(previous==='fallbackScreen'){showDeterministicFeedback(false);return;}
+  if(previous==='closingScreen'){showClosing();return;}
+  if(['caseScreen','methodIntroScreen','prepareR2Screen','answer2Screen'].includes(previous)){
+    const titles={caseScreen:'TU DECISIÓN INICIAL',methodIntroScreen:'EL MÉTODO',prepareR2Screen:'ANÁLISIS COMPLETADO',answer2Screen:'SEGUNDA RESPUESTA'};
+    topStatus.textContent=titles[previous];show(previous);
+  }
+}
+restoreOnReload();
+// Bloqueo de nuevos accesos tras el primer envio, tambien en otra pestana.
+if(!c6StorageIsAvailable()){
+  topStatus.textContent='ALMACENAMIENTO NO DISPONIBLE';
+  show('storageBlockedScreen');
+}else{
+  const saved=c6SavedAttempt();
+  if(saved){
+    const visible=document.querySelector('.screen.active')?.id;
+    // Al recargar el feedback, se puede seguir leyendo; nunca volver a responder.
+    if(!C6_FEEDBACK_SCREENS.includes(visible))c6ShowCompleted();
+  }
+}
+window.addEventListener('storage',(event)=>{
+  if(event.key!==C6_BROWSER_LOCK_KEY || !event.newValue || c6FeedbackPending)return;
+  const visible=document.querySelector('.screen.active')?.id;
+  if(!C6_FEEDBACK_SCREENS.includes(visible))c6ShowCompleted();
+});
+</script>
+</body>
+</html>

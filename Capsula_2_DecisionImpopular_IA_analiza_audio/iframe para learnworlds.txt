@@ -1,0 +1,8 @@
+<iframe
+  src="https://pfuiberonex.github.io/escuela_liderazgo_2/"
+  width="100%"
+  height="1100"
+  style="border:0; display:block;"
+  allow="microphone"
+  title="Comunica una decisión impopular">
+</iframe>

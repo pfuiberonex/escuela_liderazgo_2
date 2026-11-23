@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IBERONEX · Cápsula 5 · Delegar y empoderar</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap');
+:root{--navy:#080860;--amber:#ffbd00;--amberSoft:#fff7d7;--bg:#f2f3f7;--line:#dfe2e8;--text:#434852;--muted:#707782;--outlook:#0f6cbd;--white:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}button,input{font:inherit}button{cursor:pointer}
+.top{min-height:72px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 26px;border-bottom:3px solid var(--amber)}
+.brand{font-size:15px;font-weight:800}.brand small{display:block;margin-top:5px;color:rgba(255,255,255,.68);font-size:13px;font-weight:400}.topStatus{color:var(--amber);font-weight:800;font-size:13px}
+.progress{height:3px;background:#d8d9e0}.progress i{display:block;width:0;height:100%;background:var(--amber);transition:.3s}.screen{display:none}.screen.active{display:block}
+.shell{max-width:1480px;margin:0 auto;padding:24px 22px 50px}.card{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 52px rgba(8,8,96,.05)}
+.kicker{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9c7300}h1{margin:9px 0 14px;font-size:46px;line-height:1.05;color:var(--navy);max-width:980px}
+.lead{font-size:16px;line-height:1.62;color:#5b6069;max-width:960px;margin:0}.lead+.lead{margin-top:9px}.btn{border:0;border-radius:10px;padding:13px 17px;font-size:13px;font-weight:800}
+.btn.primary{background:var(--amber);color:var(--navy)}.btn.ghost{background:#fff;color:var(--navy);border:1px solid #d4d7de}.btn:disabled{opacity:.4;cursor:not-allowed}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.briefing{padding:38px}.briefGrid{display:grid;grid-template-columns:1.25fr .75fr;gap:30px}.caseBox{background:var(--navy);color:#fff;border-radius:18px;padding:22px}.caseBox h2{margin:6px 0 12px;font-size:24px}.caseBox p{font-size:15px;line-height:1.55;color:rgba(255,255,255,.78)}
+.caseStats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.caseStat{padding:14px;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:rgba(255,255,255,.05)}.caseStat strong{display:block;color:var(--amber);font-size:20px;margin-bottom:5px}.caseStat span{font-size:13px;line-height:1.4;color:rgba(255,255,255,.7)}
+.challenge{margin-top:18px;padding:16px 18px;border-left:5px solid var(--amber);background:var(--amberSoft);border-radius:10px;color:var(--navy);font-size:16px;line-height:1.55;font-weight:700}
+.dashboardBand{margin-bottom:14px;background:#fff;border:1px solid var(--line);border-radius:17px;padding:14px}.dashboardHead{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:10px}.dashboardHead h2{font-size:18px;margin:0;color:var(--navy)}.dashboardHead span{font-size:13px;color:#747a84}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.metric{background:#fafafc;border:1px solid #e3e4e9;border-radius:13px;padding:13px;min-height:116px}.metricName{font-size:14px;line-height:1.35;font-weight:800;color:var(--navy);min-height:38px}.metricState{font-size:14px;font-weight:800;color:#7a5b00;margin-top:9px}.metricBars{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:10px}.metricBars i{height:6px;border-radius:99px;background:#e0e1e6}.metricBars i.on{background:var(--amber)}.metric.flash{animation:flash .55s ease}@keyframes flash{45%{transform:scale(1.02);box-shadow:0 0 0 3px var(--amberSoft)}}
+.outlook{border:1px solid #cad2dc;border-radius:17px;overflow:hidden;background:#fff;box-shadow:0 18px 50px rgba(8,8,96,.07)}.outlookTop{height:54px;background:var(--outlook);display:flex;align-items:center;gap:14px;padding:0 15px;color:#fff}.waffle{font-size:20px}.outlookName{font-size:16px;font-weight:800}.search{flex:1;max-width:560px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.15);border-radius:6px;padding:9px 12px;color:#fff;font-size:14px}.search::placeholder{color:rgba(255,255,255,.75)}.userDot{margin-left:auto;width:31px;height:31px;border-radius:50%;background:#fff;color:var(--outlook);display:grid;place-items:center;font-weight:800;font-size:12px}
+.mailGrid{display:grid;grid-template-columns:150px minmax(340px,36%) 1fr;min-height:620px}.folders{background:#f7f9fb;border-right:1px solid #e0e4e9;padding:13px 9px}.folder{font-size:14px;padding:10px;border-radius:7px;margin-bottom:2px;color:#4f5963}.folder.active{background:#e8f2fc;color:#0f5fae;font-weight:800}.folder strong{float:right}.inbox{border-right:1px solid #e1e5ea;background:#fff}.inboxHeader{padding:14px 15px;border-bottom:1px solid #e5e8ec}.inboxHeader h3{font-size:19px;margin:0;color:#263545}.inboxHeader p{font-size:14px;margin:5px 0 0;color:#777f89}
+.mailList{max-height:560px;overflow:auto}.mail{position:relative;padding:13px 14px 15px;border-bottom:1px solid #eceef1;background:#fff;transition:.16s;cursor:pointer}.mail:hover{background:#f7fafd}.mail.active{background:#edf5fc;border-left:4px solid var(--outlook);padding-left:10px}.mail.done{background:#fbfbfc}.mailSender{font-size:13px;color:#68727d}.mailSubject{font-size:15px;line-height:1.3;font-weight:800;color:#273647;margin:4px 0}.mailPreview{font-size:14px;color:#7a828b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mailDecision{margin-top:7px;font-size:12px;font-weight:800;color:#8b6900;text-transform:uppercase}
+
+.readPane{background:#fff;padding:24px 27px;min-width:0}.empty{height:100%;display:grid;place-items:center;text-align:center;color:#818995;padding:30px}.empty strong{display:block;color:#273647;font-size:20px;margin-bottom:8px}.empty span{font-size:15px;line-height:1.5}
+.emailHead{padding-bottom:15px;border-bottom:1px solid #e5e8eb}.emailHead h2{font-size:24px;line-height:1.2;color:#243344;margin:0 0 12px}.senderLine{display:flex;gap:10px;align-items:center}.senderAvatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#e7f2fc;color:var(--outlook);font-size:12px;font-weight:800}.senderLine b{display:block;font-size:14px;color:#303c49}.senderLine span{display:block;font-size:13px;color:#7a838d;margin-top:3px}.emailBody{padding:18px 0}.emailBody p{font-size:16px;line-height:1.6;color:#505962;margin:0 0 11px}
+.decisionPanel{margin-top:8px;padding:17px;border:1px solid #e0e4e8;background:#fafbfc;border-radius:14px}.decisionPanel h3{font-size:18px;color:var(--navy);margin:0 0 5px}.decisionPanel p{font-size:14px;line-height:1.5;color:#6c747d;margin:0 0 13px}.actionGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.actionGrid button{border:1px solid #d9dde2;background:#fff;color:var(--navy);font-weight:800;font-size:13px;border-radius:9px;padding:12px 6px}.actionGrid button:hover{border-color:var(--amber);background:var(--amberSoft)}.currentDecision{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;background:var(--amberSoft);border:1px solid #e4c755;border-radius:11px}.currentDecision strong{font-size:14px;color:var(--navy)}.currentDecision button{border:0;background:transparent;color:var(--navy);font-size:12px;font-weight:800;text-decoration:underline}
+.mailFooter{padding:13px 15px;border-top:1px solid #e1e4e8;background:#f8f9fb;display:flex;align-items:center;justify-content:space-between;gap:12px}.mailFooter span{font-size:14px;color:#69717a}.mailFooter strong{color:var(--navy)}
+.labTop{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding-bottom:15px;border-bottom:1px solid #e5e7eb}.labTop h2{font-size:24px;line-height:1.2;color:var(--navy);margin:6px 0 0}.labProgress{color:#8d6800;font-weight:800;font-size:13px;padding:7px 10px;background:var(--amberSoft);border-radius:999px;border:1px solid #e8cf6b}.goalBox{margin:17px 0;padding:14px 16px;border-left:5px solid var(--amber);background:#fafafc;border-radius:9px}.goalBox b{display:block;color:#8e6900;font-size:12px;letter-spacing:.06em;margin-bottom:5px}.goalBox span{font-size:15px;line-height:1.5;color:#4f565f}.labQuestion{font-size:21px;color:var(--navy);margin:17px 0 12px}.candidateGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.candidate{border:1px solid #dee1e6;background:#fff;border-radius:13px;padding:13px;text-align:left}.candidate:hover,.candidate.selected{border-color:var(--amber);background:var(--amberSoft)}.candidateHead{display:flex;gap:9px;align-items:center}.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;font-size:11px;font-weight:800}.candidate strong{display:block;font-size:14px;color:var(--navy)}.candidate em{display:block;font-style:normal;color:#737b85;font-size:13px;margin-top:2px}.candidate p{font-size:14px;line-height:1.45;color:#555e67;margin:12px 0 0}.candidate .situation{padding-top:9px;margin-top:9px;border-top:1px solid #e5e5e8;color:#6c747d}
+.optionList{display:flex;flex-direction:column;gap:9px}.labOption{border:1px solid #dfe2e7;background:#fff;border-radius:12px;padding:14px 15px;text-align:left;font-size:15px;line-height:1.5;color:#4e5660}.labOption:hover,.labOption.selected{border-color:var(--amber);background:var(--amberSoft);color:var(--navy)}.labNav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px}.labHint{font-size:13px;color:#757d86}.prototypeEnd{padding:38px;max-width:1000px;margin:0 auto}.summaryLine{margin-top:18px;padding:16px;border-left:5px solid var(--amber);background:var(--amberSoft);border-radius:10px;font-size:16px;line-height:1.55;color:var(--navy)}
+@media(max-width:1100px){.metrics{grid-template-columns:1fr 1fr}.mailGrid{grid-template-columns:120px 330px 1fr}.candidateGrid{grid-template-columns:1fr}}
+@media(max-width:820px){.briefGrid{grid-template-columns:1fr}.mailGrid{grid-template-columns:1fr}.folders{display:none}.mailList{max-height:380px}.readPane{border-top:1px solid #e1e5ea}.actionGrid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.shell{padding:12px}.top{padding:12px 14px}.briefing,.prototypeEnd{padding:23px 18px}h1{font-size:36px}.metrics{grid-template-columns:1fr}.caseStats{grid-template-columns:1fr}.search{display:none}}
+
+/* Tipografía alineada con el recurso validado de la Cápsula 4 */
+.brand,
+.topStatus,
+.kicker,
+h1,
+.btn,
+.caseBox h2,
+.dashboardHead h2,
+.metricName,
+.metricState,
+.outlookName,
+.inboxHeader h3,
+.mailSubject,
+.mailDecision,
+.emailHead h2,
+.decisionPanel h3,
+.actionGrid button,
+.currentDecision strong,
+.labTop h2,
+.labProgress,
+.goalBox b,
+.labQuestion,
+.candidate strong,
+.optionList .labOption,
+.quickActions button{
+  font-family:Poppins,Arial,sans-serif;
+}
+.brand{font-weight:700}
+h1{font-weight:700}
+.kicker,.btn,.topStatus,.metricName,.metricState,.mailSubject,.mailDecision,
+.decisionPanel h3,.actionGrid button,.currentDecision strong,.labProgress,.goalBox b,
+.labQuestion,.candidate strong{font-weight:700}
+
+
+/* =========================
+   FASE 2 · SIMULACIÓN 8 SEMANAS
+   ========================= */
+.simIntro{padding:38px;max-width:1080px;margin:0 auto}
+.simIntro h1{max-width:950px}
+.simLock{margin-top:22px;padding:17px 18px;border-left:5px solid var(--amber);background:var(--amberSoft);border-radius:11px}
+.simLock strong{display:block;color:#8F6900;font:700 11px Poppins,Arial,sans-serif;letter-spacing:.08em;margin-bottom:6px}
+.simLock span{display:block;color:var(--navy);font-size:15px;line-height:1.55}
+
+.simWeekGrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:stretch;max-width:1180px;margin:0 auto}
+.simWeekCard{padding:32px;min-height:630px;display:flex;flex-direction:column}
+.simWeekNumber{font:700 12px Poppins,Arial,sans-serif;color:#8F6900;display:flex;align-items:center;gap:10px}
+.simWeekNumber:before{content:"";display:block;width:28px;height:3px;background:var(--amber);border-radius:99px}
+.simWeekCard .kicker{margin-top:21px}
+.simWeekCard h1{font-size:40px;max-width:850px;margin-top:8px}
+.simWeekBody p{font-size:16px;line-height:1.62;color:#505862;margin:0 0 11px;max-width:900px}
+.simImpact{margin-top:18px;padding:16px 18px;border:1px solid #E3C653;border-left:5px solid var(--amber);border-radius:12px;background:var(--amberSoft)}
+.simImpact b{display:block;color:#8E6900;font:700 11px Poppins,Arial,sans-serif;letter-spacing:.06em;margin-bottom:6px}
+.simImpact span{font-size:15px;line-height:1.55;color:var(--navy)}
+.simWeekActions{margin-top:auto;padding-top:22px}
+.simWeekSide{background:var(--navy);color:#fff;border-radius:18px;padding:22px;min-height:630px}
+.simWeekSide .kicker{color:var(--amber)}
+.simWeekSide h2{font:700 22px/1.2 Poppins,Arial,sans-serif;color:#fff;margin:7px 0 16px}
+.simPerson{display:flex;gap:10px;align-items:center;border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:11px;margin-bottom:9px;background:rgba(255,255,255,.04)}
+.simPerson .avatar{background:#fff;color:var(--navy)}
+.simPerson strong{display:block;color:#fff;font:700 13px Poppins}
+.simPerson span{display:block;margin-top:2px;color:rgba(255,255,255,.68);font-size:12px;line-height:1.35}
+.simSideContext{display:none}
+.simMessage{margin:18px 0;display:flex;gap:11px;padding:15px;border:1px solid #E2E4E8;border-radius:14px;background:#F8F9FB}
+.simMessage .avatar{background:var(--navy);color:#fff}
+.simMessage b{display:block;color:var(--navy);font:700 13px Poppins,Arial,sans-serif;margin-bottom:4px}.simMessage p{margin:0;font-size:14px;line-height:1.5;color:#5C626B}
+.simCompare{display:grid;grid-template-columns:1fr 40px 1fr;gap:9px;align-items:stretch;margin:18px 0}
+.simCompare>div:not(.simCompareArrow){padding:15px;border:1px solid #E0E2E6;border-radius:13px;background:#FAFAFC;font-size:14px;line-height:1.5;color:var(--navy)}
+.simCompareArrow{display:grid;place-items:center;color:#B48600;font:700 23px Poppins}
+.simDistribution{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0}
+.simDistItem{padding:13px;border:1px solid #E0E2E6;border-radius:12px;background:#FAFAFC}
+.simDistItem strong{display:block;color:var(--navy);font:700 13px Poppins}.simDistItem span{display:block;margin-top:4px;color:#696F78;font-size:12px;line-height:1.4}
+.simExecutive{margin:18px 0;padding:16px;border-radius:13px;background:var(--navy);color:#fff}
+.simExecutive strong{display:block;color:var(--amber);font:700 11px Poppins,Arial,sans-serif;letter-spacing:.07em;margin-bottom:6px}.simExecutive span{font-size:14px;line-height:1.5;color:rgba(255,255,255,.8)}
+
+/* =========================
+   FASE 3 · RESULTADO FINAL
+   ========================= */
+.finalCard{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 48px rgba(8,8,96,.055);padding:32px;max-width:1180px;margin:0 auto}
+.finalDashboardGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+.finalMetric{border:1px solid #E0E1E6;background:#FAFAFC;border-radius:16px;padding:18px;min-height:215px}
+.finalMetricTop{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.finalMetric h3{font:700 17px/1.3 Poppins,Arial,sans-serif;color:var(--navy);margin:0;max-width:72%}
+.finalState{flex:none;padding:7px 10px;border:1px solid #E8C64D;background:#FFF9E7;border-radius:999px;color:var(--navy);font:700 13px Poppins}
+.finalBars{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:15px 0}.finalBars i{height:6px;background:#DEE0E5;border-radius:99px}.finalBars i.on{background:var(--amber)}
+.finalMetric p{margin:0;font-size:15px;line-height:1.58;color:#575B64}.finalMetric p strong{color:var(--navy)}
+.finalSynthesis{margin-top:16px;background:var(--navy);color:#fff;border-radius:16px;padding:22px}
+.finalSynthesis span{color:var(--amber);font:700 11px Poppins,Arial,sans-serif;letter-spacing:.08em}.finalSynthesis h2{color:#fff;font:700 24px/1.2 Poppins,Arial,sans-serif;margin:6px 0 8px}.finalSynthesis p{margin:0;color:rgba(255,255,255,.78);font-size:15px;line-height:1.58}
+
+.finalFeedbackHeader{display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+.finalSteps{display:flex;gap:7px}.finalSteps span{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;border:1px solid #D8DAE0;color:#777E87;font:700 11px Poppins}.finalSteps span.active{background:var(--navy);border-color:var(--navy);color:#fff;box-shadow:0 0 0 4px var(--amberSoft)}
+.finalLearning{margin-top:24px;display:grid;grid-template-columns:88px 1fr;border:1px solid #DFE1E6;border-radius:18px;overflow:hidden}
+.finalLearningNo{background:var(--navy);color:var(--amber);padding-top:26px;text-align:center;font:700 25px Poppins}.finalLearningBody{padding:25px}.finalTag{font:700 11px Poppins,Arial,sans-serif;letter-spacing:.08em;color:#9A7100}.finalLearningBody h2{font:700 27px/1.18 Poppins,Arial,sans-serif;color:var(--navy);margin:6px 0 18px}
+.finalFlow{display:grid;grid-template-columns:1fr 32px 1fr 32px 1fr;gap:9px}.finalFlow section{padding:15px;border:1px solid #E5E6EA;border-radius:13px;background:#FAFAFC}.finalFlow section:last-of-type{background:var(--amberSoft);border-color:#E4C852}
+.finalFlow b{display:block;color:#8D6900;font:700 11px Poppins,Arial,sans-serif;margin-bottom:7px}.finalFlow p{margin:0;font-size:15px;line-height:1.55}.finalArrow{display:grid;place-items:center;color:#B58700;font:700 22px Poppins,Arial,sans-serif;transform:rotate(-90deg)}
+.finalFeedbackNav{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+
+.finalCompareHead{display:grid;grid-template-columns:185px 1fr 48px 1fr;gap:8px;margin-top:24px;padding:0 12px 8px}
+.finalCompareHead div:nth-child(2),.finalCompareHead div:nth-child(4){font:700 12px Poppins,Arial,sans-serif;color:var(--navy)}.finalCompareHead div:nth-child(4){color:#8E6900}
+.finalCompareList{border:1px solid #E0E1E6;border-radius:17px;overflow:hidden}
+.finalCompareRow{display:grid;grid-template-columns:185px 1fr 48px 1fr;gap:8px;border-top:1px solid #E7E8EB}.finalCompareRow:first-child{border-top:0}
+.finalCompareLabel{padding:15px 12px;background:#F8F8FA}.finalBadge{display:inline-block;border-radius:999px;padding:5px 7px;font:700 9px Poppins,Arial,sans-serif;background:#FFF0EB;border:1px solid #E7B5A5;color:#9D3E20}.finalBadge.keep{background:#EDF8F2;border-color:#B9DDCB;color:#176044}
+.finalCompareLabel strong{display:block;margin-top:6px;color:var(--navy);font:700 13px/1.35 Poppins}
+.finalCompareValue{padding:16px;display:flex;align-items:center;font-size:15px;line-height:1.5}.finalCurrent{background:#FAFAFC;color:#5C6068}.finalRecommended{background:var(--amberSoft);color:var(--navy);font-weight:600}.finalCompareArrow{display:grid;place-items:center;color:#B38600;font:700 22px Poppins}
+
+/* =========================
+   CIERRE DE APRENDIZAJE
+   ========================= */
+.closing{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.closingHero,.closingStory,.closingPractical{background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px 32px;box-shadow:0 18px 45px rgba(8,8,96,.045)}
+.closingHero h1{max-width:950px}.storyIndex{font:700 11px Poppins,Arial,sans-serif;letter-spacing:.08em;color:#9A7100}.closingStory h2,.closingPractical h2{font:700 28px/1.18 Poppins,Arial,sans-serif;color:var(--navy);margin:6px 0 11px}.closingStory p{font-size:15px;line-height:1.6;margin:8px 0}
+.mapFlow{display:grid;grid-template-columns:1fr 30px 1fr 30px 1fr 30px 1fr;gap:8px;align-items:stretch;margin-top:21px}.mapNode{padding:16px;border:1px solid #E1E2E6;background:#FAFAFC;border-radius:14px}.mapNode strong{display:block;color:var(--navy);font:700 15px Poppins}.mapNode span{display:block;margin-top:6px;font-size:13px;line-height:1.45;color:#666C75}.mapArrow{display:grid;place-items:center;color:#B38600;font:700 21px Poppins}
+.blueStory{background:var(--navy);color:#fff;border-radius:20px;padding:33px 36px}.blueStory .storyIndex{color:var(--amber)}.blueStory h2{color:#fff;font:700 31px/1.15 Poppins,Arial,sans-serif;margin:7px 0 13px;max-width:930px}.blueStory p{max-width:980px;font-size:15px;line-height:1.62;color:rgba(255,255,255,.8)}
+.continuum{margin-top:23px;padding:20px;border:1px solid rgba(255,255,255,.16);border-radius:15px;background:rgba(255,255,255,.05)}.contLabels{display:flex;justify-content:space-between;color:#fff;font:700 13px Poppins}.contLine{height:8px;border-radius:99px;background:linear-gradient(90deg,#DD6C4B,var(--amber),#9DC6AA);margin:18px 0;position:relative}.contLine i{position:absolute;left:52%;top:50%;width:23px;height:23px;border-radius:50%;background:#fff;border:6px solid var(--amber);transform:translate(-50%,-50%)}.contCaption{text-align:center;color:rgba(255,255,255,.76);font-size:14px}
+.questions{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:18px}.question{padding:15px;border:1px solid #E0E1E6;border-radius:13px;background:#FAFAFC}.question span{display:block;color:#9A7100;font:700 10px Poppins,Arial,sans-serif;margin-bottom:8px}.question strong{display:block;color:var(--navy);font:700 14px/1.42 Poppins}
+.finalMessage{margin-top:19px;border-left:5px solid var(--amber);background:var(--amberSoft);border-radius:10px;padding:15px 17px;color:var(--navy);font-size:15px;line-height:1.55}
+
+@media(max-width:950px){
+ .simWeekGrid{grid-template-columns:1fr}.simWeekSide{min-height:0}.finalDashboardGrid{grid-template-columns:1fr}
+ .finalFlow,.mapFlow{grid-template-columns:1fr}.finalArrow,.mapArrow{transform:none;min-height:28px}
+ .finalCompareHead{display:none}.finalCompareRow{grid-template-columns:1fr}.finalCompareArrow{transform:rotate(90deg);min-height:34px}.questions{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+ .simIntro,.simWeekCard,.finalCard,.closingHero,.closingStory,.closingPractical,.blueStory{padding:22px 18px}
+ .simWeekCard h1{font-size:34px}.finalFeedbackHeader{display:block}.finalSteps{margin-top:15px}
+ .finalLearning{grid-template-columns:1fr}.finalLearningNo{text-align:left;padding:12px 17px}.questions{grid-template-columns:1fr}
+ .simDistribution{grid-template-columns:1fr}.simCompare{grid-template-columns:1fr}.simCompareArrow{transform:rotate(90deg)}
+}
+
+
+/* Ajuste validado: briefing en una sola columna */
+.briefSingle{
+  display:block;
+}
+.briefingCaseBox{
+  margin-top:18px;
+  width:100%;
+}
+.briefingCaseBox .caseStats{
+  max-width:520px;
+}
+
+
+
+/* Variantes visuales de validación: solo portada y briefing; sin alterar la simulación. */
+.shell{max-width:1440px}
+.previewWelcome{max-width:1100px;margin:0 auto;padding:22px 0 34px}
+.previewWelcome h1{max-width:1100px;font-size:clamp(32px,4vw,48px);line-height:1.12;margin:12px 0 25px}
+.previewWelcome .previewGraphic{overflow:hidden;border-radius:20px;box-shadow:0 16px 40px rgba(6,6,91,.08);border:1px solid #E3E4E9;background:#fff}
+.previewWelcome .actions{margin-top:25px}
+#briefing .briefing{max-width:1180px;margin:auto}
+#briefing h1{font-size:clamp(31px,3.6vw,45px);line-height:1.13;max-width:1060px}
+.caseHeading{font:700 19px Poppins,Arial,sans-serif;color:#06065B;margin:0 0 13px}
+.caseV1 .briefLeads{max-width:940px;padding-top:7px}
+.caseV1 .challenge{max-width:1000px}
+.caseV1 .briefColumns{display:grid;grid-template-columns:1.08fr .92fr;gap:30px;align-items:start;margin-top:21px;border-top:1px solid #E3E4E9;padding-top:24px}
+.caseV1 .caseBox{margin:0}
+.caseV1 .contextLabel{font:700 12px Poppins;color:#987100;letter-spacing:.09em}
+.caseV2 .caseTimeline{border-left:2px solid #DADDE8;margin:25px 0 21px 12px;padding-left:30px;max-width:1040px}
+.caseV2 .caseMoment{position:relative;padding:0 0 19px}
+.caseV2 .caseMoment:before{content:'';position:absolute;left:-42px;top:5px;width:17px;height:17px;border-radius:50%;background:#FFBF00;box-shadow:0 0 0 4px #fff,0 0 0 6px #06065B}
+.caseV2 .caseMoment h2{font:700 17px Poppins;color:#06065B;margin:0 0 9px}
+.caseV2 .caseMoment .lead{margin:0;max-width:970px}
+.caseV2 .caseBox{margin-top:21px}
+.caseV3 .decisionBrief{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:26px;align-items:start;margin-top:26px}
+.caseV3 .decisionBriefMain{border-top:3px solid #FFBF00;padding-top:17px}
+.caseV3 .caseBox{margin:0}
+.caseV3 .challenge{margin-top:20px}
+.caseV3 .briefingCaseBox .caseStats{max-width:none}
+@media(max-width:780px){.caseV1 .briefColumns,.caseV3 .decisionBrief{grid-template-columns:1fr}.previewWelcome{padding-top:10px}.caseV2 .caseTimeline{padding-left:23px}.caseV2 .caseMoment:before{left:-35px}}
+
+</style>
+</head>
+<body>
+<header class="top"><div class="brand">IBERONEX · DIRECCIÓN ACADÉMICA<small>Cápsula 5 · El arte de delegar y empoderar al equipo</small></div><div class="topStatus" id="topStatus">TU RETO</div></header>
+<div class="progress"><i id="progressBar"></i></div>
+<div class="shell">
+<section id="welcomePreview" class="screen active"><div class="previewWelcome"><h1>Tu problema ya no es construir el equipo. Es conseguir que la Escuela deje de depender de ti para todo.</h1><div class="previewGraphic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 360" role="img" aria-label="Proceso del reto: clasificar doce asuntos en una bandeja, diseñar delegaciones y observar una simulación de ocho semanas" style="display:block;width:100%;height:auto"><defs><linearGradient id="soft" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#F0F0FB"/><stop offset="1" stop-color="#FFF8E1"/></linearGradient><filter id="drop"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#06065B" flood-opacity=".12"/></filter></defs><rect width="1000" height="360" fill="url(#soft)"/>
+<g font-family="Arial"><text x="42" y="47" fill="#06065B" font-size="16" font-weight="700">UNA SIMULACIÓN DE DELEGACIÓN Y LIDERAZGO</text><rect x="40" y="78" width="274" height="225" rx="18" fill="#fff" filter="url(#drop)"/><rect x="40" y="78" width="274" height="49" rx="18" fill="#0F6CBD"/><rect x="40" y="111" width="274" height="16" fill="#0F6CBD"/><text x="58" y="109" font-weight="700" fill="#fff" font-size="16">1 · Clasifica asuntos</text><g fill="#EFF2F8"><rect x="61" y="146" width="231" height="32" rx="7"/><rect x="61" y="188" width="231" height="32" rx="7"/><rect x="61" y="230" width="231" height="32" rx="7"/></g><g stroke="#FFBF00" stroke-width="3" stroke-linecap="round"><path d="M73 159h14M73 201h14M73 243h14"/></g><text x="97" y="166" fill="#06065B" font-size="13">12 decisiones en tu mesa</text><text x="97" y="208" fill="#06065B" font-size="13">Mantener · Delegar</text><text x="97" y="250" fill="#06065B" font-size="13">Automatizar · Eliminar</text>
+<path d="M326 190 h40m-10 -10 10 10 -10 10" stroke="#FFBF00" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="382" y="78" width="243" height="225" rx="18" fill="#06065B" filter="url(#drop)"/><text x="400" y="109" fill="#FFBF00" font-size="16" font-weight="700">2 · Diseña cómo delegar</text><g font-size="14" fill="#fff"><text x="414" y="158">✓ Elige a la persona</text><text x="414" y="194">✓ Define autonomía</text><text x="414" y="230">✓ Marca límites</text><text x="414" y="266">✓ Acuerda seguimiento</text></g>
+<path d="M637 190 h40m-10 -10 10 10 -10 10" stroke="#FFBF00" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="693" y="78" width="266" height="225" rx="18" fill="#fff" filter="url(#drop)"/><text x="711" y="109" fill="#06065B" font-weight="700" font-size="16">3 · Observa el impacto</text><text x="714" y="152" fill="#7B5A00" font-size="14" font-weight="700">8 SEMANAS</text><path d="M717 248h221M717 248v-84" stroke="#DDE0E8" stroke-width="2"/><path d="M718 226 L750 222 L782 207 L814 212 L846 175 L878 180 L914 150" stroke="#06065B" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><g fill="#FFBF00"><circle cx="718" cy="226" r="5"/><circle cx="782" cy="207" r="5"/><circle cx="846" cy="175" r="5"/><circle cx="914" cy="150" r="5"/></g><text x="825" y="276" text-anchor="middle" fill="#60677A" font-size="12">Tus decisiones tienen consecuencias</text></g></svg></div><div class="actions"><button class="btn primary" onclick="show('briefing')">COMENZAR →</button></div></div></section>
+<section id="briefing" class="screen"><div class="card briefing caseV2"><span class="kicker"></span><h1>Tu problema ya no es construir el equipo. Es conseguir que la Escuela deje de depender de ti para todo.</h1><div class="caseTimeline"><div class="caseMoment"><h2>01 · La situación</h2><p class="lead">La Escuela de Formación para profesionales en activo y empresas ya está operando. En las próximas ocho semanas comienza el primer programa abierto de gran visibilidad, hay varias propuestas corporativas en negociación y Rectorado espera decisiones sobre crecimiento.</p></div><div class="caseMoment"><h2>02 · El problema</h2><p class="lead">Tu semana ya ronda las <strong>55-60 horas</strong>. Demasiados asuntos siguen llegando directamente a tu mesa: algunos necesitan realmente tu criterio; otros deberían estar resolviéndose en el equipo, mediante un proceso o dejar de existir.</p></div><div class="caseMoment"><h2>03 · Tu desafío</h2><div class="challenge">Tu reto no es trabajar más rápido. Es decidir <strong>qué debe seguir dependiendo de ti y qué debe empezar a funcionar sin ti</strong>.</div></div></div><aside class="caseBox"><span class="kicker" style="color:var(--amber)">LO QUE VAS A HACER</span><h2>12 asuntos necesitan una decisión.</h2><p>Para cada uno decidirás si debes <strong>mantenerlo, delegarlo, automatizarlo o eliminarlo</strong>. Cuando delegues, tendrás que elegir persona, autonomía, límites y seguimiento.</p><p>No recibirás feedback inmediato. Verás cómo tus decisiones cambian el sistema y, después, simularemos qué ocurre durante ocho semanas.</p><div class="caseStats"><div class="caseStat"><strong>12</strong><span>asuntos reales de dirección</span></div><div class="caseStat"><strong>8</strong><span>semanas que simularemos después</span></div></div></aside><div class="actions"><button class="btn primary" onclick="enterInbox()">ABRIR MI BANDEJA DE ENTRADA</button></div></div></section>
+<section id="workspace" class="screen"><div class="dashboardBand"><div class="dashboardHead"><h2>Estos indicadores muestran tu capacidad para delegar y empoderar equipos</h2></div><div class="metrics" id="metrics"></div></div><div class="outlook"><div class="outlookTop"><div class="waffle">⋮⋮</div><div class="outlookName">Outlook</div><input class="search" disabled placeholder="Buscar en correo"><div class="userDot">TÚ</div></div><div class="mailGrid"><aside class="folders"><div class="folder active">Bandeja de entrada <strong id="unreadCount">12</strong></div><div class="folder">Borradores</div><div class="folder">Enviados</div><div class="folder">Archivo</div><div class="folder">Eliminados</div></aside><section class="inbox"><div class="inboxHeader"><h3>Bandeja de entrada</h3><p id="inboxSubtitle">12 asuntos necesitan una decisión</p></div><div class="mailList" id="mailList"></div></section><section class="readPane" id="readPane"><div class="empty"><div><strong>Empieza por cualquier asunto.</strong><span>Haz clic en un correo para abrirlo y entender el contexto. La decisión se toma desde el contenido del mensaje.</span></div></div></section></div><div class="mailFooter"><span id="processedCount">Has procesado <strong>0 de 12 asuntos</strong></span><button class="btn primary" id="simulateBtn" disabled onclick="finishPrototype()">SIMULAR CÓMO TRABAJA TU EQUIPO LAS PRÓXIMAS 8 SEMANAS</button></div></div></section>
+
+<section id="simulationIntro" class="screen">
+  <div class="card simIntro">
+    <span class="kicker">LAS DECISIONES EMPIEZAN A TENER CONSECUENCIAS</span>
+    <h1>Tus decisiones quedan fijadas. Ahora veremos cómo trabaja tu equipo durante las próximas 8 semanas.</h1>
+    <p class="lead">Ya has decidido qué asuntos mantener, delegar, automatizar o eliminar. Cuando delegaste, también elegiste persona, autonomía, límites y seguimiento.</p>
+    <p class="lead">A partir de ahora no podrás cambiar esas decisiones. Verás cómo afectan a la Escuela, a tu equipo y a tu capacidad para dedicarte al trabajo que realmente necesita Dirección.</p>
+    <div class="simLock">
+      <strong>LO QUE VAS A VER</strong>
+      <span>Cada semana recuperará las decisiones relevantes y mostrará una consecuencia concreta: qué avanza, qué vuelve a tu mesa, dónde aparece riesgo y qué responsabilidad empieza a quedarse en el equipo.</span>
+    </div>
+    <div class="actions"><button class="btn primary" onclick="startWeeks()">EMPEZAR SEMANA 1</button></div>
+  </div>
+</section>
+
+<section id="weekScreen" class="screen">
+  <div class="simWeekGrid">
+    <article class="card simWeekCard" id="weekCard"></article>
+    <aside class="simWeekSide" id="weekSide"></aside>
+  </div>
+</section>
+
+<section id="finalDashboardScreen" class="screen"><div id="finalDashboardMount"></div></section>
+<section id="finalFeedbackScreen" class="screen"><div id="finalFeedbackMount"></div></section>
+<section id="finalCompareScreen" class="screen"><div id="finalCompareMount"></div></section>
+<section id="closingScreen" class="screen"><div id="closingMount"></div></section>
+
+</div>
+<script>
+const team=[{id:'clara',name:'Clara Núñez',role:'Liderazgo académico',initials:'CN'},{id:'alvaro',name:'Álvaro Martín',role:'Relación con empresas',initials:'AM'},{id:'lucia',name:'Lucía Serra',role:'Experiencia de aprendizaje',initials:'LS'},{id:'javier',name:'Javier Molina',role:'Operaciones',initials:'JM'},{id:'nuria',name:'Nuria Campos',role:'Mercado y captación',initials:'NC'},{id:'diego',name:'Diego Ferrer',role:'Producto e innovación digital',initials:'DF'}];
+const labs={
+atlas:{goal:'Atlas debe recibir el viernes una propuesta completa y viable, con alcance, formato, presupuesto y requisitos académicos resueltos.',cand:[['nuria','Sabe posicionar ofertas y construir mensajes de valor.','Tiene disponibilidad, pero menos experiencia cerrando soluciones B2B complejas.'],['alvaro','Ha construido propuestas corporativas complejas y negociado con RR. HH. y negocio.','Tiene dos oportunidades abiertas, ninguna todavía en fase de propuesta.'],['clara','Puede garantizar el rigor y la viabilidad académica.','Tiene una carga alta de diseño académico esta semana.']],rp:'alvaro',aut:['Prepara la propuesta y yo tomaré las decisiones finales.','Decide alcance y formato con Clara; consúltame solo antes de comprometer condiciones económicas excepcionales.','Decide y envía la propuesta sin necesidad de informarme.'],ra:2,lim:['Cualquier cambio académico debe volver a mí.','Descuento superior al 10% o cualquier compromiso fuera de las condiciones estándar.','Cualquier contacto con el cliente debe validarse previamente.'],rl:2,fol:['Revisión diaria hasta el viernes.','Actualización breve cuando la propuesta esté cerrada, antes de enviarla.','Informarme únicamente después del envío.'],rf:2},
+teacher:{goal:'La sesión del jueves debe mantenerse con un profesor adecuado y sin afectar a la experiencia del participante.',cand:[['clara','Puede evaluar calidad académica y encaje docente.','Está centrada en decisiones de arquitectura académica.'],['javier','Conoce disponibilidad, requisitos, tarifas y operación docente.','Ya ha identificado dos alternativas viables.'],['lucia','Conoce el impacto del cambio en la experiencia del participante.','No gestiona habitualmente disponibilidad ni contratación docente.']],rp:'javier',aut:['Búscame dos opciones y yo decidiré cuál contratar.','Decidimos juntos qué profesor sustituye a Marta.','Decide tú dentro de los requisitos y cuéntame después qué has cerrado.'],ra:3,lim:['Cualquier sustitución debe aprobarla Dirección.','Experiencia equivalente, disponibilidad confirmada y máximo 10% sobre la tarifa habitual.','Solo mantener la fecha de la sesión.'],rl:2,fol:['Revisión antes de confirmar al profesor.','Mensaje una vez resuelto.','Informe mensual de todas las sustituciones.'],rf:2},
+refund:{goal:'Resolver solicitudes excepcionales de forma consistente sin convertir cada caso pequeño en una decisión del director.',cand:[['lucia','Entiende muy bien la experiencia del participante.','No gestiona habitualmente criterios económicos.'],['alvaro','Tiene criterio comercial y experiencia negociando excepciones.','Su foco principal son clientes empresa.'],['javier','Conoce política, proceso y precedentes operativos.','Puede aplicar criterios repetibles y escalar excepciones reales.']],rp:'javier',aut:['Consúltame cada excepción antes de responder.','Puedes decidir dentro de los criterios acordados; fuera de ellos, escalas.','Decide cualquier devolución con autonomía completa.'],ra:2,lim:['Hasta 500 € con causa documentada incluida en los criterios; fuera de eso, escala.','Hasta 1.500 € si considera que protege la experiencia.','Sin límite económico si la situación está documentada.'],rl:1,fol:['Revisión de cada caso antes de comunicarlo.','Revisión mensual de las excepciones concedidas y patrones.','Sin seguimiento mientras no haya una reclamación.'],rf:2},
+onboarding:{goal:'Conseguir que la mayoría de participantes lleguen a la primera sesión habiendo completado la preparación imprescindible.',cand:[['diego','Puede aportar soluciones digitales y automatizaciones.','Su fortaleza principal está en producto.'],['lucia','Tiene experiencia directa en diseño de aprendizaje y experiencia del participante.','Ha analizado las encuestas y conoce dónde se produce el abandono.'],['javier','Puede ejecutar procesos y asegurar consistencia operativa.','No es quien mejor puede diagnosticar el problema de experiencia.']],rp:'lucia',aut:['Reviso cada cambio antes de implementarlo.','Diseña la solución y decide tú; quiero revisar el enfoque antes del piloto.','Decide todo y cuéntame únicamente al final.'],ra:2,lim:['No modificar ninguna comunicación existente.','No cambiar promesas comerciales ni aumentar la carga previa por encima del máximo acordado.','No utilizar nuevas herramientas.'],rl:2,fol:['Reunión semanal de detalle.','Revisión del diseño antes del piloto y de resultados tras la primera cohorte.','Revisión al final del trimestre.'],rf:2},
+hybrid:{goal:'Probar un formato nuevo con un grupo reducido y obtener evidencia suficiente para decidir si merece ampliarse.',cand:[['javier','Puede asegurar ejecución, calendario y proveedores.','No debería liderar la hipótesis de producto.'],['lucia','Tiene gran capacidad pedagógica y puede apoyar el diseño.','Su foco está en experiencia más que en escalabilidad tecnológica.'],['diego','Combina producto digital, experimentación y escalabilidad.','Puede diseñar y medir el piloto dentro de un perímetro acotado.']],rp:'diego',aut:['Decidimos juntos todos los cambios del piloto.','Consúltame antes de modificar cualquier elemento.','Decide tú el diseño dentro de estos límites y preséntame después los resultados.'],ra:3,lim:['Un solo grupo, sin comprometer proveedores a largo plazo y dentro del presupuesto de experimentación.','No cambiar ninguna sesión presencial.','Ningún límite mientras sea un piloto.'],rl:1,fol:['Revisión semanal de cada decisión.','Un punto antes del lanzamiento para confirmar límites y revisión final con datos antes de escalar.','Solo revisión final.'],rf:2}
+};
+function genericLab(id){const map={growth:['clara','alvaro','nuria'],flagship:['clara','lucia','nuria'],acquisition:['nuria','diego','javier'],opsmeeting:['javier','clara','lucia'],certificates:['javier','diego','clara'],terms:['alvaro','nuria','clara'],rectorate:['javier','nuria','diego']};return{goal:'Conseguir que este asunto avance sin perder la información, los límites ni la responsabilidad que requiere.',cand:(map[id]||['clara','javier','lucia']).map(pid=>[pid,'Tiene experiencia relacionada con parte de este asunto.','Valora si su responsabilidad actual y su capacidad encajan con esta decisión.']),rp:null,aut:['Prepara una recomendación y yo decidiré.','Decide dentro de límites y consúltame solo si aparece una excepción relevante.','Decide y ejecuta; infórmame después.'],ra:2,lim:['Todo debe volver a Dirección antes de ejecutarse.','Mantén los límites económicos, académicos y reputacionales definidos.','No establezco límites adicionales.'],rl:2,fol:['Revisión frecuente antes de cada avance.','Punto de control en un hito relevante y aviso si aparece una excepción.','Solo revisión final.'],rf:2}}
+const emails=[
+{id:'growth',sender:'Vicerrectorado',subject:'Plan de crecimiento de la Escuela 2027',preview:'Necesitamos priorizar dos líneas de crecimiento y justificar la inversión...',body:['Rectorado quiere cerrar el marco de crecimiento de la Escuela para el próximo año.','Necesitamos decidir qué dos líneas de negocio priorizar, qué inversión adicional solicitar y qué riesgos estamos dispuestos a asumir. La decisión afectará al posicionamiento de la Escuela y a los compromisos que llevemos a Consejo.'],optimal:'maintain',w:'high'},
+{id:'atlas',sender:'Empresa Atlas',subject:'Necesitamos propuesta definitiva el viernes',preview:'Tras la reunión del martes necesitamos confirmar alcance, formato y presupuesto...',body:['Queremos avanzar con el programa para nuestros 120 responsables.','Necesitamos el viernes una propuesta definitiva con alcance, formato, calendario y presupuesto.'],optimal:'delegate',w:'high'},
+{id:'flagship',sender:'Clara Núñez',subject:'Cambio importante en el programa insignia',preview:'Los datos del piloto me hacen plantear un cambio antes del lanzamiento...',body:['Los datos del piloto muestran que una parte del formato actual no está funcionando como esperábamos.','Propongo sustituir dos sesiones y modificar la secuencia. El cambio afecta a profesores y a una promesa que ya aparece en materiales comerciales.'],optimal:'maintain',w:'high'},
+{id:'acquisition',sender:'Marketing',subject:'Informe semanal de captación',preview:'Adjunto datos de leads, conversiones, campañas y matrículas...',body:['Como cada lunes, te enviamos el Excel con leads, conversiones, campañas activas y matrículas.','Los datos ya están en CRM, plataforma de campañas y sistema de matrículas. Consolidarlos lleva unos 45 minutos cada semana.'],optimal:'automate',w:'low'},
+{id:'teacher',sender:'Javier Molina',subject:'Sustitución urgente para la sesión del jueves',preview:'Marta ha cancelado. Tengo dos alternativas disponibles...',body:['Marta ha cancelado la sesión del jueves por enfermedad.','Tengo dos profesores disponibles con experiencia equivalente; uno mantiene la tarifa habitual y el otro supone un 8% adicional.'],optimal:'delegate',w:'low'},
+{id:'refund',sender:'Atención al participante',subject:'Solicitud excepcional de devolución',preview:'Una participante solicita devolución fuera de política...',body:['Una participante solicita una devolución fuera de la política habitual por una situación personal documentada.','El importe es de 420 €. Casos parecidos aparecen varias veces al trimestre y actualmente todos terminan en Dirección.'],optimal:'delegate',w:'medium'},
+{id:'opsmeeting',sender:'Equipo de la Escuela',subject:'Reunión semanal de seguimiento operativo',preview:'Viernes 09:00 · 6 personas · 60 minutos...',body:['Cada viernes las seis personas responsables dedican una hora a contar qué han hecho.','La mayoría de avances ya están actualizados en el sistema compartido; los bloqueos ocupan normalmente los últimos 10-15 minutos.'],optimal:'eliminate',w:'low'},
+{id:'certificates',sender:'Administración',subject:'Validación de certificados',preview:'Adjuntamos el listado del mes para comprobar nombres, programa, fechas y firma...',body:['Actualmente compruebas manualmente nombre, programa, fechas y firma antes de emitir cada lote.','Todos esos datos ya existen en el sistema académico y siguen reglas estables.'],optimal:'automate',w:'low'},
+{id:'terms',sender:'Álvaro Martín',subject:'Condiciones comerciales para un cliente estratégico',preview:'Piden descuento y una cláusula de exclusividad...',body:['El cliente pide un descuento del 18% y exclusividad sectorial durante doce meses.','La decisión puede afectar margen, futuras oportunidades y el precedente para otros clientes.'],optimal:'maintain',w:'high'},
+{id:'onboarding',sender:'Lucía Serra',subject:'Rediseño del onboarding del participante',preview:'Muchos llegan sin completar la preparación previa...',body:['Las encuestas muestran que demasiados participantes llegan a la primera sesión sin completar la preparación previa.','Quiero rediseñar el onboarding antes de la siguiente cohorte.'],optimal:'delegate',w:'medium'},
+{id:'hybrid',sender:'Diego Ferrer',subject:'Prueba de un nuevo formato híbrido',preview:'Propongo probar otra combinación de sesiones síncronas, asincronía y tutoría...',body:['Quiero probar con un único grupo una combinación distinta de sesiones síncronas, trabajo asincrónico y tutoría.','El riesgo es limitado y el piloto puede darnos evidencia para decidir si merece ampliarse.'],optimal:'delegate',w:'medium'},
+{id:'rectorate',sender:'Secretaría de Rectorado',subject:'Informe mensual para Rectorado',preview:'Necesitamos la presentación mensual con matrículas, facturación, NPS y programas...',body:['Actualmente dedicas unas dos horas a copiar matrículas, facturación, NPS y programas activos a una plantilla estándar.','Después añades tus conclusiones para Rectorado.'],optimal:'automate',w:'medium'}];
+emails.forEach(e=>e.lab=labs[e.id]||genericLab(e.id));
+const ACTION={maintain:'Mantener',delegate:'Delegar',automate:'Automatizar',eliminate:'Eliminar'};
+const state={open:null,decisions:{},lab:null,last:null};
+const M={strategic:{name:'Tiempo disponible para dedicarle a trabajo estratégico',labels:['Muy limitado','Escaso','En recuperación','Protegido'],base:20},ownership:{name:'Responsabilidades realmente asumidas por el equipo (ejecución y resultado)',labels:['Baja','Parcial','En crecimiento','Consolidada'],base:20},fit:{name:'Las responsabilidades están en manos de las personas adecuadas',labels:['Desajustado','Frágil','Bastante ajustado','Bien ajustado'],base:68},control:{name:'El nivel de control y seguimiento de las tareas delegadas encaja con el riesgo de cada decisión',labels:['Desajustado','Irregular','Bastante ajustado','Bien calibrado'],base:58}};
+function person(id){return team.find(p=>p.id===id)}function email(id){return emails.find(e=>e.id===id)}function clamp(v){return Math.max(0,Math.min(100,v))}function lvl(v){return Math.min(4,Math.max(1,Math.floor(v/25)+1))}function wf(w){return w==='high'?1.45:w==='medium'?1.15:1}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+function enterInbox(){show('workspace');document.getElementById('topStatus').textContent='8 SEMANAS · BANDEJA DE ENTRADA';renderAll()}
+function baseEffect(it,a){const e={strategic:0,ownership:0,fit:0,control:0},w=wf(it.w),o=it.optimal;if(a===o){if(a==='maintain'){e.fit+=3*w;e.control+=4*w}if(a==='automate'){e.strategic+=8*w;e.fit+=2*w;e.control+=2*w}if(a==='eliminate'){e.strategic+=7*w;e.fit+=2*w;e.control+=2*w}if(a==='delegate'){e.strategic+=6*w;e.ownership+=7*w}return e}if(a==='maintain'){if(o==='delegate'){e.strategic-=5*w;e.ownership-=3*w}if(o==='automate')e.strategic-=6*w;if(o==='eliminate')e.strategic-=5*w}if(a==='delegate'){e.strategic+=5*w;e.ownership+=4*w;if(o==='maintain'){e.fit-=12*w;e.control-=12*w}if(o==='automate'){e.fit-=4*w;e.control-=2*w}if(o==='eliminate'){e.fit-=5*w;e.control-=3*w}}if(a==='automate'){e.strategic+=7*w;if(o==='maintain'){e.fit-=13*w;e.control-=12*w}if(o==='delegate'){e.ownership-=5*w;e.fit-=7*w;e.control-=5*w}if(o==='eliminate')e.fit-=3*w}if(a==='eliminate'){e.strategic+=8*w;if(o==='maintain'){e.fit-=16*w;e.control-=14*w}if(o==='delegate'){e.ownership-=8*w;e.fit-=9*w;e.control-=6*w}if(o==='automate'){e.fit-=8*w;e.control-=4*w}}return e}
+function delEffect(it,d){const l=it.lab,e={strategic:0,ownership:0,fit:0,control:0};if(l.rp){if(d.person===l.rp){e.fit+=6;e.ownership+=3}else{e.fit-=7;e.ownership-=2}}const x=Math.abs(d.autonomy-l.ra);if(x===0){e.control+=6;e.ownership+=4;e.strategic+=2}else if(x===1){e.control-=3;e.ownership-=2;e.strategic-=1}else{e.control-=9;e.ownership-=5;e.strategic-=2}if(d.autonomy<l.ra){e.ownership-=3;e.strategic-=2}if(d.autonomy>l.ra)e.control-=2;if(d.limit===l.rl)e.control+=4;else e.control-=5;if(d.follow===l.rf){e.control+=5;e.ownership+=2}else{e.control-=4;if(d.follow<l.rf){e.ownership-=3;e.strategic-=2}if(d.follow>l.rf)e.control-=2}return e}
+function metrics(){const m={strategic:20,ownership:20,fit:68,control:58},c={};Object.entries(state.decisions).forEach(([id,d])=>{const it=email(id),b=baseEffect(it,d.action);Object.keys(m).forEach(k=>m[k]+=b[k]);if(d.action==='delegate'){const x=delEffect(it,d);Object.keys(m).forEach(k=>m[k]+=x[k]);c[d.person]=(c[d.person]||0)+1}});Object.values(c).forEach(n=>{if(n>2){m.fit-=(n-2)*6;m.ownership-=(n-2)*2}});Object.keys(m).forEach(k=>m[k]=clamp(Math.round(m[k])));return m}
+function renderMetrics(){const m=metrics(),p=state.last;document.getElementById('metrics').innerHTML=Object.entries(M).map(([k,v])=>{const l=lvl(m[k]);return `<article class="metric ${p&&p[k]!==m[k]?'flash':''}"><div class="metricName">${v.name}</div><div class="metricState">${v.labels[l-1]}</div><div class="metricBars">${[1,2,3,4].map(i=>`<i class="${i<=l?'on':''}"></i>`).join('')}</div></article>`}).join('');state.last=m}
+function renderMailList(){document.getElementById('mailList').innerHTML=emails.map(it=>{const d=state.decisions[it.id];return `<article class="mail ${state.open===it.id?'active':''} ${d?'done':''}" onclick="openEmail('${it.id}')"><div class="mailSender">${it.sender}</div><div class="mailSubject">${it.subject}</div><div class="mailPreview">${it.preview}</div>${d?`<div class="mailDecision">${ACTION[d.action]}${d.action==='delegate'?' · '+person(d.person).name:''}</div>`:''}</article>`}).join('');const n=Object.keys(state.decisions).length;document.getElementById('processedCount').innerHTML=`Has procesado <strong>${n} de 12 asuntos</strong>`;document.getElementById('inboxSubtitle').textContent=`${12-n} asuntos pendientes · ${n} procesados`;document.getElementById('unreadCount').textContent=12-n;document.getElementById('simulateBtn').disabled=n!==12;document.getElementById('progressBar').style.width=`${Math.round(n/12*100)}%`}
+function initials(s){return s.split(' ').filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()}
+function openEmail(id){state.open=id;state.lab=null;renderMailList();const it=email(id),d=state.decisions[id];document.getElementById('readPane').innerHTML=`<div class="emailHead"><h2>${it.subject}</h2><div class="senderLine"><div class="senderAvatar">${initials(it.sender)}</div><div><b>${it.sender}</b><span>Para: Dirección de la nueva Escuela · Hoy</span></div></div></div><div class="emailBody">${it.body.map(p=>`<p>${p}</p>`).join('')}</div><div class="decisionPanel"><h3>¿Qué haces con este asunto?</h3><p>Decide dónde debe quedar esta responsabilidad. No recibirás feedback ahora; verás cómo cambia el sistema.</p>${d?`<div class="currentDecision"><strong>Tu decisión: ${ACTION[d.action]}${d.action==='delegate'?' · '+person(d.person).name:''}</strong><button onclick="clearDecision('${id}')">CAMBIAR DECISIÓN</button></div>`:`<div class="actionGrid"><button onclick="chooseAction('${id}','maintain')">MANTENER</button><button onclick="chooseAction('${id}','delegate')">DELEGAR</button><button onclick="chooseAction('${id}','automate')">AUTOMATIZAR</button><button onclick="chooseAction('${id}','eliminate')">ELIMINAR</button></div>`}</div>`}
+function chooseAction(id,a){state.open=id;if(a==='delegate'){startLab(id);return}state.decisions[id]={action:a};state.lab=null;renderAll();openEmail(id)}
+function clearDecision(id){delete state.decisions[id];state.last=null;renderAll();openEmail(id)}
+function startLab(id){state.lab={id,step:1,person:null,autonomy:null,limit:null,follow:null};renderMailList();renderLab()}
+function renderLab(){const L=state.lab,it=email(L.id),l=it.lab;let c='';if(L.step===1)c=`<h3 class="labQuestion">¿A quién le delegas esta tarea?</h3><div class="candidateGrid">${l.cand.map(x=>{const p=person(x[0]);return `<button class="candidate ${L.person===p.id?'selected':''}" onclick="sel('person','${p.id}')"><div class="candidateHead"><div class="avatar">${p.initials}</div><div><strong>${p.name}</strong><em>${p.role}</em></div></div><p>${x[1]}</p><p class="situation"><strong>Situación actual:</strong> ${x[2]}</p></button>`}).join('')}</div>`;if(L.step===2)c=`<h3 class="labQuestion">¿Qué autonomía real tendrá esta persona?</h3><div class="optionList">${l.aut.map((x,i)=>`<button class="labOption ${L.autonomy===i+1?'selected':''}" onclick="sel('autonomy',${i+1})">${x}</button>`).join('')}</div>`;if(L.step===3)c=`<h3 class="labQuestion">¿Qué límite debe respetar?</h3><div class="optionList">${l.lim.map((x,i)=>`<button class="labOption ${L.limit===i+1?'selected':''}" onclick="sel('limit',${i+1})">${x}</button>`).join('')}</div>`;if(L.step===4)c=`<h3 class="labQuestion">¿Cómo harás seguimiento de esta tarea delegada?</h3><div class="optionList">${l.fol.map((x,i)=>`<button class="labOption ${L.follow===i+1?'selected':''}" onclick="sel('follow',${i+1})">${x}</button>`).join('')}</div>`;const ok=L.step===1?L.person:L.step===2?L.autonomy:L.step===3?L.limit:L.follow;document.getElementById('readPane').innerHTML=`<div class="labTop"><div><span class="kicker">LABORATORIO DE DELEGACIÓN</span><h2>${it.subject}</h2></div><div class="labProgress">${L.step} / 4</div></div><div class="goalBox"><b>RESULTADO QUE DEBE CONSEGUIRSE</b><span>${l.goal}</span></div>${c}<div class="labNav"><button class="btn ghost" onclick="${L.step===1?`openEmail('${it.id}')`:'prev()'}">${L.step===1?'CANCELAR':'← ANTERIOR'}</button><div class="labHint">Persona, riesgo y contexto importan.</div><button class="btn primary" ${ok?'':'disabled'} onclick="${L.step===4?'confirmDelegation()':'next()'}">${L.step===4?'CONFIRMAR DELEGACIÓN':'SIGUIENTE →'}</button></div>`}
+function sel(f,v){state.lab[f]=v;renderLab()}function next(){state.lab.step++;renderLab()}function prev(){state.lab.step--;renderLab()}
+function confirmDelegation(){const L=state.lab;state.decisions[L.id]={action:'delegate',person:L.person,autonomy:L.autonomy,limit:L.limit,follow:L.follow};const id=L.id;state.lab=null;renderAll();openEmail(id)}
+function renderAll(){renderMetrics();renderMailList()}
+
+const simulation={week:0,feedbackIndex:0,finalFeedback:[]};
+
+function setProgress(p,label){
+  document.getElementById('progressBar').style.width=p+'%';
+  if(label)document.getElementById('topStatus').textContent=label;
+}
+function finishPrototype(){
+  if(Object.keys(state.decisions).length!==12)return;
+  simulation.week=0;
+  simulation.feedbackIndex=0;
+  setProgress(48,'DECISIONES CERRADAS · 8 SEMANAS');
+  show('simulationIntro');
+}
+function startWeeks(){
+  simulation.week=0;
+  renderWeek();
+  show('weekScreen');
+}
+function nextWeek(){
+  if(simulation.week<7){
+    simulation.week++;
+    renderWeek();
+    show('weekScreen');
+  }else{
+    renderFinalDashboard();
+    show('finalDashboardScreen');
+  }
+}
+function decision(id){return state.decisions[id]||null}
+function delegateAssessment(id){
+  const d=decision(id),it=email(id);
+  if(!d||d.action!=='delegate')return null;
+  const l=it.lab;
+  const personCorrect=!l.rp||d.person===l.rp;
+  const autonomyDiff=d.autonomy-l.ra;
+  const followDiff=d.follow-l.rf;
+  const limitCorrect=d.limit===l.rl;
+  let score=0;
+  if(personCorrect)score+=4;else score-=5;
+  score+=autonomyDiff===0?4:Math.abs(autonomyDiff)===1?-1:-4;
+  score+=limitCorrect?3:-3;
+  score+=followDiff===0?3:Math.abs(followDiff)===1?-1:-3;
+  return{
+    personCorrect,autonomyDiff,followDiff,limitCorrect,score,
+    micro:autonomyDiff<0||followDiff<0,
+    loose:autonomyDiff>0||followDiff>0||!limitCorrect
+  };
+}
+function behaviorStats(){
+  const s={maintain:0,delegate:0,automate:0,eliminate:0,correctActions:0,micro:0,loose:0,wrongPerson:0,effectiveDelegations:0,retainedDelegable:0,missedAutomation:0,strategicMoved:0,concentration:0,delegatesBy:{}};
+  emails.forEach(it=>{
+    const d=decision(it.id);if(!d)return;
+    s[d.action]++;
+    if(d.action===it.optimal)s.correctActions++;
+    if(it.optimal==='delegate'&&d.action==='maintain')s.retainedDelegable++;
+    if(it.optimal==='automate'&&d.action!=='automate')s.missedAutomation++;
+    if(['growth','flagship','terms'].includes(it.id)&&d.action!=='maintain')s.strategicMoved++;
+    if(d.action==='delegate'){
+      const a=delegateAssessment(it.id);
+      s.delegatesBy[d.person]=(s.delegatesBy[d.person]||0)+1;
+      if(a){
+        if(a.micro)s.micro++;
+        if(a.loose)s.loose++;
+        if(!a.personCorrect)s.wrongPerson++;
+        if(a.score>=8)s.effectiveDelegations++;
+      }
+    }
+  });
+  Object.values(s.delegatesBy).forEach(n=>{if(n>2)s.concentration+=n-2});
+  return s;
+}
+function finalMetrics(){
+  const m={...metrics()},s=behaviorStats();
+  m.strategic=clamp(m.strategic-s.micro*2-s.retainedDelegable*1.5);
+  m.ownership=clamp(m.ownership-s.micro*2-s.wrongPerson*2-s.concentration*2);
+  m.fit=clamp(m.fit-s.concentration*4-s.strategicMoved*2);
+  m.control=clamp(m.control-s.loose*2);
+  Object.keys(m).forEach(k=>m[k]=Math.round(m[k]));
+  return m;
+}
+function patternKey(){
+  const m=finalMetrics(),s=behaviorStats();
+  if(m.strategic>=62&&m.ownership>=58&&m.fit>=60&&m.control>=58)return'A';
+  if((m.strategic>=58||m.ownership>=58)&&(m.fit<55||m.control<45||s.strategicMoved>0||s.concentration>0))return'D';
+  if(s.micro>=2&&s.strategicMoved===0)return'B';
+  if(s.retainedDelegable+s.missedAutomation>=4||m.strategic<38||m.ownership<35)return'C';
+  if(m.fit>=55&&m.control<58&&m.ownership<60)return'B';
+  const targets={A:[80,80,80,80],B:[48,48,74,42],C:[28,28,65,46],D:[78,70,42,32]};
+  const vals=[m.strategic,m.ownership,m.fit,m.control];
+  return Object.entries(targets).map(([k,t])=>[k,t.reduce((a,x,i)=>a+(x-vals[i])**2,0)]).sort((a,b)=>a[1]-b[1])[0][0];
+}
+function personNameFromDecision(id){const d=decision(id);return d&&d.person?person(d.person).name:null}
+function roleByName(name){const p=team.find(x=>x.name===name);return p?p.role:''}
+function simInitials(name){return name.split(' ').filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()}
+function specialForWeek(type,data){
+  if(type==='message'&&data)return`<div class="simMessage"><div class="avatar">${simInitials(data.from)}</div><div><b>${data.from}</b><p>${data.text}</p></div></div>`;
+  if(type==='compare'&&data)return`<div class="simCompare"><div>${data[0]}</div><div class="simCompareArrow">→</div><div>${data[1]}</div></div>`;
+  if(type==='distribution'&&data)return`<div class="simDistribution">${data.map(x=>`<div class="simDistItem"><strong>${x[0]}</strong><span>${x[1]}</span></div>`).join('')}</div>`;
+  if(type==='executive')return`<div class="simExecutive"><strong>LO QUE AHORA ESTÁ EN JUEGO</strong><span>La última semana permite comprobar si delegar te ha devuelto capacidad para dirigir o si la operación, el riesgo o nuevas dependencias siguen ocupando ese espacio.</span></div>`;
+  return'';
+}
+function makeWeek(index){
+  const d=id=>decision(id),a=id=>delegateAssessment(id);
+  const s=behaviorStats();
+  const people=[];
+  let title='',body=[],impact='',type='story',extra=null,eyebrow='';
+
+  if(index===0){
+    eyebrow='SEMANA 1 · LA OPERACIÓN PONE A PRUEBA EL SISTEMA';
+    const td=d('teacher'),rd=d('refund'),ta=a('teacher'),ra=a('refund');
+    people.push('Javier Molina');
+    if(td.action==='delegate'&&td.person==='javier'&&ta&&ta.score>=8){
+      title='El jueves sigue en pie sin pasar por tu agenda.';
+      body.push('Como delegaste en <strong>Javier Molina, responsable de Operaciones</strong>, la sustitución docente dentro de límites claros, Javier confirma a un profesor con experiencia equivalente y una tarifa dentro del margen autorizado.');
+      impact='Una incidencia operativa se resuelve sin convertirse en una nueva decisión tuya.';
+    }else if(td.action==='delegate'&&td.person==='javier'&&ta&&ta.micro){
+      title='Javier tiene las alternativas. La decisión vuelve a ti.';
+      body.push('Elegiste a <strong>Javier Molina</strong>, que conoce disponibilidad, requisitos y tarifas, pero mantuviste una aprobación o un seguimiento más estrecho de lo que la sustitución necesitaba.');
+      impact='Has delegado preparación, pero parte de la decisión sigue dependiendo de tu tiempo.';
+    }else if(td.action==='maintain'){
+      title='Una sustitución urgente vuelve a convertirse en una decisión de Dirección.';
+      body.push('Javier ya había identificado alternativas viables, pero decidiste mantener el asunto. Revisas experiencia, disponibilidad y tarifa antes de cerrar quién sustituye a Marta.');
+      impact='La sesión se resuelve, pero una decisión operativa consume capacidad directiva.';
+    }else{
+      title='La sustitución sale de tu agenda, pero no queda bien situada.';
+      body.push(`Decidiste <strong>${ACTION[td.action].toLowerCase()}</strong> una incidencia que necesitaba una persona con criterio operativo y límites claros. La sesión exige una corrección adicional antes de quedar resuelta.`);
+      impact='Reducir tu intervención no ayuda si la responsabilidad pierde un propietario adecuado.';
+    }
+    if(rd.action==='delegate'&&rd.person==='javier'&&ra&&ra.score>=6){
+      body.push('La solicitud de devolución también se resuelve dentro de los criterios que definiste: los casos de hasta 500 € con causa documentada pueden cerrarse sin escalar automáticamente.');
+    }else if(rd.action==='maintain'){
+      body.push('La solicitud excepcional de devolución, de 420 €, también llega a tu mesa porque decidiste mantener personalmente ese tipo de casos.');
+    }else if(rd.action==='delegate'){
+      const n=personNameFromDecision('refund');if(n)people.push(n);
+      body.push(`La devolución queda en manos de <strong>${n}</strong>, pero ${ra&&ra.loose?'los límites o el seguimiento dejan demasiado margen para una excepción económica':'la configuración elegida todavía hace que parte de los casos necesiten volver a Dirección'}.`);
+    }else{
+      body.push(`Con la devolución elegiste <strong>${ACTION[rd.action].toLowerCase()}</strong> el asunto; la Escuela tendrá que ajustar el mecanismo porque una excepción económica necesita criterio, no solo descargar trabajo.`);
+    }
+  }
+
+  if(index===1){
+    eyebrow='SEMANA 2 · ATLAS NECESITA UNA RESPUESTA';
+    const ad=d('atlas'),aa=a('atlas');people.push('Álvaro Martín','Clara Núñez');
+    if(ad.action==='delegate'&&ad.person==='alvaro'&&aa&&aa.score>=8){
+      title='Atlas recibe la propuesta sin esperar a que tú construyas cada pieza.';
+      body=['Como diste a <strong>Álvaro Martín</strong> responsabilidad completa sobre la propuesta, coordina con Clara los requisitos académicos y cierra alcance, formato y calendario.','Tu límite fue explícito: las condiciones económicas excepcionales siguen requiriendo tu autoridad. Por eso Álvaro solo te consulta cuando la propuesta ya está prácticamente cerrada.'];
+      impact='Tu intervención se concentra en la parte que realmente necesita autoridad directiva; el resto avanza sin ti.';
+      type='message';extra={from:'Álvaro Martín',text:'Atlas tiene ya alcance, formato y calendario cerrados. Solo necesito tu decisión sobre la condición económica excepcional antes de enviarla.'};
+    }else if(ad.action==='delegate'&&ad.person==='alvaro'&&aa&&aa.micro){
+      title='Álvaro prepara la propuesta. Tú sigues cerrando cada decisión.';
+      body=['Elegiste a la persona adecuada, pero mantuviste más aprobaciones de las necesarias. Álvaro avanza con Clara, aunque alcance, formato o condiciones vuelven a esperar tu validación.','La propuesta sale, pero su velocidad sigue condicionada por el hueco que encuentres para revisarla.'];
+      impact='La tarea está delegada; la responsabilidad completa todavía no.';
+    }else if(ad.action==='maintain'){
+      title='Atlas avanza al ritmo de tu agenda.';
+      body=['Clara y Álvaro ya tienen la información necesaria, pero decidiste mantener personalmente la propuesta. Alcance, formato y presupuesto esperan a que puedas cerrar las piezas.','El jueves apartas tiempo para construir una respuesta que el equipo tenía capacidad para preparar y coordinar.'];
+      impact='El cliente recibe respuesta, pero otra responsabilidad operativa sigue dependiendo de tu disponibilidad.';
+    }else if(ad.action==='delegate'){
+      const n=personNameFromDecision('atlas');people.length=0;people.push(n||'Álvaro Martín','Clara Núñez');
+      title='La propuesta avanza, pero la responsabilidad no está donde mejor encaja.';
+      body=[`Delegaste Atlas en <strong>${n}</strong>. La propuesta progresa, aunque la coordinación B2B exige más apoyos y varias decisiones se reabren antes del envío.`,aa&&aa.loose?'Además, la autonomía o los límites elegidos permiten comprometer condiciones que habrían debido volver a Dirección.':'El equipo termina compensando la menor experiencia específica para llegar al viernes.'];
+      impact='Delegar rápido no sustituye elegir bien a la persona y el perímetro de decisión.';
+    }else{
+      title='Atlas recibe un proceso que no encaja con una propuesta corporativa compleja.';
+      body=[`Elegiste <strong>${ACTION[ad.action].toLowerCase()}</strong> un asunto que necesita integrar relación comercial, diseño académico y condiciones concretas. El equipo debe reconstruir parte del trabajo para responder con una propuesta viable.`];
+      impact='No todo trabajo puede convertirse en proceso o desaparecer: algunas responsabilidades necesitan dueño y criterio.';
+    }
+  }
+
+  if(index===2){
+    eyebrow='SEMANA 3 · LO REPETITIVO EMPIEZA A PESAR… O A DESAPARECER';
+    const ac=d('acquisition'),ce=d('certificates');people.push('Nuria Campos','Diego Ferrer','Javier Molina');
+    const good=(ac.action==='automate'?1:0)+(ce.action==='automate'?1:0);
+    if(good===2){
+      title='Dos tareas salen de tu agenda sin perder información.';
+      body=['Automatizaste la consolidación semanal de captación: ahora recibes tendencias y excepciones sin reconstruir manualmente datos que ya existen en los sistemas.','La validación de certificados también funciona por excepción. Las comprobaciones estructuradas dejan de necesitar revisión manual de Dirección.'];
+      impact='Recuperas tiempo recurrente sin renunciar a la información ni a la trazabilidad que necesitas.';
+      type='compare';extra=['Antes: recopilar y comprobar manualmente','Ahora: revisar tendencias, excepciones y decisiones'];
+    }else if(ac.action==='eliminate'){
+      title='Has eliminado trabajo. También has perdido una señal que necesitabas.';
+      body=['Decidiste eliminar el informe de captación en lugar de automatizar su preparación. Durante dos semanas la conversión del nuevo programa cae sin que exista otra lectura consolidada que haga visible la tendencia.',ce.action==='automate'?'La validación de certificados sí sale de tu agenda mediante reglas y excepciones.':`Los certificados siguen resolviéndose mediante “${ACTION[ce.action]}”, por lo que esa carga tampoco queda optimizada del todo.`];
+      impact='Reducir carga solo crea valor si distingues trabajo sin valor de información que sigue siendo necesaria.';
+    }else if(good===0&&(ac.action==='maintain'||ce.action==='maintain')){
+      title='El trabajo pequeño y repetitivo sigue ocupando huecos de Dirección.';
+      body=[ac.action==='maintain'?'Cada lunes vuelves a revisar y consolidar información de captación que ya existe en varios sistemas.':`El informe de captación cambia de manos mediante “${ACTION[ac.action]}”, pero el proceso sigue necesitando ajustes.`,ce.action==='maintain'?'También sigues comprobando manualmente certificados cuyos datos responden a reglas estables.':`La validación de certificados se resuelve mediante “${ACTION[ce.action]}”, sin aprovechar completamente su carácter repetitivo.`];
+      impact='La capacidad estratégica se erosiona por acumulación de trabajo pequeño, recurrente y predecible.';
+    }else{
+      title='Una parte del trabajo repetitivo desaparece. Otra sigue reclamando atención.';
+      body=[ac.action==='automate'?'La consolidación de captación ya llega preparada para revisar tendencias y excepciones.':`El informe de captación sigue resolviéndose mediante “${ACTION[ac.action]}”.`,ce.action==='automate'?'Los certificados se validan por reglas y solo escalan inconsistencias.':`Los certificados siguen resolviéndose mediante “${ACTION[ce.action]}”.`];
+      impact='La diferencia empieza a verse: automatizar reglas libera capacidad; trasladar o conservar trabajo manual no produce el mismo efecto.';
+    }
+  }
+
+  if(index===3){
+    eyebrow='SEMANA 4 · EL ONBOARDING PONE A PRUEBA LA DELEGACIÓN REAL';
+    const od=d('onboarding'),oa=a('onboarding');people.push('Lucía Serra');
+    if(od.action==='delegate'&&od.person==='lucia'&&oa&&oa.score>=8){
+      title='Lucía rediseña el onboarding sin pedir permiso para cada paso.';
+      body=['Le pediste un resultado claro: conseguir que más participantes lleguen preparados a la primera sesión.','Lucía revisa mensajes, secuencia y preparación previa. Tú vuelves a entrar antes del piloto, tal como acordaste, para validar que la solución no modifica la promesa comercial.'];
+      impact='La responsabilidad está en el equipo y tu seguimiento protege el riesgo sin absorber la ejecución.';
+    }else if(od.action==='delegate'&&od.person==='lucia'&&oa&&oa.micro){
+      title='El onboarding avanza, pero cada decisión vuelve a pasar por ti.';
+      body=['Lucía tiene capacidad para rediseñarlo, pero elegiste una autonomía o un seguimiento más estrechos de lo que la tarea necesitaba.','Esta semana recibes varias consultas sobre mensajes, secuencia, herramientas y materiales antes de que el equipo pueda avanzar.'];
+      impact='La responsabilidad tiene otro nombre, pero el trabajo sigue circulando por tu mesa.';
+    }else if(od.action==='maintain'){
+      title='Lucía tiene el diagnóstico. La solución espera a que tú encuentres un hueco.';
+      body=['Las encuestas ya muestran dónde falla la preparación previa, pero decidiste mantener personalmente el rediseño.','Lucía puede aportar experiencia y propuestas; la decisión y la coordinación siguen esperando a Dirección.'];
+      impact='El equipo puede detectar problemas, pero no convertirlos en acción sin ti.';
+    }else if(od.action==='delegate'){
+      const n=personNameFromDecision('onboarding');people.length=0;people.push(n||'Lucía Serra');
+      title='El onboarding cambia, pero la responsabilidad no está en la persona que mejor conoce el problema.';
+      body=[`Delegaste el resultado en <strong>${n}</strong>. El trabajo avanza, pero el diagnóstico estaba ligado a experiencia de aprendizaje y comportamiento del participante.`,oa&&oa.loose?'La autonomía amplia acelera la ejecución, aunque algunos cambios llegan al piloto sin suficiente contraste con la promesa de experiencia.':'El equipo necesita apoyarse en Lucía para corregir el enfoque antes del piloto.'];
+      impact='La autonomía no compensa elegir mal a la persona para el resultado que quieres conseguir.';
+    }else{
+      title='El problema del onboarding no desaparece por cambiar el mecanismo de gestión.';
+      body=[`Elegiste <strong>${ACTION[od.action].toLowerCase()}</strong> un rediseño que exige diagnóstico, criterio y responsabilidad sobre la experiencia. La siguiente cohorte obliga a reabrir el asunto.`];
+      impact='Algunas responsabilidades necesitan ser asumidas, no solo retiradas de la agenda.';
+    }
+  }
+
+  if(index===4){
+    eyebrow='SEMANA 5 · APARECE UNA DECISIÓN QUE NO CONVIENE SOLTAR';
+    const te=d('terms'),om=d('opsmeeting'),taa=a('terms');people.push('Álvaro Martín');
+    if(te.action==='maintain'){
+      title=om.action==='eliminate'?'Álvaro negocia. Tú decides dónde está el límite.':'Proteges la negociación importante y todavía conservas coordinación de poco valor.';
+      body=['Álvaro conduce la conversación con el cliente y consigue alternativas, pero el descuento del 18% y la exclusividad sectorial siguen teniendo implicaciones para margen, precedentes y futuras oportunidades.','Como mantuviste la decisión final, intervienes únicamente para definir cuánto compromiso estratégico puede asumir la Escuela.'];
+      if(om.action==='eliminate')body.push('Al mismo tiempo, eliminaste la reunión semanal dedicada principalmente a repetir información ya disponible; los bloqueos se gestionan cuando aparecen.');
+      else if(om.action==='maintain')body.push('Sin embargo, sigues dedicando una hora semanal a una reunión que principalmente repasa información ya disponible.');
+      else body.push(`La reunión operativa se gestiona ahora mediante “${ACTION[om.action]}”, pero el valor está en conservar visibilidad de bloqueos sin mantener reporting redundante.`);
+      impact=om.action==='eliminate'?'Delegar bien también significa conservar las decisiones que realmente requieren tu autoridad y eliminar coordinación que no aporta valor.':'Controlar lo importante tiene sentido; sostener rituales de poco valor sigue restando capacidad.';
+    }else if(te.action==='delegate'){
+      const n=personNameFromDecision('terms')||'Álvaro Martín';people.length=0;people.push(n);
+      title='El cliente avanza rápido. El compromiso final llega demasiado lejos.';
+      body=[`Delegaste la negociación estratégica en <strong>${n}</strong>. El acuerdo progresa, pero el descuento elevado y la exclusividad afectan a decisiones que requieren una mirada transversal.`,taa&&taa.loose?'Con la autonomía y los límites elegidos, el compromiso se cierra antes de volver a Dirección. Después aparece una oportunidad con otra empresa del mismo sector.':'Aunque existen algunos límites, la decisión final queda más lejos de Dirección de lo que su impacto aconsejaba.'];
+      impact='Puedes delegar gran parte de una negociación y conservar únicamente el límite que necesita autoridad institucional.';
+    }else{
+      title='Una decisión estratégica pierde el espacio de juicio que necesitaba.';
+      body=[`Elegiste <strong>${ACTION[te.action].toLowerCase()}</strong> un asunto con impacto sobre margen, reputación y futuras relaciones. El equipo tiene que corregir el tratamiento antes de comprometer a la Escuela.`];
+      impact='Liberar tiempo no justifica retirar el juicio directivo de decisiones difíciles de revertir.';
+    }
+  }
+
+  if(index===5){
+    eyebrow='SEMANA 6 · EL PILOTO HÍBRIDO PONE A PRUEBA TU TOLERANCIA A LA AUTONOMÍA';
+    const hd=d('hybrid'),ha=a('hybrid');people.push('Diego Ferrer');
+    if(hd.action==='delegate'&&hd.person==='diego'&&ha&&ha.score>=8){
+      title='Diego prueba una idea sin convertir el experimento en un proyecto de Dirección.';
+      body=['Le diste un grupo, un presupuesto y unos límites claros. Diego modifica el formato, recoge datos y llega al final de la semana con evidencia sobre participación y finalización.','Tu intervención aparece en los hitos acordados y antes de decidir si el formato merece escalarse.'];
+      impact='El control que mantienes es proporcional al riesgo: verificas límites y revisas evidencia antes de ampliar.';
+    }else if(hd.action==='delegate'&&hd.person==='diego'&&ha&&ha.micro){
+      title='El piloto es pequeño. Las aprobaciones no.';
+      body=['Diego tiene capacidad para experimentar, pero necesita consultarte cambios de formato, herramienta o secuencia antes de probarlos.','El riesgo está acotado a un grupo y a un presupuesto definido; el sistema de decisión se comporta como si estuvierais modificando toda la Escuela.'];
+      impact='El control consume más capacidad que el riesgo que pretende proteger.';
+    }else if(hd.action==='maintain'){
+      title='Diego tiene una hipótesis pequeña. No tiene espacio para probarla sin ti.';
+      body=['El piloto afecta a un único grupo y puede revertirse, pero decidiste mantener personalmente la decisión.','La evidencia llega más tarde porque cada cambio compite con otras prioridades de Dirección.'];
+      impact='Retener decisiones reversibles no solo aumenta tu carga: también reduce la velocidad de aprendizaje del equipo.';
+    }else if(hd.action==='delegate'){
+      const n=personNameFromDecision('hybrid');people.length=0;people.push(n||'Diego Ferrer');
+      title='El piloto avanza, aunque el diseño de la delegación obliga a corregir el rumbo.';
+      body=[`Delegaste el experimento en <strong>${n}</strong>.`,ha&&!ha.personCorrect?'La persona elegida necesita apoyarse en Diego y Lucía para combinar producto digital, pedagogía y evidencia.':ha&&ha.loose?'La libertad es amplia, pero algunos límites o hitos quedan poco definidos antes de escalar resultados.':'El equipo consigue avanzar, aunque la configuración no aprovecha por completo el carácter reversible del piloto.'];
+      impact='El mismo nivel de autonomía puede ser adecuado en un piloto y excesivo en una decisión estratégica.';
+    }else{
+      title='Un experimento acotado se queda sin un propietario capaz de aprender de él.';
+      body=[`Elegiste <strong>${ACTION[hd.action].toLowerCase()}</strong> el piloto. El formato necesita una persona que formule hipótesis, pruebe dentro de límites y convierta los resultados en una decisión posterior.`];
+      impact='Los experimentos no necesitan menos responsabilidad: necesitan una responsabilidad bien delimitada.';
+    }
+  }
+
+  if(index===6){
+    eyebrow='SEMANA 7 · EMPIEZA A APARECER EL EFECTO ACUMULADO';
+    const rr=d('rectorate'),stats=behaviorStats();
+    const counts=Object.entries(stats.delegatesBy).sort((a,b)=>b[1]-a[1]);
+    if(counts.length&&counts[0][1]>2){
+      const p=person(counts[0][0]);people.push(p.name);
+      title=`Ahora el cuello de botella se llama ${p.name.split(' ')[0]}.`;
+      body=[`Has delegado varias responsabilidades en <strong>${p.name}</strong> porque confiabas en su capacidad. Individualmente algunas decisiones tenían sentido, pero esta semana coinciden ${counts[0][1]} frentes que dependen de la misma persona.`,'Has dejado de ser el único punto de dependencia, pero la carga empieza a concentrarse en otro lugar del sistema.'];
+      impact='Distribuir responsabilidad también exige evitar que la autonomía se concentre en una nueva persona imprescindible.';
+      type='distribution';extra=counts.slice(0,3).map(([pid,n])=>[person(pid).name,`${n} responsabilidades delegadas`]);
+    }else if(stats.micro>=2){
+      title='El equipo trabaja. Tu bandeja también.';
+      body=['Has aumentado la actividad y la participación del equipo, pero varias delegaciones conservan aprobaciones o revisiones frecuentes.','Los asuntos cambian de ejecutor, aunque demasiados siguen necesitando una intervención de Dirección antes de cerrarse.'];
+      impact='Has aumentado la actividad del equipo sin reducir de forma equivalente la dependencia de Dirección.';
+      people.push('Javier Molina','Lucía Serra','Álvaro Martín');
+      type='distribution';extra=[['Equipo','Más ejecución'],['Dirección','Sigue aprobando'],['Resultado','Dependencia parcial']];
+    }else if(stats.retainedDelegable+stats.missedAutomation>=4){
+      title='Cinco frentes diferentes siguen esperando a la misma persona: tú.';
+      body=['Las decisiones que decidiste conservar se han acumulado. El problema no es falta de talento: el equipo tiene capacidad para asumir varias de ellas.','Ahora propuestas, incidencias, reporting y mejoras compiten por la misma agenda directiva.'];
+      impact='El sistema no falla por falta de talento; falla porque la autoridad y la coordinación siguen demasiado concentradas.';
+      people.push('Javier Molina','Lucía Serra','Álvaro Martín','Diego Ferrer');
+    }else{
+      title='Varias decisiones avanzan en paralelo sin ti.';
+      body=['Javier resuelve operación, Lucía avanza con experiencia, Diego trabaja el piloto y Álvaro conduce oportunidades corporativas dentro de los límites que definiste.','Los asuntos que llegan a tu mesa son principalmente excepciones o decisiones con impacto transversal.'];
+      impact='La responsabilidad empieza a distribuirse de verdad: no has delegado solo tareas, has creado varios centros de decisión.';
+      people.push('Javier Molina','Lucía Serra','Álvaro Martín','Diego Ferrer');
+      type='distribution';extra=[['Operaciones','Resuelve incidencias'],['Experiencia','Rediseña y prueba'],['Empresas','Conduce propuestas']];
+    }
+    if(rr.action==='automate')body.push('El informe mensual para Rectorado ya llega con datos preparados; tú mantienes la interpretación y las recomendaciones.');
+    else if(rr.action==='maintain')body.push('Además, sigues invirtiendo tiempo en preparar manualmente el informe de Rectorado antes de poder interpretar los resultados.');
+    else if(rr.action==='delegate')body.push(`El informe de Rectorado se ha delegado en ${personNameFromDecision('rectorate')}; todavía debes comprobar que la interpretación estratégica no se haya desplazado junto con la preparación.`);
+    else body.push('Al eliminar el informe mensual, Rectorado pierde una lectura recurrente que sí necesitaba; el equipo debe reconstruir esa visibilidad.');
+  }
+
+  if(index===7){
+    eyebrow='SEMANA 8 · RECTORADO PREGUNTA POR EL FUTURO';
+    const gr=d('growth'),fl=d('flagship'),m=finalMetrics(),stats=behaviorStats();
+    people.push('Clara Núñez','Álvaro Martín','Nuria Campos');
+    if(gr.action!=='maintain'){
+      title='Tienes más espacio para pensar. Parte de la decisión estratégica ya está fuera de Dirección.';
+      body=[`El Plan de crecimiento 2027 quedó gestionado mediante <strong>${ACTION[gr.action].toLowerCase()}</strong>. Rectorado recibe una propuesta, pero prioridades, inversión y riesgo institucional necesitan una mirada que integra más que un único frente del equipo.`,'La capacidad que has liberado es valiosa; ahora se hace visible que algunas decisiones deben seguir siendo tuyas aunque gran parte de su preparación se distribuya.'];
+      impact='Liberar tiempo es positivo; utilizar bien la autoridad que conservas es igual de importante.';
+    }else if(m.strategic>=60&&m.ownership>=55){
+      title='Ahora tienes espacio para la decisión que solo tú puedes tomar.';
+      body=['Rectorado pide una propuesta sobre crecimiento, inversión y prioridades para el próximo año. Buena parte de la operación ya no necesita tu intervención diaria.','Clara, Álvaro y Nuria llegan con información académica, comercial y de mercado; tú puedes utilizarla para tomar una decisión transversal.'];
+      impact='Delegar bien no solo ha descargado tu agenda: ha recuperado tu capacidad para dirigir.';
+    }else if(stats.micro>=2){
+      title='La información para decidir existe. El espacio para pensar sigue siendo escaso.';
+      body=['Rectorado necesita prioridades para el próximo año. El equipo aporta datos y recomendaciones, pero esta misma semana sigues entrando en aprobaciones de asuntos que ya habías delegado.','El problema no es falta de información: es que la capacidad directiva sigue fragmentada entre demasiadas revisiones.'];
+      impact='El coste del microcontrol no es solo trabajar más: es llegar con menos capacidad a las decisiones que sí necesitan tu criterio.';
+    }else{
+      title='La decisión más estratégica llega cuando tu agenda vuelve a estar llena.';
+      body=['Rectorado pide una propuesta de crecimiento, inversión y prioridades. La información existe, pero sigues resolviendo asuntos operativos y recurrentes que podían haber quedado en el equipo o en un sistema.','Debes encontrar espacio entre esas tareas para trabajar una decisión que no puede tratarse como una incidencia más.'];
+      impact='No delegar tiene un coste menos visible: dedicar menos capacidad a lo que realmente requiere liderazgo.';
+    }
+    if(fl.action==='maintain')body.push('El cambio del programa insignia también conserva su decisión final en Dirección, mientras Clara lidera el análisis académico y el equipo aporta la información necesaria.');
+    else body.push(`En paralelo, el cambio del programa insignia quedó gestionado mediante “${ACTION[fl.action]}”; la semana obliga a revisar si una decisión con impacto académico y comercial salió demasiado lejos de Dirección.`);
+    type='executive';
+  }
+  return{eyebrow,title,body,impact,people:[...new Set(people.filter(Boolean))],type,extra};
+}
+function renderWeek(){
+  const w=makeWeek(simulation.week);
+  setProgress(52+simulation.week*4,`SEMANA ${simulation.week+1} / 8`);
+  document.getElementById('weekCard').innerHTML=`<div class="simWeekNumber">SEMANA ${simulation.week+1} / 8</div><span class="kicker">${w.eyebrow}</span><h1>${w.title}</h1><div class="simWeekBody">${w.body.map(p=>`<p>${p}</p>`).join('')}</div>${specialForWeek(w.type,w.extra)}<div class="simImpact"><b>IMPACTO OBSERVABLE</b><span>${w.impact}</span></div><div class="simWeekActions"><button class="btn primary" onclick="nextWeek()">${simulation.week===7?'ENTENDER EL SISTEMA QUE HAS CREADO':'VER QUÉ OCURRE DESPUÉS'}</button></div>`;
+  document.getElementById('weekSide').innerHTML=`<span class="kicker">TU EQUIPO EN ESTA SEMANA</span><h2>Quién está interviniendo</h2>${w.people.map(n=>`<div class="simPerson"><div class="avatar">${simInitials(n)}</div><div><strong>${n}</strong><span>${roleByName(n)}</span></div></div>`).join('')}`;
+}
+function finalMetricInfo(){
+  const m=finalMetrics(),s=behaviorStats();
+  const labelFor=(key)=>M[key].labels[lvl(m[key])-1];
+  const bars=(key)=>lvl(m[key]);
+  const goodAuto=['acquisition','certificates','rectorate'].filter(id=>decision(id).action==='automate').length;
+  const stillKept=emails.filter(it=>['delegate','automate','eliminate'].includes(it.optimal)&&decision(it.id).action==='maintain').length;
+  const poorDeleg=Object.values(state.decisions).filter(d=>d.action==='delegate').length-s.effectiveDelegations;
+  const topCon=Object.entries(s.delegatesBy).sort((a,b)=>b[1]-a[1])[0];
+  const strategicMoved=s.strategicMoved;
+
+  let strategicSummary;
+  if(m.strategic>=75)strategicSummary=`<strong>Has recuperado espacio para trabajo estratégico</strong>: ${goodAuto} procesos recurrentes se automatizaron y varias decisiones operativas dejaron de competir con tu agenda.`;
+  else if(m.strategic>=50)strategicSummary=`<strong>Has liberado una parte de tu agenda, pero todavía quedan ${stillKept} asuntos movibles que siguen dependiendo de ti</strong> o delegaciones cuyo seguimiento continúa consumiendo tiempo directivo.`;
+  else strategicSummary=`<strong>Demasiados asuntos delegables, automatizables o eliminables siguen compitiendo con tu agenda</strong>; cuando llega trabajo estratégico, ya estás utilizando capacidad en decisiones de menor nivel.`;
+
+  let ownSummary;
+  const totalDel=s.delegate;
+  if(m.ownership>=75)ownSummary=`<strong>${s.effectiveDelegations} de tus delegaciones funcionan como responsabilidades reales</strong>: el equipo puede ejecutar y cerrar dentro de límites sin devolver automáticamente cada decisión a Dirección.`;
+  else if(m.ownership>=50)ownSummary=`<strong>Delegaste ${totalDel} asuntos, pero ${poorDeleg} todavía conservan aprobaciones, revisiones o configuraciones que hacen que parte del trabajo vuelva</strong>.`;
+  else ownSummary=`<strong>La mayor parte del resultado sigue coordinándose o cerrándose desde Dirección</strong>; el equipo participa, pero pocas responsabilidades completas permanecen fuera de tu mesa.`;
+
+  let fitSummary;
+  if(m.fit>=75)fitSummary=`<strong>Las responsabilidades se distribuyeron de forma coherente con las capacidades del equipo</strong> y no has creado una dependencia excesiva de una única persona.`;
+  else if(topCon&&topCon[1]>2)fitSummary=`<strong>${person(topCon[0]).name} concentra ${topCon[1]} responsabilidades delegadas</strong>; varias decisiones razonables por separado empiezan a crear un nuevo cuello de botella.`;
+  else if(strategicMoved>0)fitSummary=`<strong>${strategicMoved} decisiones que necesitan mirada o autoridad directiva salieron de Dirección</strong>; has ganado tiempo, pero parte de la responsabilidad quedó demasiado lejos.`;
+  else fitSummary=`<strong>Algunas responsabilidades no quedaron en la persona que mejor encajaba con el resultado</strong>, obligando al equipo a compensar capacidad o coordinación durante las ocho semanas.`;
+
+  let controlSummary;
+  if(m.control>=75)controlSummary=`<strong>El nivel de control cambia según el riesgo</strong>: utilizaste límites e hitos para decisiones relevantes y diste más autonomía cuando la decisión era operativa o reversible.`;
+  else if(s.micro>s.loose)controlSummary=`<strong>En ${s.micro} delegaciones mantuviste más aprobación o seguimiento del que el riesgo necesitaba</strong>, reduciendo la autonomía real y devolviendo trabajo a tu agenda.`;
+  else if(s.loose>0)controlSummary=`<strong>En ${s.loose} delegaciones la autonomía, los límites o el seguimiento quedaron demasiado abiertos</strong>, haciendo que algunos riesgos se vieran tarde.`;
+  else controlSummary=`<strong>El control no siempre quedó calibrado con el riesgo</strong>: algunas decisiones recibieron un acompañamiento similar aunque fueran muy diferentes en reversibilidad e impacto.`;
+
+  return[
+    {name:M.strategic.name,state:labelFor('strategic'),level:bars('strategic'),summary:strategicSummary},
+    {name:M.ownership.name,state:labelFor('ownership'),level:bars('ownership'),summary:ownSummary},
+    {name:M.fit.name,state:labelFor('fit'),level:bars('fit'),summary:fitSummary},
+    {name:M.control.name,state:labelFor('control'),level:bars('control'),summary:controlSummary}
+  ];
+}
+const patternCopy={
+  A:{title:'Has creado un sistema que libera capacidad directiva sin perder control sobre lo importante.',body:'Tu agenda ya no absorbe cada decisión. El equipo asume operación y aprendizaje; tú conservas las decisiones que requieren visión institucional, riesgo o compromisos difíciles de revertir.'},
+  B:{title:'Has delegado trabajo, pero todavía no has delegado completamente la responsabilidad.',body:'El equipo es capaz y varias responsabilidades están bien asignadas. El principal límite está en que sigues funcionando como aprobador o coordinador de demasiados asuntos.'},
+  C:{title:'Has protegido el control, pero a costa de seguir siendo el principal cuello de botella de la Escuela.',body:'La operación funciona porque tú absorbes coordinación y cierre. El coste aparece cuando llega trabajo que solo Dirección puede hacer: el tiempo estratégico ya está ocupado.'},
+  D:{title:'Has dejado de ser el cuello de botella, pero has creado riesgo al confundir autonomía con ausencia de perímetro.',body:'La Escuela se mueve sin ti, pero algunas responsabilidades han ido demasiado lejos o se concentran en pocas personas. Liberar agenda no basta si el sistema pierde criterio.'}
+};
+function finalBars(n){return[1,2,3,4].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}
+function renderFinalDashboard(){
+  const list=finalMetricInfo(),pc=patternCopy[patternKey()];
+  setProgress(86,'RESULTADO · 8 SEMANAS');
+  document.getElementById('finalDashboardMount').innerHTML=`<div class="finalCard"><span class="kicker">LECTURA DEL SISTEMA QUE HAS CREADO</span><h1>Qué patrón han producido tus decisiones de delegación.</h1><p class="lead">Estas cuatro variables resumen lo que ocurrió después de ocho semanas. Cada explicación conecta el resultado con las decisiones que tomaste en la bandeja.</p><div class="finalDashboardGrid">${list.map(x=>`<article class="finalMetric"><div class="finalMetricTop"><h3>${x.name}</h3><span class="finalState">${x.state}</span></div><div class="finalBars">${finalBars(x.level)}</div><p>${x.summary}</p></article>`).join('')}</div><div class="finalSynthesis"><span>LECTURA GLOBAL</span><h2>${pc.title}</h2><p>${pc.body}</p></div><div class="actions"><button class="btn primary" onclick="prepareFinalFeedback();renderFinalFeedback();show('finalFeedbackScreen')">VER QUÉ DECISIONES EXPLICAN ESTE RESULTADO</button></div></div>`;
+}
+function currentDelegationDescription(id){
+  const d=decision(id),it=email(id);if(!d)return'';
+  if(d.action!=='delegate')return ACTION[d.action];
+  const l=it.lab;
+  return`Delegar en ${person(d.person).name} · ${l.aut[d.autonomy-1]} · ${l.fol[d.follow-1]}`;
+}
+function feedbackCandidates(){
+  const c=[],s=behaviorStats();
+  const add=(score,obj)=>c.push({score,...obj});
+  const ad=decision('atlas'),aa=delegateAssessment('atlas');
+  if(ad.action==='delegate'&&ad.person==='alvaro'&&aa&&aa.score>=8)add(90,{tag:'REFORZAR',title:'Delegaste un resultado completo, no una colección de tareas.',decision:'En Atlas pediste a Álvaro que respondiera por la propuesta y le diste margen para coordinarse con Clara sin pedirte aprobación en cada paso.',effect:'En la Semana 2 la propuesta avanzó hasta el punto en el que realmente necesitaba tu autoridad: la condición económica excepcional.',lesson:'Mantén esta lógica: define resultado, límites y autoridad. Si la persona tiene capacidad, evita conservar para ti la coordinación que precisamente quieres transferir.'});
+  if(ad.action==='maintain')add(88,{tag:'AJUSTAR',title:'Atlas siguió avanzando al ritmo de tu agenda.',decision:'Conservaste personalmente una propuesta que Álvaro y Clara podían coordinar y preparar.',effect:'En la Semana 2 tuviste que apartar tiempo para integrar alcance, formato y presupuesto antes de responder al cliente.',lesson:'Mantén en Dirección solo el límite que necesita autoridad. El resto de la responsabilidad puede tener un propietario claro en el equipo.'});
+  if(ad.action==='delegate'&&aa&&aa.micro)add(92,{tag:'AJUSTAR',title:'Elegiste bien a Álvaro, pero conservaste demasiadas decisiones.',decision:'Delegaste Atlas en la persona adecuada, aunque mantuviste aprobaciones o seguimiento por debajo del nivel de autonomía que la tarea permitía.',effect:'La propuesta se preparó en el equipo, pero varias piezas siguieron esperando tu revisión antes de cerrarse.',lesson:'Cuando capacidad y riesgo lo permiten, delega también el derecho a cerrar dentro de límites explícitos.'});
+
+  const td=decision('teacher'),ta=delegateAssessment('teacher');
+  if(td.action==='delegate'&&td.person==='javier'&&ta&&ta.score>=8)add(76,{tag:'REFORZAR',title:'Una incidencia operativa dejó de convertirse en trabajo directivo.',decision:'Diste a Javier autonomía para elegir una sustitución dentro de requisitos y una tarifa máxima.',effect:'En la Semana 1 la sesión quedó resuelta y recibiste información después, no una nueva decisión que aprobar.',lesson:'Para decisiones frecuentes, reversibles y dentro de la capacidad de la persona, define límites y deja que cierre.'});
+  if(td.action==='delegate'&&ta&&ta.micro)add(89,{tag:'AJUSTAR',title:'Delegaste la preparación de la sustitución, no necesariamente la decisión.',decision:`Elegiste ${personNameFromDecision('teacher')} para resolver la sustitución, pero mantuviste una aprobación o seguimiento más estrecho.`,effect:'Javier hizo parte del trabajo y la incidencia volvió a Dirección antes de quedar cerrada.',lesson:'La delegación libera capacidad cuando también transfiere el derecho a decidir dentro de criterios claros.'});
+
+  const od=decision('onboarding'),oa=delegateAssessment('onboarding');
+  if(od.action==='delegate'&&od.person==='lucia'&&oa&&oa.micro)add(96,{tag:'AJUSTAR',title:'El seguimiento del onboarding se convirtió en revisión continua.',decision:'Delegaste el rediseño en Lucía, pero configuraste una autonomía o un seguimiento más estrechos de lo que su capacidad y el riesgo necesitaban.',effect:'En la Semana 4 recibiste varias consultas y la responsabilidad siguió circulando por tu mesa.',lesson:'Sustituye la aprobación continua por hitos: revisa el enfoque antes del piloto y el resultado después de la primera cohorte.'});
+  if(od.action==='delegate'&&od.person==='lucia'&&oa&&oa.score>=8)add(78,{tag:'REFORZAR',title:'Lucía pudo responder del resultado completo del onboarding.',decision:'Definiste el resultado, los límites de experiencia y dos hitos de revisión sin entrar en cada detalle de ejecución.',effect:'En la Semana 4 el rediseño avanzó en el equipo y tú entraste únicamente donde el riesgo justificaba tu participación.',lesson:'Mantén el seguimiento por hitos: da visibilidad sin convertirla en aprobación continua.'});
+
+  const hd=decision('hybrid'),ha=delegateAssessment('hybrid');
+  if(hd.action==='delegate'&&hd.person==='diego'&&ha&&ha.micro)add(87,{tag:'AJUSTAR',title:'Trataste un piloto reversible como una decisión difícil de deshacer.',decision:'Diego tenía un experimento acotado, pero necesitaba consultarte demasiados cambios antes de probarlos.',effect:'En la Semana 6 el piloto avanzó, aunque la velocidad de aprendizaje quedó condicionada por tus aprobaciones.',lesson:'En experimentos acotados, define perímetro y criterios de revisión; después deja que el equipo aprenda dentro de ellos.'});
+  if(hd.action==='delegate'&&hd.person==='diego'&&ha&&ha.score>=8)add(72,{tag:'REFORZAR',title:'Ajustaste la autonomía al carácter reversible del piloto.',decision:'Diego recibió un grupo, presupuesto y límites claros, con revisión de resultados antes de escalar.',effect:'La Semana 6 generó aprendizaje sin convertir el experimento en un proyecto de Dirección.',lesson:'El nivel de autonomía puede ser alto cuando el riesgo está acotado y existe un criterio claro para decidir qué hacer después.'});
+
+  const te=decision('terms');
+  if(te.action!=='maintain')add(100,{tag:'AJUSTAR',title:'Una decisión con impacto transversal salió demasiado lejos de Dirección.',decision:`Gestionaste las condiciones comerciales estratégicas mediante “${ACTION[te.action]}” en lugar de conservar el compromiso final en Dirección.`,effect:'En la Semana 5 el acuerdo avanzó, pero el descuento o la exclusividad podían condicionar margen, precedentes y futuras oportunidades.',lesson:'Puedes delegar preparación y negociación. Conserva la decisión final cuando compromete a la organización más allá del asunto inmediato.'});
+  else add(66,{tag:'REFORZAR',title:'Mantener una decisión estratégica no significa ejecutarlo todo tú.',decision:'Álvaro condujo la negociación y tú conservaste únicamente el límite sobre descuento y exclusividad.',effect:'En la Semana 5 el trabajo comercial avanzó sin renunciar a una mirada transversal sobre el compromiso final.',lesson:'Delegar bien también exige saber qué no delegar.'});
+
+  const gr=decision('growth');
+  if(gr.action!=='maintain')add(98,{tag:'AJUSTAR',title:'Liberaste tiempo, pero también desplazaste una decisión que necesitaba tu mirada.',decision:`El Plan de crecimiento 2027 quedó gestionado mediante “${ACTION[gr.action]}”.`,effect:'En la Semana 8 Rectorado recibió una propuesta, pero prioridades, inversión y riesgo institucional habían salido de Dirección.',lesson:'Distribuye análisis e información, pero conserva las decisiones cuyo impacto atraviesa toda la organización.'});
+
+  const autoGood=['acquisition','certificates','rectorate'].filter(id=>decision(id).action==='automate');
+  if(autoGood.length>=2)add(70,{tag:'REFORZAR',title:'Automatizaste trabajo repetitivo sin automatizar el juicio.',decision:`Automatizaste ${autoGood.length} procesos de preparación o comprobación basados en datos y reglas estables.`,effect:'Durante las ocho semanas desapareció trabajo recurrente de tu agenda mientras mantuviste interpretación, excepciones y decisiones.',lesson:'Automatiza preparación y control rutinario; conserva el juicio cuando necesita contexto, relaciones o autoridad.'});
+
+  if(s.concentration>0){
+    const top=Object.entries(s.delegatesBy).sort((a,b)=>b[1]-a[1])[0];
+    add(94,{tag:'AJUSTAR',title:'Has sustituido tu propio cuello de botella por otro.',decision:`Concentraste ${top[1]} responsabilidades delegadas en ${person(top[0]).name} porque confiabas en su capacidad.`,effect:'En la Semana 7 coincidieron varios frentes y decisiones razonables por separado empezaron a esperar a la misma persona.',lesson:'La persona capaz no debe convertirse en destino automático de todo lo importante. Distribuye según capacidad específica y carga acumulada.'});
+  }
+  if(s.retainedDelegable+s.missedAutomation>=4)add(93,{tag:'AJUSTAR',title:'Mantener demasiado está desplazando el trabajo que solo tú puedes hacer.',decision:`Conservaste o no optimizaste ${s.retainedDelegable+s.missedAutomation} asuntos que podían delegarse o automatizarse.`,effect:'En la Semana 8 la decisión de crecimiento llegó con una agenda todavía ocupada por operación y trabajo recurrente.',lesson:'El objetivo de delegar no es trabajar menos: es proteger capacidad para el trabajo estratégico antes de que ese trabajo llegue.'});
+
+  if(!c.length)add(50,{tag:'REFORZAR',title:'Has empezado a diferenciar entre ejecutar y dirigir.',decision:'Tus decisiones distribuyeron parte de la operación y conservaron algunos asuntos en Dirección.',effect:'Las ocho semanas muestran que la calidad del sistema depende de seguir calibrando responsabilidad, persona, autonomía y seguimiento.',lesson:'Revisa periódicamente qué trabajo ha vuelto a tu mesa y por qué; ahí encontrarás la siguiente oportunidad de mejorar la delegación.'});
+  return c.sort((x,y)=>y.score-x.score);
+}
+function prepareFinalFeedback(){
+  const cand=feedbackCandidates(),out=[],seen=new Set();
+  for(const x of cand){
+    if(!seen.has(x.title)){out.push(x);seen.add(x.title)}
+    if(out.length===4)break;
+  }
+  simulation.finalFeedback=out;
+  simulation.feedbackIndex=0;
+}
+function renderFinalFeedback(){
+  const list=simulation.finalFeedback,f=list[simulation.feedbackIndex],last=simulation.feedbackIndex===list.length-1;
+  const nextAction=last?"renderFinalComparison();show('finalCompareScreen')":"simulation.feedbackIndex++;renderFinalFeedback()";
+  setProgress(91,'FEEDBACK PERSONALIZADO');
+  document.getElementById('finalFeedbackMount').innerHTML=`<div class="finalCard"><div class="finalFeedbackHeader"><div><span class="kicker">FEEDBACK PERSONALIZADO · ${simulation.feedbackIndex+1} DE ${list.length}</span><h1>Lo que tus decisiones revelan sobre cómo delegas.</h1><p class="lead">Nos centramos únicamente en los patrones que más explican tu resultado.</p></div><div class="finalSteps">${list.map((_,i)=>`<span class="${i===simulation.feedbackIndex?'active':''}">${String(i+1).padStart(2,'0')}</span>`).join('')}</div></div><div class="finalLearning"><div class="finalLearningNo">${String(simulation.feedbackIndex+1).padStart(2,'0')}</div><div class="finalLearningBody"><span class="finalTag">${f.tag}</span><h2>${f.title}</h2><div class="finalFlow"><section><b>LO QUE DECIDISTE</b><p>${f.decision}</p></section><div class="finalArrow">↓</div><section><b>LO QUE OCURRIÓ EN LAS 8 SEMANAS</b><p>${f.effect}</p></section><div class="finalArrow">↓</div><section><b>${f.tag==='REFORZAR'?'QUÉ CONVIENE MANTENER':'QUÉ HARÍA DIFERENTE'}</b><p>${f.lesson}</p></section></div></div></div><div class="finalFeedbackNav">${simulation.feedbackIndex>0?`<button class="btn ghost" onclick="simulation.feedbackIndex--;renderFinalFeedback()">← ANTERIOR</button>`:`<span></span>`}<button class="btn primary" onclick="${nextAction}">${last?'VER UNA DISTRIBUCIÓN MÁS ADECUADA':'VER SIGUIENTE APRENDIZAJE →'}</button></div></div>`;
+}
+const recommendedText={
+ growth:'Mantener en Dirección la decisión final; el equipo prepara información y alternativas.',
+ atlas:'Delegar en Álvaro el resultado completo; escala solo condiciones económicas excepcionales.',
+ flagship:'Mantener la decisión final en Dirección; Clara lidera el análisis académico.',
+ acquisition:'Automatizar la consolidación y revisar únicamente tendencias y excepciones.',
+ teacher:'Javier decide dentro de requisitos y te informa después.',
+ refund:'Javier decide hasta 500 € con criterios documentados; fuera de ellos, escala.',
+ opsmeeting:'Eliminar la reunión de reporting y conservar solo coordinación sobre bloqueos y dependencias.',
+ certificates:'Automatizar comprobaciones y escalar únicamente inconsistencias.',
+ terms:'Álvaro negocia; descuento excepcional y exclusividad vuelven a Dirección.',
+ onboarding:'Lucía asume el resultado; revisión antes del piloto y después de la primera cohorte.',
+ hybrid:'Diego experimenta dentro de un perímetro acotado y presenta resultados antes de escalar.',
+ rectorate:'Automatizar preparación de datos; Dirección conserva interpretación y recomendaciones.'
+};
+function isRecommendedDecision(id){
+  const d=decision(id),it=email(id);
+  if(!d||d.action!==it.optimal)return false;
+  if(d.action!=='delegate')return true;
+  const a=delegateAssessment(id);
+  return !!a&&a.score>=8;
+}
+function describeDecision(id){
+  const d=decision(id),it=email(id);
+  if(d.action!=='delegate')return ACTION[d.action];
+  const l=it.lab;
+  return`Delegar en ${person(d.person).name}. ${l.aut[d.autonomy-1]} Seguimiento: ${l.fol[d.follow-1]}`;
+}
+function comparisonRows(){
+  const diffs=[],keeps=[];
+  emails.forEach(it=>{
+    const row={label:it.subject,current:describeDecision(it.id),recommended:recommendedText[it.id],status:isRecommendedDecision(it.id)?'MANTENER':'CAMBIAR'};
+    (row.status==='CAMBIAR'?diffs:keeps).push(row);
+  });
+  const rows=diffs.slice(0,6);
+  while(rows.length<6&&keeps.length)rows.push(keeps.shift());
+  return rows;
+}
+function renderFinalComparison(){
+  const rows=comparisonRows();
+  setProgress(96,'CONFIGURACIÓN RECOMENDADA');
+  document.getElementById('finalCompareMount').innerHTML=`<div class="finalCard"><span class="kicker">PARA ESTE RETO CONCRETO</span><h1>Qué mantendría y qué cambiaría después de estas 8 semanas.</h1><p class="lead">No se trata de delegar más. Se trata de distribuir el trabajo de forma que tu tiempo quede donde aporta valor y el equipo pueda asumir responsabilidad real con el nivel de autonomía adecuado.</p><div class="finalCompareHead"><div></div><div>ASÍ GESTIONASTE TU CARGA</div><div></div><div>UNA DISTRIBUCIÓN MÁS ADECUADA PARA ESTE CONTEXTO</div></div><div class="finalCompareList">${rows.map(r=>`<div class="finalCompareRow"><div class="finalCompareLabel"><span class="finalBadge ${r.status==='MANTENER'?'keep':''}">${r.status}</span><strong>${r.label}</strong></div><div class="finalCompareValue finalCurrent">${r.current}</div><div class="finalCompareArrow">→</div><div class="finalCompareValue finalRecommended">${r.recommended}</div></div>`).join('')}</div><div class="actions"><button class="btn primary" onclick="renderClosing();show('closingScreen')">CERRAR LA CÁPSULA 5</button></div></div>`;
+}
+function renderClosing(){
+  setProgress(100,'CIERRE · CÁPSULA 5');
+  document.getElementById('closingMount').innerHTML=`<div class="closing">
+  <section class="closingHero"><span class="kicker">CIERRE DE LA CÁPSULA 5</span><h1>Delegar empieza antes de entregar una tarea.</h1><p class="lead">El primer problema de la simulación no era quién podía ayudarte, sino decidir qué asuntos debían seguir siendo tuyos. <strong>Mantener, delegar, automatizar y eliminar</strong> son respuestas diferentes a una misma pregunta: ¿dónde aporta realmente valor tu tiempo como líder?</p></section>
+  <section class="closingStory"><span class="storyIndex">01 · DISEÑA LA DELEGACIÓN ANTES DE SOLTARLA</span><h2>Qué → A quién → Autonomía → Seguimiento</h2><p>Delegar bien exige tomar cuatro decisiones conectadas. Si una falla, el trabajo puede volver a tu mesa o avanzar con un riesgo que no habías previsto.</p><div class="mapFlow"><div class="mapNode"><strong>Qué</strong><span>No todo debe delegarse. Decide primero qué debe seguir en Dirección.</span></div><div class="mapArrow">→</div><div class="mapNode"><strong>A quién</strong><span>La persona adecuada depende de su capacidad para esa responsabilidad concreta.</span></div><div class="mapArrow">→</div><div class="mapNode"><strong>Autonomía</strong><span>Define qué puede decidir y qué debe escalar.</span></div><div class="mapArrow">→</div><div class="mapNode"><strong>Seguimiento</strong><span>Diseña hitos y señales de alarma sin recuperar la tarea.</span></div></div></section>
+  <section class="blueStory"><span class="storyIndex">02 · RESPONSABILIDAD COMPLETA</span><h2>Delegar tareas no basta si sigues siendo quien coordina, decide y rescata.</h2><p>En la simulación, cuando delegaste fragmentos pero mantuviste las decisiones, tu agenda siguió llenándose. Cuando el resultado, la autoridad y los límites estaban claros, la responsabilidad empezó realmente a quedarse en el equipo.</p></section>
+  <section class="closingStory"><span class="storyIndex">03 · ACOMPAÑAR SIN AGOBIAR</span><h2>Autonomía no significa ausencia de liderazgo.</h2><p>El microcontrol destruye iniciativa. El abandono deja a la persona sola frente a problemas que podría resolver con apoyo puntual. Entre ambos extremos hay un seguimiento deliberado: hitos, criterios claros, señales de alarma y conversaciones que ayudan sin recuperar el trabajo.</p><div class="continuum"><div class="contLabels"><span>MICROCONTROL</span><span>ABANDONO</span></div><div class="contLine"><i></i></div><div class="contCaption">El objetivo es calibrar el acompañamiento según persona, tarea y riesgo.</div></div></section>
+  <section class="closingPractical"><span class="kicker">CUANDO VUELVAS A TU TRABAJO</span><h2>Revisa estas cuatro preguntas.</h2><div class="questions"><div class="question"><span>01</span><strong>¿Qué sigo haciendo que no necesita realmente mi criterio?</strong></div><div class="question"><span>02</span><strong>¿Quién podría asumir el resultado completo?</strong></div><div class="question"><span>03</span><strong>¿Qué autonomía puede utilizar bien esa persona?</strong></div><div class="question"><span>04</span><strong>¿Qué seguimiento necesita para no devolverme el trabajo ni quedarse sola?</strong></div></div><div class="finalMessage"><strong>Delegar bien no consiste en trabajar menos.</strong> Consiste en conseguir que tu tiempo se concentre en aquello que necesita liderazgo y que el equipo pueda asumir cada vez más responsabilidad sin depender de ti.</div></section>
+  </div>`;
+}
+
+renderAll();
+</script>
+</body></html>
